@@ -1,6 +1,18 @@
 // Future versions of Hyper may add additional config options,
 // which will not automatically be merged into this file.
 // See https://hyper.is#cfg for all currently supported options.
+const foregroundColor = '#f8f8f2'
+const backgroundColor = '#282a36'
+const black = '#44475a'
+const red = '#ff5555'
+const green = '#50fa7b'
+const yellow = '#f1fa8c'
+const blue = '#bd93f9'
+const magenta = '#ff79c6'
+const cyan = '#8be9fd'
+const gray = '#666666'
+const brightBlack = '#999999'
+const brightWhite = '#ffffff'
 
 module.exports = {
   config: {
@@ -20,12 +32,6 @@ module.exports = {
     // set to true for blinking cursor
     cursorBlink: false,
 
-    // color of the text
-    foregroundColor: '#fff',
-
-    // terminal background color
-    backgroundColor: '#000',
-
     // border color (window, tabs)
     borderColor: '#333',
 
@@ -36,12 +42,24 @@ module.exports = {
         background: transparent;
     }
 
+    .tab_tab{
+      background: black;
+      border: none;
+    }
+
     .tabs_title{
       font-size 14px;
     }
 
     .tab_text{
       font-size 14px;
+    }
+
+    .tabs_list .tab_tab.tab_active .tab_text  {
+      background: ${backgroundColor};
+    }
+    .tab_active:before {
+      border-color: rgb(68, 71, 90);
     }
     `,
 
@@ -64,25 +82,30 @@ module.exports = {
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
     // an array here instead of a color map object
-    colors: {
-      black: '#000000',
-      red: '#ff0000',
-      green: '#33ff00',
-      yellow: '#ffff00',
-      blue: '#c9abf8',
-      magenta: '#cc00ff',
-      cyan: '#00ffff',
-      white: '#d0d0d0',
-      lightBlack: '#808080',
-      lightRed: '#ff0000',
-      lightGreen: '#33ff00',
-      lightYellow: '#ffff00',
-      lightBlue: '#0066ff',
-      lightMagenta: '#cc00ff',
-      lightCyan: '#00ffff',
-      lightWhite: '#ffffff'
-    },
+    backgroundColor: backgroundColor,
+    foregroundColor: foregroundColor,
+    borderColor: black,
+    cursorColor: brightBlack,
+    colors: [
+      black,
+      red,
+      green,
+      yellow,
+      blue,
+      magenta,
+      cyan,
+      gray,
 
+      // bright
+      brightBlack,
+      red,
+      green,
+      yellow,
+      blue,
+      magenta,
+      cyan,
+      brightWhite
+    ],
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
     // if left empty, your system's login shell will be used by default
     // make sure to use a full path if the binary name doesn't work
@@ -142,6 +165,5 @@ module.exports = {
   // `~/.hyper_plugins/local/` and include it here
   // to load it and avoid it being `npm install`ed
   localPlugins: [
-    "hyper-dracula"
   ]
 };

@@ -158,8 +158,6 @@ module.exports = {
   //   `project#1.0.1`
   plugins: ["hyper-search",
             "hypercwd",
-            "space-pull",
-            "gitrocket",
             "hyper-tab-icons"],
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here

@@ -134,9 +134,9 @@ module.exports = {
     // bellSoundURL: 'http://example.com/bell.mp3',
 
     // for advanced config flags please refer to https://hyper.is/#cfg
-    hypercwd: {
-      initialWorkingDirectory: '~'
-    }
+    // hypercwd: {
+    //   initialWorkingDirectory: '~'
+    // }
   },
   keymaps: {
     "editor:moveBeginningLine": "",

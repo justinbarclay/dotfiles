@@ -1,4 +1,4 @@
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+# test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 set -x PATH /usr/local/opt/openssl/include /Applications/Postgres.app/Contents/Versions/latest/bin ~/bin /Users/Justin/.cargo/bin /Users/Justin/Documents/Workspace /usr/local/bin /Users/Justin/Library/$HOMEnt/bin /Users/Justin/.rbenv/shims $PATH
 
 export RUST_SRC_PATH="~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
@@ -9,12 +9,24 @@ export RUSTC="/Users/Justin/.cargo/bin/rustc"
 export EDITOR="/usr/local/bin/emacs"
 
 source ~/.config/fish/secrets/work.fish
-source ~/.config/fish/secrets/personal.fish
+# source ~/.config/fish/secrets/personal.fish
 
 # Source chtf
 if test -f /usr/local/share/chtf/chtf.fish
     source /usr/local/share/chtf/chtf.fish
 end
+
+
+# Agnoster Customizations specific for Dracula
+set -g theme_display_user yes
+set -g theme_hide_hostname yes
+set -g color_user_bg cyan
+set -g color_user_str black
+set -g color_status_jobs_bg cyan
+set -g color_status_jobs_str black
+set -g color_status_nonzero_bg cyan
+set -g color_status_nonzero_str red
+set -g default_user "Justin"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`

@@ -1,1 +1,1 @@
-/Users/Justin/.local/share/omf/themes/agnoster/fish_prompt.fish
+/home/justin/.local/share/omf/themes/agnoster/fish_prompt.fish

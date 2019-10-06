@@ -1,5 +1,7 @@
-# test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 set -x PATH /usr/local/opt/openssl/include /Applications/Postgres.app/Contents/Versions/latest/bin ~/bin /Users/Justin/.cargo/bin /Users/Justin/Documents/Workspace /usr/local/bin /Users/Justin/Library/$HOMEnt/bin /Users/Justin/.rbenv/shims $PATH
+
+set -xg LC_ALL en_US.UTF-8
+set -xg LANG en_US.UTF-8
 
 export RUST_SRC_PATH="~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 export GTAGSLIBPATH=$HOME/.gtags/
@@ -28,6 +30,7 @@ set -g color_status_nonzero_bg cyan
 set -g color_status_nonzero_str red
 set -g default_user "Justin"
 
+eval (starship init fish)
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 [ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.fish ]; and . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.fish

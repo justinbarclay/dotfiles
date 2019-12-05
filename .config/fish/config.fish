@@ -9,7 +9,7 @@ end
 
 set -g default_user "Justin 🐯"
 
-source ~/.config/fish/secrets/work.fish
+# source ~/.config/fish/secrets/work.fish
 # source ~/.config/fish/secrets/personal.fish
 
 eval (starship init fish)

@@ -1,9 +1,9 @@
 case $(uname) in
   Linux)
-    source /home/justin/dev/dotfiles/.config/zsh/os/linux.zsh
+    source $HOME/.config/zsh/os/linux.zsh
     ;;
   Darwin)
-    source /home/justin/.config/zsh/os/darwin.zsh
+    source $HOME/.config/zsh/os/darwin.zsh
     ;;
   '*')
     echo Hi, stranger!
@@ -14,7 +14,10 @@ export DEFAULT_USER="Justin 🐯"
 
 # source ~/.config/fish/secrets/work.fish
 # source ~/.config/fish/secrets/personal.fish
+# Add custom functions
+source $HOME/.config/zsh/functions.zsh
 
 # Configuration specific to zinit
-source ~/dev/dotfiles/.config/zsh/zinit.zsh
+source $HOME/.config/zsh/zinit.zsh
+
 eval $(starship init zsh)

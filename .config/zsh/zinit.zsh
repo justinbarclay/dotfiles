@@ -29,7 +29,7 @@ zplugin light zdharma/history-search-multi-word
 zplugin ice wait"1" lucid
 zplugin light zsh-users/zsh-history-substring-search
 
-# Steal some plugins OMZ
+# Steal some plugins from OMZ
 zinit wait lucid for \
       OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
       OMZ::plugins/command-not-found/command-not-found.plugin.zsh \

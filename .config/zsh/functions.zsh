@@ -7,3 +7,5 @@ cdwa () {
 }
 
 alias ls="exa -lbh"
+
+alias rails="noglob rails"

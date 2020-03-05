@@ -1,0 +1,76 @@
+* Setting Up On A New System
+** Linux
+*** Arch
+**** Security
+***** SSH
+We all ready generate an SSH key when we configure git. But if we ever want to set-up something more secure, say perhaps locked behidn a password...
+#+BEGIN_SRC shell
+ssh-keygen -t rsa -b 4096 -C "justincbarclay@gmail.com"
+#+END_SRC
+
+***** GPG
+First setting up a linux dev machine
+#+BEGIN_SRC shell
+gpg --full-generate-key
+#+END_SRC
+
+You'll then want to configure config files gpg-agent and gpg
+
+For gpg we disabled tty
+#+BEGIN_QUOTE
+Make sure that the TTY (terminal) is never used for any output. This option is needed in some cases because GnuPG sometimes prints warnings to the TTY even if --batch is used.
+#+END_QUOTE
+
+#+NAME gpg.conf
+#+BEGIN_SRC config
+no-tty
+#+END_SRC
+
+For gpg-agent, I turn up the length a session can last, which is pretty much as long as my Linux instance runs. Why? Mostly laziness. I also set emacs as a possible pinentry program, because I use Linux explicitly on the command line and run Emacs through X11 I need a nice way to get access to pinentry.
+#+NAME gpg-agent.conf
+#+BEGIN_SRC config
+# Cache for entire user session
+default-cache-ttl 34560000
+max-cache-ttl 34560000
+
+pinentry-program /usr/bin/pinentry-emacs
+allow-emacs-pinentry
+#+END_SRC
+***** Web
+Once we have generated our SSH and GPG keys we can update our important websites.
+
+This includes:
+1. Github
+2. Gitlab
+3. AWS
+
+**** Postgres
+I may have it set-up to automatically install and configure postgres, but I don't have the service enabled. Docker doesn't really support system-md.
+#+BEGIN_SRC shell
+systemctl enable --now postgresql.service
+#+END_SRC
+
+**** Redis
+Similarly to Postgres, redis isn't set-up to fun as a daemon, and so we must enable it.
+#+BEGIN_SRC shell
+systemctl enable --now redis.service
+#+END_SRC
+**** Email
+***** TODO Create mail folders and necessary config ahead of time
+***** Lieer
+Let's make sure lieer is configured for our gmail account
+https://github.com/gauteh/lieer
+***** Notmuch
+Let's setup notmuch to use lieer and config it the way I want
+**** Emacs
+1. Pinentry
+Now that we've integrated GPG more into our workflow, we'll want to set-up emacs to be able to use it.
+#+BEGIN_SRC shell
+  (pinentry-start)
+#+END_SRC
+
+2. all-the-icons
+You may notice, when starting Emacs up, for the first time that it is missing some fonts. That's probably because we haven't install all-the-icons yet
+#+BEGIN_SRC elisp
+  (all-the-icons-install-fonts)
+#+END_SRC

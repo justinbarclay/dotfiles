@@ -40,4 +40,4 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nv
 
 # add tidal and rust bins to PATH
-export PATH="$PATH:$HOME/bin:$HOME/.cargo/bin"
+export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin"

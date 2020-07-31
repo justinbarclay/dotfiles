@@ -17,4 +17,5 @@ export DOTNET_ROOT="/opt/dotnet"
 #   end
 # end
 
+export PATH=~/.local/bin:$PATH
 export locale=en_US.UTF-8

@@ -15,7 +15,7 @@ emacs-bg () {
 
 delete-merged () {
   git branch --merged \
-    | egrep -v "(^\*|master|dev)" \
+    | egrep -v "(^\*|master|dev|main|develop)" \
     | xargs git branch -d
 }
 

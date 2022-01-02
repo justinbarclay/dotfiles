@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { json } = require('stream/consumers');
 
 let settings_file = path.resolve(
     process.env.LOCALAPPDATA,
@@ -9,13 +8,15 @@ let settings_file = path.resolve(
     "LocalState",
     "settings.json"
   );
+let terminal_settings = fs
+.readFileSync(settings_file)
+.toString();
+
 
 let settings = JSON.parse(
-    fs
-    .readFileSync(settings_file)
-    .toString()
+  terminal_settings.split("\n").filter((line) => !line.startsWith("//")).join("\n")    
 );
-
+console.log(settings);
 let dracula = {
   background: "#272935",
   black: "#272935",

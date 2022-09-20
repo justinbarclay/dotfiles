@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 script_dir=$(dirname $0 | xargs realpath)
 fish () {
   mkdir -p ~/.config

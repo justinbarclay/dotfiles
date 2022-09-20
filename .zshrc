@@ -36,8 +36,10 @@ setopt hist_ignore_all_dups
 
 eval $(starship init zsh)
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nv
+if hash direnv 2>/dev/null; then
+  eval $(direnv hook zsh)
+fi
+
 
 # add tidal and rust bins to PATH
 export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin"

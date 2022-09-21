@@ -74,3 +74,32 @@ You may notice, when starting Emacs up, for the first time that it is missing so
 #+BEGIN_SRC elisp
   (all-the-icons-install-fonts)
 #+END_SRC
+
+** Nix/NixOS
+Recently, I've been experimenting with [[https://nixos.org/][NixOS]] on [[https://github.com/nix-community/NixOS-WSL][WSL2]] as my main dev environment. I like the Nix ecosystem because it follows a very declarative format. I can state my system and dev environment requirements in a series of [[https://nixos.wiki/wiki/Flakes][nix]] files. Then I can easily run one or two commands and spin up, or update, an my entire machine. Or I can lock down packages to specific git revisions and kmake sure they stay to a specific version. Unfortunately, there are two big downsides for Nix and NixOS, the documentation is lacking and some of the devtools aren't straight forward. But once you have some examples and tooling set up it can run as smooth as a baby's buttered bottom.
+*** Tools
+**** Nix
+If you go with the WSL2 distro from github you have'll have [[https://github.com/NixOS/nix][Nix]] installed already.
+**** Home Manager
+You'll use [[https://github.com/nix-community/home-manager][home-manager]] as a way to declaratively manage your user local packages (as opposed to system wide)
+**** Direnv + Lorri
+Throught the combination of [[https://direnv.net/][direnv]] and [[https://github.com/nix-community/lorri][lorri]] you can lazy load a per project dev environment
+*** Resources
+**** Nix
+https://nixos.org/guides/nix-pills/
+**** NixOS
+https://jdisaacs.com/blog/nixos-config/
+https://github.com/mikeyobrien/nix-config/blob/master/hosts/nix-wsl/configuration.nix
+**** Home Manager
+https://www.chrisportela.com/posts/home-manager-flake/
+https://www.bekk.christmas/post/2021/16/dotfiles-with-nix-and-home-manager
+https://mudrii.medium.com/nixos-home-manager-on-native-nix-flake-installation-and-configuration-22d018654f0c
+https://github.com/vereis/nixos/blob/master/machines/configuration.nix
+- Lorri
+  https://github.com/nix-community/lorri
+- Direnv
+  https://direnv.net/
+**** Flake
+https://nixos.wiki/wiki/Flakes
+https://www.tweag.io/blog/2020-05-25-flakes
+https://serokell.io/blog/practical-nix-flakes

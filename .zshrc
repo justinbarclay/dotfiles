@@ -36,8 +36,8 @@ setopt hist_ignore_all_dups
 
 eval $(starship init zsh)
 
-if hash direnv 2>/dev/null; then
-  eval $(direnv hook zsh)
+if $(hash direnv 2>/dev/null); then
+  eval "$(direnv hook zsh)"
 fi
 
 

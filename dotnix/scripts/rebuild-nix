@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo nixos-rebuild --flake /home/justin/dotfiles/dotnix#"vider" switch --impure

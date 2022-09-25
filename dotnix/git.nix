@@ -33,10 +33,13 @@ with lib; {
         [core]
           editor = emacs
           excludesfile = ~/.gitignore
-        [commit]
-          gpgSign = true
-        [tag]
-          gpgSign = true
+          editor = emacs
+        [pull]
+          rebase = true
+        # [commit]
+        #   gpgSign = true
+        # [tag]
+        #   gpgSign = true
       '';
     };
   };

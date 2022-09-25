@@ -22,6 +22,7 @@
       zip
       htop
       pkgs.nodePackages."prettier"
+      pkgs.nodePackages."typescript-language-server"
     ];
     stateVersion =
       "22.05"; # To figure this out you can comment out the line and see what version it expected.

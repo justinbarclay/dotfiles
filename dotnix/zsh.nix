@@ -9,7 +9,7 @@ with lib; {
   };
 
   config = mkIf config.modules.zsh.enable {
-    home.packages = with pkgs; [ zsh zinit starship direnv ];
+    home.packages = with pkgs; [ zsh zinit starship nix-direnv ];
     services.lorri.enable = true;
     programs.zsh = {
       # Disable this for now, it tries to take control zshrc but this

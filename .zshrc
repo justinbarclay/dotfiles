@@ -42,4 +42,4 @@ fi
 
 
 # add tidal and rust bins to PATH
-export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin"
+export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin:$HOME/.config/nixpkgs/scripts"

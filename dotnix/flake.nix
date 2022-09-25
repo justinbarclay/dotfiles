@@ -9,14 +9,14 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, emacs-overlay, ... }:
+  outputs = { self, nixpkgs, home-manager, emacs-overlay, ... }@inputs:
     let
       system = "x86_64-linux";
       user = "justin";
-      emacs-overlay = import (builtins.fetchTarball {
-        url =
-          "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz?rev=d561db310f51e8bd705d53058f08c6ae7ed3d23b";
-        sha256 = "0lhywzmm09v1jrbgv5k04ds2li4nrbbd5hkmmx9cs6zcfq9xy3iq";
+      emacs-overlay = import (builtins.fetchGit {
+        url = "https://github.com/nix-community/emacs-overlay.git";
+        ref = "master";
+        rev = "d561db310f51e8bd705d53058f08c6ae7ed3d23b"; # change the revision
       });
       pkgs = import nixpkgs {
         inherit system;
@@ -25,12 +25,16 @@
       };
       lib = nixpkgs.lib;
     in {
+      nixosConfigurations."vider" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ /etc/nixos/configuration.nix ./wsl.nix ];
+      };
       defaultPackage.${system} = home-manager.defaultPackage.${system};
 
       homeConfigurations = {
         ${user} = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit user;  };
+          extraSpecialArgs = { inherit user; };
           modules = [ ./home.nix ];
         };
       };

@@ -2,14 +2,14 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "flake:nixpkgs";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, emacs-overlay, ... }@inputs:
+  outputs = { self, nixpkgs, emacs-overlay, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       user = "justin";

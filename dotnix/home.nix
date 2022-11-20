@@ -21,6 +21,7 @@
       graphviz
       zip
       htop
+      nodejs
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"
     ];

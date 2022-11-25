@@ -8,7 +8,7 @@ fish () {
 
 zsh () {
   mkdir -p ~/.config
-  ln -s $script_dir/.zshrc ~/.zshrc
+  ln -s $script_dir/.zprofile ~/.zprofile
   ln -s $script_dir/.config/zsh ~/.config
   ln -s $script_dir/.Xmodmap ~/.Xmodmap
 }

@@ -9,7 +9,7 @@ alias rails="noglob rails"
 # Functions
 #########################
 emacs () {
-  /home/justin/.nix-profile/bin/emacs $argv &
+    eval "$(where emacs) $argv &"
 }
 
 delete-merged () {

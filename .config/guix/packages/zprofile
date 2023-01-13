@@ -19,10 +19,14 @@ source $HOME/.config/zsh/functions.zsh;
 source $HOME/.config/zsh/zinit.zsh;
 
 # Work stuff
-source $HOME/.config/zsh/secrets/work.zsh
+if $(hash $HOME/.config/zsh/secrets/work.zsh 2>/dev/null); then
+  source $HOME/.config/zsh/secrets/work.zsh
+fi
 
 # Personal Secrets
-source $HOME/.config/zsh/secrets/personal.zsh
+if $(hash $HOME/.config/zsh/secrets/personal.zsh 2>/dev/null); then
+  source $HOME/.config/zsh/secrets/personal.zsh
+fi
 # Track history
 export HISTFILE=$HOME/.zsh_history;
 
@@ -42,5 +46,8 @@ if $(hash direnv 2>/dev/null); then
   eval "$(direnv hook zsh)"
 fi
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
 # add tidal and rust bins to PATH
-export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin:$HOME/.config/nixpkgs/scripts"
+export PATH="$HOME/.local/bin:$PATH:$HOME/bin:$HOME/.cargo/bin:$HOME/.config/nixpkgs/scripts"

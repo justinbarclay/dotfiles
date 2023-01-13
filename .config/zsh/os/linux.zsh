@@ -4,7 +4,6 @@ export DISPLAY=$WINDOWS_HOST":0"
 export AWS_REGION="ca-central-1"
 
 export EDITOR="emacs"
-export DOTNET_ROOT="/opt/dotnet"
 
 # are we in the bottle?
 # if test ! -n "$INSIDE_GENIE"

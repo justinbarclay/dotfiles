@@ -9,7 +9,8 @@ alias rails="noglob rails"
 # Functions
 #########################
 emacs () {
-    eval "$(where emacs) $argv &"
+  binary=$(where emacs | uniq)
+  eval "$binary $argv &"
 }
 
 delete-merged () {

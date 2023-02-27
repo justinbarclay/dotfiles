@@ -3,28 +3,26 @@
   #:use-module (justins-channel))
 
 (define-public emacs-packages
-  (append
-   (list emacs-master)
-   (map (compose list specification->package+output)
-        (list
-         ;; Base packages
-         ;;"emacs-next"
+  (map (compose list specification->package+output)
+       (list
+        ;; Base packages
+        "emacs-next-tree-sitter"
 
-         ;; Guix based dev packages
-         "guile"
-         "emacs-geiser"
-         "emacs-geiser-guile"
+        ;; Guix based dev packages
+        "guile"
+        "emacs-geiser"
+        "emacs-geiser-guile"
 
-         ;; Dirvish
-         "ffmpeg"
-         "ffmpegthumbnailer"
-         "poppler"
-         "gnutls"
+        ;; Dirvish
+        "ffmpeg"
+        "ffmpegthumbnailer"
+        "poppler"
+        "gnutls"
 
-         ;; Spell checking
-         "hunspell"
+        ;; Spell checking
+        "hunspell"
 
-         ;; General
-         "ripgrep"
-         "sqlite"
-         "binutils"))))
+        ;; General
+        "ripgrep"
+        "sqlite"
+        "binutils")))

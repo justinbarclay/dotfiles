@@ -8,6 +8,7 @@
 (use-modules (gnu home)
              (gnu packages)
              (gnu packages databases)
+             (gnu packages gnome)
              (gnu services)
              (guix gexp)
              (justins-channel)
@@ -29,6 +30,7 @@
          "pandoc"
          "gnuplot"
          "graphviz"
+         "shared-mime-info"
          "git"
          "postgresql@13.9"
          "fontconfig"))

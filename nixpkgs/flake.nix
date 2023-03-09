@@ -12,11 +12,11 @@
   outputs = { self, nixpkgs, emacs-overlay, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-      user = "justin";
+      user = "nixos";
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "d561db310f51e8bd705d53058f08c6ae7ed3d23b"; # change the revision
+        rev = "d89c71d82edf170629279d731e0772feb5037f4c"; # change the revision
       });
       pkgs = import nixpkgs {
         inherit system;

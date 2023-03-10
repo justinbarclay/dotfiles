@@ -8,8 +8,8 @@ alias rails="noglob rails"
 #########################
 # Functions
 #########################
-emacs () {
-  binary=$(where emacs | uniq)
+emacs-bg () {
+  binary=$(where emacs | uniq | head -1)
   eval "$binary $argv &"
 }
 

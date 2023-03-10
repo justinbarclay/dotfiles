@@ -15,20 +15,22 @@ with lib; {
 
       # Use by magit
       sqlite
-
+      gtk3
+      gsettings-desktop-schemas
       # used by gcc
       binutils
 
-      emacsGitNativeComp
+      (emacsGit.override {
+        withGTK3 = true;
+        withXwidgets = true;
+      })
       emacs-all-the-icons-fonts
-
-      # Needed to bootstrap the rest of emacs
-      emacs28Packages.use-package
 
       # Dirvish
       ffmpeg
       ffmpegthumbnailer
       poppler
+      rnix-lsp
     ];
 
     services.gpg-agent = {

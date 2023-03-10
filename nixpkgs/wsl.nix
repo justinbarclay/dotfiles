@@ -9,7 +9,7 @@ with lib; {
       shell = pkgs.zsh;
       extraGroups = [ "wheel" ];
     };
-
+    programs.dconf.enable = true;
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     environment.systemPackages = with pkgs; [ git bat ripgrep exa emacs wsl-open man-pages man-pages-posix];
     services = {

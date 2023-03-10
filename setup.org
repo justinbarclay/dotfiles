@@ -5,7 +5,7 @@
 ***** SSH
 We all ready generate an SSH key when we configure git. But if we ever want to set-up something more secure, say perhaps locked behidn a password...
 #+BEGIN_SRC shell
-ssh-keygen -t rsa -b 4096 -C "justincbarclay@gmail.com"
+ssh-keygen -t ed25519 -C "justincbarclay@gmail.com"
 #+END_SRC
 
 ***** GPG

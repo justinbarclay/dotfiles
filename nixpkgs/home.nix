@@ -3,7 +3,6 @@
   modules.git.enable = true;
   modules.zsh.enable = true;
   modules.emacs.enable = true;
-
   programs.home-manager.enable = true;
   gtk = {
     enable = true;

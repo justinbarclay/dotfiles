@@ -10,6 +10,7 @@ with lib; {
       extraGroups = [ "wheel" ];
     };
     programs.dconf.enable = true;
+    time.timeZone = "America/Vancouver";
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     environment.systemPackages = with pkgs; [ git bat ripgrep exa emacs wsl-open man-pages man-pages-posix];
     services = {

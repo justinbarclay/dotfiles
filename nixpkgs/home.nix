@@ -13,14 +13,17 @@
   };
   home = {
     username = "${user}";
+    language.base = "en_CA";
     homeDirectory = "/home/${user}";
     packages = with pkgs; [
-      nixfmt
+      nixpkgs-fmt
       cowsay
       gnupg
+
       # Basic shell setup
       wl-clipboard-x11
       openssh
+
       # Dev Niceness
       postgresql
       # Tools

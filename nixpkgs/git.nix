@@ -26,7 +26,7 @@ with lib; {
       executable = false;
       text = ''
         [user]
-          email = github@justinbarclay.ca
+          email = git@justinbarclay.ca
           name = Justin Barclay
           signingkey = 513F198C40AEC0C2
         [color]

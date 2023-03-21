@@ -3,7 +3,7 @@
 with builtins;
 with lib; {
   config = {
-
+    nix.settings.auto-optimise-store = true;
     users.users.justin = {
       isNormalUser = true;
       shell = pkgs.zsh;

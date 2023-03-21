@@ -28,18 +28,24 @@ with lib; {
         [user]
           email = github@justinbarclay.ca
           name = Justin Barclay
+          signingkey = 513F198C40AEC0C2
         [color]
           ui = true
         [core]
           editor = emacs
           excludesfile = ~/.gitignore
-          editor = emacs
+        [init]
+          defaultBranch = main
         [pull]
           rebase = true
-        # [commit]
-        #   gpgSign = true
-        # [tag]
-        #   gpgSign = true
+        [gpg]
+          program = /home/justin/.nix-profile/bin/gpg2
+        [commit]
+          gpgSign = true
+        [tag]
+          gpgSign = true
+        [github]
+          user = justinbarclay
       '';
     };
   };

@@ -35,8 +35,6 @@ SAVEHIST=10000;
 setopt hist_ignore_all_dups
 
 if $(hash starship 2>/dev/null); then
-  echo "starship";
-  echo "$(starship init zsh)"
   eval "$(starship init zsh)"
 fi
 

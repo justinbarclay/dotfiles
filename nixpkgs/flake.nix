@@ -16,7 +16,7 @@
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "50f3affba0d454ab595c665a68c61399fde03678"; # change the revision
+        rev = "f03b172233e1bf1fb2ffbc543b86aae00fbad444"; # change the revision
       });
       pkgs = import nixpkgs {
         inherit system;
@@ -24,11 +24,13 @@
         overlays = [ emacs-overlay ];
       };
       lib = nixpkgs.lib;
-    in {
+    in
+    {
       nixosConfigurations."vider" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [ /etc/nixos/configuration.nix ./wsl.nix ];
       };
+
       defaultPackage.${system} = home-manager.defaultPackage.${system};
 
       homeConfigurations = {

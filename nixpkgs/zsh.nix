@@ -13,12 +13,12 @@ with lib; {
     # services.lorri.enable = true;
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
+    programs.starship.enable = true;
 
-    programs.bash.enable = true;
     programs.zsh = {
       # Disable this for now, it tries to take control zshrc but this
       # is controlled in my dotfiles for now
-      # enable = true;
+      enable = true;
 
       autocd = true;
       enableCompletion = true;

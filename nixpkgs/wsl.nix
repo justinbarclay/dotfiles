@@ -7,20 +7,26 @@ with lib; {
     users.users.justin = {
       isNormalUser = true;
       shell = pkgs.zsh;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "wheel" "docker" ];
     };
+    programs.zsh.enable = true;
     programs.dconf.enable = true;
     time.timeZone = "America/Vancouver";
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
-    environment.systemPackages = with pkgs; [
-      git
-      bat
-      ripgrep
-      exa
-      wsl-open
-      man-pages
-      man-pages-posix
-    ];
+    environment = {
+      systemPackages = with pkgs; [
+        git
+        bat
+        ripgrep
+        exa
+        wsl-open
+        man-pages
+        man-pages-posix
+      ];
+      variables = rec {
+        BROWSER = "wsl-open";
+      };
+    };
     services = {
       postgresql = {
         enable = true;
@@ -35,24 +41,6 @@ with lib; {
       # Use "" to start a standard redis instance
       redis.servers."".enable = true;
       redis.servers."".openFirewall = true;
-      # Allow Home-Manager to control starting WMs via XSession
-      xserver = {
-        enable = true;
-        layout = "us";
-        xkbVariant = "";
-        libinput.enable = true;
-
-        displayManager = {
-          defaultSession = "xsession";
-          autoLogin.user = "justin";
-
-          session = [{
-            manage = "desktop";
-            name = "xsession";
-            start = "  exec $HOME/.xsession &\n  waitPID=$!\n";
-          }];
-        };
-      };
     };
   };
 }

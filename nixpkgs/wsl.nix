@@ -9,10 +9,12 @@ with lib; {
       shell = pkgs.zsh;
       extraGroups = [ "wheel" "docker" ];
     };
+    time.timeZone = "America/Vancouver";
+
+    fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
+    i18n.defaultLocale = "en_US.UTF-8";
     programs.zsh.enable = true;
     programs.dconf.enable = true;
-    time.timeZone = "America/Vancouver";
-    fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     environment = {
       systemPackages = with pkgs; [
         git
@@ -27,6 +29,7 @@ with lib; {
         BROWSER = "wsl-open";
       };
     };
+
     services = {
       postgresql = {
         enable = true;

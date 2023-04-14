@@ -13,7 +13,7 @@
   };
   home = {
     username = "${user}";
-    language.base = "en_CA";
+    language.base = "en_US.UTF-8";
     homeDirectory = "/home/${user}";
     packages = with pkgs; [
       nixpkgs-fmt
@@ -32,6 +32,9 @@
       zip
       htop
       nodejs
+      pandoc
+      texlive.combined.scheme-medium
+
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"
     ];

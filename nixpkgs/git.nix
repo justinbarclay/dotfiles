@@ -25,10 +25,12 @@ with lib; {
     home.file.".gitconfig" = {
       executable = false;
       text = ''
+        [core]
+          sshCommand = ssh.exe
         [user]
           email = git@justinbarclay.ca
           name = Justin Barclay
-          signingkey = 513F198C40AEC0C2
+          signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFbygxEvFlS66vaugGRlbXRO4yjozS8G+yYrKh9lmZo
         [color]
           ui = true
         [core]
@@ -39,7 +41,9 @@ with lib; {
         [pull]
           rebase = true
         [gpg]
-          program = /home/justin/.nix-profile/bin/gpg2
+          format = ssh
+        [gpg "ssh"]
+          program = op-ssh-sign.exe
         [commit]
           gpgSign = true
         [tag]

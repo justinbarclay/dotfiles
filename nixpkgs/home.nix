@@ -19,7 +19,6 @@
       nixpkgs-fmt
       cowsay
       gnupg
-
       # Basic shell setup
       wl-clipboard-x11
       openssh

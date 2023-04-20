@@ -25,8 +25,6 @@ with lib; {
     home.file.".gitconfig" = {
       executable = false;
       text = ''
-        [core]
-          sshCommand = ssh.exe
         [user]
           email = git@justinbarclay.ca
           name = Justin Barclay
@@ -36,6 +34,7 @@ with lib; {
         [core]
           editor = emacs
           excludesfile = ~/.gitignore
+          sshCommand = ssh.exe
         [init]
           defaultBranch = main
         [pull]

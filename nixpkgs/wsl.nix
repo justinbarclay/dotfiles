@@ -13,7 +13,15 @@ with lib; {
 
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     i18n.defaultLocale = "en_US.UTF-8";
-    programs.zsh.enable = true;
+
+    programs.zsh = {
+      shellAliases =
+        {
+          ssh = "ssh.exe";
+          ssh-add = "ssh-add.exe";
+        };
+      enable = true;
+    };
     programs.dconf.enable = true;
     environment = {
       systemPackages = with pkgs; [

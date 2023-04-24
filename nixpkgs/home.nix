@@ -13,7 +13,7 @@
   };
   home = {
     username = "${user}";
-    language.base = "en_US.UTF-8";
+    language.base = "en_CA.UTF-8";
     homeDirectory = "/home/${user}";
     packages = with pkgs; [
       nixpkgs-fmt

@@ -12,7 +12,7 @@ with lib; {
     time.timeZone = "America/Vancouver";
 
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
-    i18n.defaultLocale = "en_US.UTF-8";
+    i18n.defaultLocale = "en_CA.UTF-8";
 
     programs.zsh = {
       shellAliases =

@@ -32,6 +32,7 @@
       htop
       nodejs
       pandoc
+      xdg-utils
       texlive.combined.scheme-medium
 
       pkgs.nodePackages."prettier"

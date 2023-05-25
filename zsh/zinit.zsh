@@ -11,15 +11,6 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
 
-# Create a nice experience similar to fish
-# an explanation of syntax can be found here
-# https://zdharma.org/zinit/wiki/Example-Minimal-Setup/
-zplugin ice wait"0" lucid
-zplugin light zsh-users/zsh-completions
-
-zplugin ice wait"0" atload"_zsh_autosuggest_start" lucid
-zplugin light zsh-users/zsh-autosuggestions
-
 zplugin ice wait"0" atinit"zpcompinit" lucid
 zplugin light zdharma-continuum/fast-syntax-highlighting
 

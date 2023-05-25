@@ -43,7 +43,7 @@ if $(hash direnv 2>/dev/null); then
 fi
 
 # add tidal and rust bins to PATH
-export PATH="$HOME/.local/bin/$PATH:$HOME/bin:$HOME/.cargo/bin:$HOME/.config/nixpkgs/scripts"
+export PATH="$HOME/.local/bin/:$PATH:$HOME/bin:$HOME/.cargo/bin:$HOME/.config/nixpkgs/scripts"
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"

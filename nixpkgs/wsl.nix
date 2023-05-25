@@ -6,11 +6,11 @@ with lib; {
     nix.settings.auto-optimise-store = true;
     users.users.justin = {
       isNormalUser = true;
-      shell = pkgs.zsh;
+      shell = pkgs.nushell;
       extraGroups = [ "wheel" "docker" ];
     };
     time.timeZone = "America/Vancouver";
-
+    fonts.fontconfig.enable = true;
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     i18n.defaultLocale = "en_CA.UTF-8";
 
@@ -20,7 +20,6 @@ with lib; {
           ssh = "ssh.exe";
           ssh-add = "ssh-add.exe";
         };
-      enable = true;
     };
     programs.dconf.enable = true;
     environment = {

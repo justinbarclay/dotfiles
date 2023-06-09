@@ -36,7 +36,7 @@ with lib; {
         BROWSER = "wsl-open";
       };
     };
-
+    security.pki.certificateFiles = [ /home/justin/dev/tidal/application-inventory/Tidal-RootCA/Tidal-RootCA.crt ];
     services = {
       postgresql = {
         enable = true;

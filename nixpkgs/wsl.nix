@@ -27,6 +27,8 @@ with lib; {
         git
         bat
         ripgrep
+        wget
+        curl
         exa
         wsl-open
         man-pages
@@ -36,7 +38,7 @@ with lib; {
         BROWSER = "wsl-open";
       };
     };
-    security.pki.certificateFiles = [ /home/justin/dev/tidal/application-inventory/Tidal-RootCA/Tidal-RootCA.crt ];
+    # security.pki.certificateFiles = [ /home/justin/dev/tidal/application-inventory/Tidal-RootCA/Tidal-RootCA.crt ];
     services = {
       postgresql = {
         enable = true;

@@ -23,6 +23,11 @@ with lib; {
       enable = true;
       enableNushellIntegration = true;
       flags = [ "--disable-up-arrow" ];
+      settings = {
+        auto_sync = true;
+        inline_height = 20;
+        search_mode = "skim";
+      };
     };
 
     programs.zoxide = {
@@ -39,7 +44,7 @@ with lib; {
           ssh = "ssh.exe";
           ssh-add = "ssh-add.exe";
           cat = "bat";
-          ls = "ls -al";
+          ls = "ls";
           emacsBg = "pueue add -- emacs";
         };
     };

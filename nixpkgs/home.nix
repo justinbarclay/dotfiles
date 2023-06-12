@@ -20,6 +20,7 @@
       nixpkgs-fmt
       cowsay
       gnupg
+      cachix
       # Basic shell setup
       wl-clipboard-x11
       openssh

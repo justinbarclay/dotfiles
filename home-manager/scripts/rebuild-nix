@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo nix-channel --update
+sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure

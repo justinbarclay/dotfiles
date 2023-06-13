@@ -5,7 +5,7 @@ zsh () {
   mkdir -p ~/.config
   ln -s $script_dir/.zprofile ~/.zprofile
   ln -s $script_dir/zsh ~/.config
-  ln -s $script_dir/nixpkgs ~/.config
+  ln -s $script_dir/home-manager ~/.config
 }
 
 if [ "$1" == "zsh" ]; then

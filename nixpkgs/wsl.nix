@@ -10,7 +10,13 @@ with lib; {
       extraGroups = [ "wheel" "docker" ];
     };
     time.timeZone = "America/Vancouver";
-    fonts.fontconfig.enable = true;
+    fonts.fontconfig = {
+      enable = true;
+      # https://nixos.wiki/wiki/Fonts#Use_custom_font_substitutions
+      localConf = ''
+        <dir>/mnt/c/Windows/Fonts</dir>
+      '';
+    };
     fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
     i18n.defaultLocale = "en_CA.UTF-8";
 

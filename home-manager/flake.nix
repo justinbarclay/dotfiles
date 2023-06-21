@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "flake:nixpkgs";
     devenv.url = "github:cachix/devenv/latest";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +19,7 @@
         ref = "master";
         rev = "f03b172233e1bf1fb2ffbc543b86aae00fbad444"; # change the revision
       });
+
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };

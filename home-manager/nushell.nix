@@ -9,12 +9,8 @@ with lib; {
   };
 
   config = mkIf config.modules.nushell.enable {
-    home.packages =
-      let
-        tidal-aws = (builtins.getFlake "git+ssh://git@github.com/tidalmigrations/tidal-aws.git?ref=jb/nushell&rev=6cd9f3938d7ab7ba681fde3c040fc2cf4688949d");
-      in
-      with pkgs;
-      [ nushell starship nix-direnv pueue atuin zoxide carapace fzf tidal-aws.packages.${system}.tidal-aws ];
+    home.packages = with pkgs;
+      [ nushell starship nix-direnv pueue atuin zoxide carapace fzf tidal-aws-full ];
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;

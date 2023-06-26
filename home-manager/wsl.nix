@@ -3,7 +3,11 @@
 with builtins;
 with lib; {
   config = {
-    nix.settings.auto-optimise-store = true;
+    nix.settings =
+      {
+        trusted-users = [ "root" "justin" ];
+        auto-optimise-store = true;
+      };
     users.users.justin = {
       isNormalUser = true;
       shell = pkgs.nushell;

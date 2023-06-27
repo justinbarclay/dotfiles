@@ -5,8 +5,7 @@
     nixpkgs.url = "flake:nixpkgs";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
-      #      url = "git+file:///home/justin/dev/tidal/aws-sso";
-      url = "git+ssh://git@github.com/tidalmigrations/aws-sso?ref=jb/nushell";
+      url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

@@ -3,14 +3,28 @@
 with builtins;
 with lib; {
   config = {
-    nix.settings =
-      {
+    wsl = {
+      enable = true;
+      wslConf.automount.root = "/mnt";
+      defaultUser = "justin";
+      startMenuLaunchers = true;
+      nativeSystemd = true;
+      docker-native.enable = true;
+    };
+
+    nix = {
+      extraOptions = ''
+        experimental-features = nix-command flakes
+      '';
+      settings = {
         trusted-users = [ "root" "justin" ];
         auto-optimise-store = true;
       };
+    };
+
     users.users.justin = {
       isNormalUser = true;
-      shell = pkgs.nushell;
+      shell = pkgs.zsh;
       extraGroups = [ "wheel" "docker" ];
     };
     time.timeZone = "America/Vancouver";
@@ -25,6 +39,12 @@ with lib; {
     i18n.defaultLocale = "en_CA.UTF-8";
 
     programs.zsh = {
+      enable = true;
+      loginShellInit = ''
+        if [[ $- == *i* ]]; then
+          exec nu "$@"
+        fi
+      '';
       shellAliases =
         {
           ssh = "ssh.exe";

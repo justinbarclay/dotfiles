@@ -1,7 +1,7 @@
 { config, lib, pkgs, user, ... }: {
   imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ];
   modules.git.enable = true;
-  modules.zsh.enable = true;
+  modules.zsh.enable = false;
   modules.nushell.enable = true;
   modules.emacs.enable = true;
   programs.home-manager.enable = true;

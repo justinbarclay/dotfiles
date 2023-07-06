@@ -8,13 +8,17 @@
       url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, emacs-overlay, home-manager, tidal-overlay, ... }@inputs:
+  outputs = { self, nixpkgs, emacs-overlay, home-manager, tidal-overlay, nixos-wsl, ... }@inputs:
     let
       system = "x86_64-linux";
       user = "justin";
@@ -37,7 +41,7 @@
     {
       nixosConfigurations."vider" = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ /etc/nixos/configuration.nix ./wsl.nix ];
+        modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
       };
 
       defaultPackage.${system} = home-manager.defaultPackage.${system};

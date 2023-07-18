@@ -14,6 +14,8 @@ with lib; {
       # Needed to sign commits
       gnupg
     ];
+
+    programs.git.enable = true;
     home.file.".gitignore" = {
       executable = false;
       text = ''

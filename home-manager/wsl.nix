@@ -9,7 +9,6 @@ with lib; {
       defaultUser = "justin";
       startMenuLaunchers = true;
       nativeSystemd = true;
-      docker-native.enable = true;
     };
 
     nix = {
@@ -69,6 +68,12 @@ with lib; {
       };
     };
     # security.pki.certificateFiles = [ /home/justin/dev/tidal/application-inventory/Tidal-RootCA/Tidal-RootCA.crt ];
+    virtualisation.podman = {
+      enable = true;
+      dockerCompat = true;
+      dockerSocket.enable = true;
+    };
+
     services = {
       postgresql = {
         enable = true;

@@ -10,7 +10,17 @@ with lib; {
 
   config = mkIf config.modules.nushell.enable {
     home.packages = with pkgs;
-      [ nushell starship nix-direnv pueue atuin zoxide carapace fzf tidal-aws-full ];
+      [
+        nushell
+        starship
+        nix-direnv
+        pueue
+        atuin
+        zoxide
+        carapace
+        fzf
+        tidal-aws-full
+      ];
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;

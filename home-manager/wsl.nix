@@ -89,5 +89,6 @@ with lib; {
       redis.servers."".enable = true;
       redis.servers."".openFirewall = true;
     };
+    system.stateVersion = "23.11";
   };
 }

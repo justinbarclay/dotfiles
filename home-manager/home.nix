@@ -1,17 +1,12 @@
-{ config, lib, pkgs, user, ... }: {
-  imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ];
+{ config, lib, pkgs, user, system ? <system>, ... }: {
+  imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ./gtk.nix ];
   modules.git.enable = true;
   modules.zsh.enable = false;
   modules.nushell.enable = true;
   modules.emacs.enable = true;
+  modules.gtk.enable = system == "x86_64-linux";
   programs.home-manager.enable = true;
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Materia-dark";
-      package = pkgs.materia-theme;
-    };
-  };
+
   home = {
     username = "${user}";
     language.base = "en_CA.UTF-8";
@@ -22,7 +17,6 @@
       gnupg
       cachix
       # Basic shell setup
-      wl-clipboard-x11
       openssh
 
       # Dev Niceness
@@ -34,7 +28,6 @@
       htop
       nodejs
       pandoc
-      xdg-utils
       texlive.combined.scheme-medium
 
       pkgs.nodePackages."prettier"

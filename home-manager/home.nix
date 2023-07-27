@@ -1,20 +1,31 @@
-{ config, lib, pkgs, user, system ? <system>, ... }: {
+{ config, lib, pkgs, user, system, ... }:
+let
+  stdenv = pkgs.stdenv;
+in
+{
   imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ./gtk.nix ];
   modules.git = {
-    inherit is-darwin;
+    is-darwin = stdenv.isDarwin;
     enable = true;
   };
   modules.zsh.enable = false;
-  modules.nushell.enable = true;
-  modules.emacs.enable = true;
-  modules.gtk.enable = system == "x86_64-linux";
+  modules.nushell = {
+    enable = true;
+    start-pueue = stdenv.isLinux;
+  };
+  modules.emacs = {
+    enable = true;
+    with-gtk = stdenv.isLinux;
+  };
+
+  modules.gtk.enable = stdenv.isLinux;
   programs.home-manager.enable = true;
 
   home = {
     username = "${user}";
     language.base = "en_CA.UTF-8";
     homeDirectory =
-      if system == "aarch64-darwin" then "/Users/${user}" else "/home/${user}";
+      if stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
 
     packages = with pkgs; [
       nixpkgs-fmt
@@ -30,7 +41,7 @@
       gnuplot
       graphviz
       zip
-      htop
+      bottom
       nodejs
       pandoc
       texlive.combined.scheme-medium

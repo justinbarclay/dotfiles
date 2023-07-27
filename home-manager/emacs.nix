@@ -6,6 +6,10 @@ with lib; {
       type = types.bool;
       default = false;
     };
+    with-gtk = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   config = mkIf config.modules.emacs.enable
@@ -50,8 +54,8 @@ with lib; {
               tree-sitter-typescript
               tree-sitter-yaml
             ];
-            withGTK3 = true;
-            withXwidgets = true;
+            withGTK3 = config.modules.emacs.with-gtk;
+            withXwidgets = config.modules.emacs.with-gtk;
           })
 
           # Let's spell good

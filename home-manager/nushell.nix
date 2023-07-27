@@ -6,6 +6,10 @@ with lib; {
       type = types.bool;
       default = false;
     };
+    start-pueue = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   config = mkIf config.modules.nushell.enable {
@@ -52,15 +56,13 @@ with lib; {
       envFile.source = ./env.nu;
       shellAliases =
         {
-          ssh = "ssh.exe";
-          ssh-add = "ssh-add.exe";
           cat = "bat";
           ls = "ls";
           emacsBg = "pueue add -- emacs";
         };
     };
 
-    services.pueue = {
+    services = mkIf config.modules.nushell.start-pueue { pueue = {
       enable = true;
       settings = {
         client = {
@@ -93,11 +95,6 @@ with lib; {
         };
       };
     };
-    home.file.".npmrc" = {
-      executable = false;
-      text = ''
-        prefix = \$\{HOME\}/.npm-packages
-      '';
-    };
+               };
   };
 }

@@ -1,21 +1,35 @@
 { pkgs, lib, ... }:
 {
+
+  imports = [ ./services/postgres.nix ];
+
+  modules.darwin.postgres = {
+    enable = false;
+    user = "justin";
+  };
   # Nix configuration ------------------------------------------------------------------------------
   nixpkgs.config.allowUnfree = true;
-  users.users.justin = {
-    name = "justin";
-    shell = pkgs.nushell;
-    home = "/Users/justin";
+  users.users = {
+    justin = {
+      name = "justin";
+      shell = pkgs.nushell;
+      home = "/Users/justin";
+    };
   };
 
-  nix.extraOptions = ''
-    extra-nix-path = nixpkgs=flake:nixpkgs
-    bash-prompt-prefix = (nix:$name)\040
-    experimental-features = nix-command flakes auto-allocate-uids
-    auto-optimise-store = true
-  '';
+  nix = {
+    extraOptions = ''
+      extra-nix-path = nixpkgs=flake:nixpkgs
+      bash-prompt-prefix = (nix:$name)
+      experimental-features = nix-command flakes auto-allocate-uids
+    '';
+    settings = {
+      trusted-users = [ "root" "justin" ];
+      auto-optimise-store = true;
+    };
+    gc.automatic = true;
+  };
 
-  nix.gc.automatic = true;
   # Enable experimental nix command and flake
 
   # Create /etc/.zshrc that loads the nix-darwin environment.
@@ -49,7 +63,7 @@
     spotify
     discord
   ];
-  # So we also use homebrew
+  # So we also use homebrew for GUI packages we want to launch through spotlight/raycast
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";

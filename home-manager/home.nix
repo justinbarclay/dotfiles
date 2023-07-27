@@ -19,6 +19,7 @@ in
   };
 
   modules.gtk.enable = stdenv.isLinux;
+
   programs.home-manager.enable = true;
 
   home = {
@@ -35,8 +36,6 @@ in
       # Basic shell setup
       openssh
 
-      # Dev Niceness
-      postgresql
       # Tools
       gnuplot
       graphviz

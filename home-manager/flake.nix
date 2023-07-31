@@ -2,7 +2,7 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs.url = "flake:nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
       url = "git+ssh://git@github.com/tidalmigrations/aws-sso";

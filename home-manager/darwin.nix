@@ -67,10 +67,14 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
+
+    # Unfortunately we need to create the postgres superuser ourselves
+    # `CREATE USER postgres SUPERUSER;`
     brews = [{
       name = "postgresql@13";
       restart_service = true;
-      link = true;
+      start_service = true;
+      #link = true;
       conflicts_with = [ "postgresql" ];
     }];
     casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" ];

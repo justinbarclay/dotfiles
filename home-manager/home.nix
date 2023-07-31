@@ -36,6 +36,9 @@ in
       # Basic shell setup
       openssh
 
+      # Database
+      postgresql_13
+
       # Tools
       gnuplot
       graphviz

@@ -63,6 +63,8 @@ with lib; {
           hunspellDicts.en_CA
 
           # Dirvish
+          coreutils
+          fd
           ffmpeg
           ffmpegthumbnailer
           poppler

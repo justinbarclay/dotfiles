@@ -76,12 +76,23 @@
       start_service = true;
       #link = true;
       conflicts_with = [ "postgresql" ];
-    }];
+    }
+
+      # Need to write a podman service
+      {
+        name = "podman";
+        link = true;
+        restart_service = true;
+        start_service = true;
+      }];
     casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" ];
   };
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";
   environment.shells = [ pkgs.nushell pkgs.zsh pkgs.bashInteractive ];
+  environment.shellAliases = {
+    docker = "podman";
+  };
   # https://github.com/nix-community/home-manager/issues/423
   programs.nix-index.enable = true;
 
@@ -97,6 +108,7 @@
       # `sudo mkdir /var/lib/redis`
     };
   };
+
   # Darwin System configuration
   system = {
     keyboard.enableKeyMapping = true;

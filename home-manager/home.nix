@@ -39,6 +39,9 @@ in
       # Database
       postgresql_13
 
+      #virtualisation
+      podman
+
       # Tools
       gnuplot
       graphviz

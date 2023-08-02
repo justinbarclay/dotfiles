@@ -1,11 +1,15 @@
 { pkgs, lib, ... }:
 {
 
-  imports = [ ./services/postgres.nix ];
+  imports = [ ./services/postgres.nix ./services/redis.nix ];
 
   modules.darwin.postgres = {
     enable = false;
     user = "justin";
+  };
+
+  modules.darwin.redis = {
+    enable = true;
   };
   # Nix configuration ------------------------------------------------------------------------------
   nixpkgs.config.allowUnfree = true;
@@ -99,15 +103,6 @@
   # Fonts
   fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
-
-  services = {
-    redis = {
-      enable = true;
-      bind = "localhost";
-      # must manually run
-      # `sudo mkdir /var/lib/redis`
-    };
-  };
 
   # Darwin System configuration
   system = {

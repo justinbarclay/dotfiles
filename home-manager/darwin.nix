@@ -1,13 +1,15 @@
 { pkgs, lib, ... }:
 {
 
-  imports = [ ./services/postgres.nix ./services/redis.nix ];
+  imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ];
 
   modules.darwin.postgres = {
     enable = false;
     user = "justin";
   };
-
+  modules.darwin.pueue = {
+    enable = true;
+  };
   modules.darwin.redis = {
     enable = true;
   };

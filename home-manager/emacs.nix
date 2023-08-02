@@ -32,28 +32,7 @@ with lib; {
           # Needed for things like custom treesitter builds or vterm
           gcc
 
-          (emacsGit.override {
-            treeSitterPlugins = with tree-sitter-grammars; [
-              tree-sitter-bash
-              tree-sitter-c
-              tree-sitter-c-sharp
-              tree-sitter-cmake
-              tree-sitter-cpp
-              tree-sitter-css
-              tree-sitter-dockerfile
-              tree-sitter-go
-              tree-sitter-gomod
-              tree-sitter-java
-              tree-sitter-javascript
-              tree-sitter-json
-              tree-sitter-python
-              tree-sitter-ruby
-              tree-sitter-rust
-              tree-sitter-toml
-              tree-sitter-tsx
-              tree-sitter-typescript
-              tree-sitter-yaml
-            ];
+          (emacs-git.override {
             withGTK3 = config.modules.emacs.with-gtk;
             withXwidgets = config.modules.emacs.with-gtk;
           })

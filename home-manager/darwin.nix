@@ -42,7 +42,7 @@
   programs.zsh = {
     enable = true;
     loginShellInit = ''
-      if [[ $- == *i* ]]; then
+      if [[ $- == *i* ] && [$- != *c*]]; then
         exec nu "$@"
       fi
     '';

@@ -91,7 +91,7 @@
         restart_service = true;
         start_service = true;
       }];
-    casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" ];
+    casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" "1password-cli" ];
   };
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";

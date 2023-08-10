@@ -20,8 +20,8 @@ with lib; {
           KeepAlive = true;
           Program = "${pkgs.pueue}/bin/pueued";
           ProgramArguments = [ "--verbose" ];
-          StandardErrorPath = "/Users/justin/Library/Application Support/Pueue/pueue.error.log";
-          StandardOutPath = "/Users/justin/Library/Application Support/Pueue/pueue.out.log";
+          StandardErrorPath = "/Users/justin/Library/Application Support/pueue/pueue.error.log";
+          StandardOutPath = "/Users/justin/Library/Application Support/pueue/pueue.out.log";
         };
       };
     };

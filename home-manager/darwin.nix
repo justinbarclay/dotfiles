@@ -42,7 +42,7 @@
   programs.zsh = {
     enable = true;
     loginShellInit = ''
-      if [[ $- == *i* ]] && [[ $- != *c* ]]; then
+      if [[ $- == *i* ]]; then
         exec nu "$@"
       fi
     '';
@@ -91,7 +91,7 @@
         restart_service = true;
         start_service = true;
       }];
-    casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" "1password-cli" "microsoft-edge" ];
+    casks = [ "rectangle" "topnotch" "bartender" "raycast" "drata-agent" "1password-cli" "microsoft-edge" "docker" ];
   };
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";

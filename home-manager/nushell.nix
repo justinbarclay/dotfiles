@@ -59,7 +59,14 @@ with lib; {
           cat = "bat";
           ls = "ls";
           emacsBg = "pueue add -- emacs";
-        };
+        } //
+        (if pkgs.stdenv.isLinux then
+          {
+            ssh = "ssh.exe";
+            ssh-add = "ssh-add.exe";
+          }
+        else
+          { });
       extraEnv = ''
         let atuin_cache = "${config.xdg.cacheHome}/atuin"
         if not ($atuin_cache | path exists) {

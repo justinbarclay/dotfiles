@@ -2,7 +2,7 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs.url = "flake:nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
       url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
@@ -16,42 +16,67 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, emacs-overlay, home-manager, tidal-overlay, nixos-wsl, ... }@inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , emacs-overlay
+    , home-manager
+    , tidal-overlay
+    , nixos-wsl
+    , nix-darwin
+    , flake-utils
+    , ...
+    }@inputs:
     let
-      system = "x86_64-linux";
       user = "justin";
-      # tidal-overlay = builtins.getFlake "git+ssh://git@github.com/tidalmigrations/aws-sso?ref=jb/nushell";
+
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "f03b172233e1bf1fb2ffbc543b86aae00fbad444"; # change the revision
+        rev = "33a166b214c841d6fa5874ccc925871b2394a7e3"; # change the revision
       });
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [
-          emacs-overlay
-          tidal-overlay.overlays.default
-        ];
-      };
+
+      mkHomeConfig = system: home-manager.lib.homeManagerConfiguration
+        {
+          pkgs = import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+            };
+            overlays = [
+              emacs-overlay
+              tidal-overlay.overlays.default
+            ];
+          };
+          extraSpecialArgs = {
+            system = "aarch64-darwin";
+            inherit user;
+          };
+          modules = [ ./home.nix ];
+        };
       lib = nixpkgs.lib;
     in
     {
-      nixosConfigurations."vider" = lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
-      };
-
-      defaultPackage.${system} = home-manager.defaultPackage.${system};
-
-      homeConfigurations = {
-        ${user} = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit user; };
-          modules = [ ./home.nix ];
+      nixosConfigurations."vider" = lib.nixosSystem
+        {
+          system = "x86_64-linux";
+          modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
         };
-      };
+
+      darwinConfigurations."Heimdall" = nix-darwin.lib.darwinSystem
+        {
+          system = "aarch64-darwin";
+          modules = [
+            ./darwin.nix
+          ];
+        };
+      packages."x86_64-linux".homeConfigurations."justin" = mkHomeConfig "x86_64-linux";
+      packages."aarch64-darwin".homeConfigurations."justin" = mkHomeConfig "aarch64-darwin";
     };
 }

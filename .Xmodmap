@@ -1,4 +1,0 @@
-keycode   9 = Super_L NoSymbol Super_L
-keycode 109 = Escape NoSymbol Escape
-clear mod4
-add mod3 = Super_L

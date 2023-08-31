@@ -6,11 +6,25 @@ with lib; {
       type = types.bool;
       default = false;
     };
+    start-pueue = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   config = mkIf config.modules.nushell.enable {
     home.packages = with pkgs;
-      [ nushell starship nix-direnv pueue atuin zoxide carapace fzf tidal-aws-full ];
+      [
+        nushell
+        starship
+        nix-direnv
+        pueue
+        atuin
+        zoxide
+        carapace
+        fzf
+        tidal-aws-full
+      ];
 
     programs.direnv.enable = true;
     programs.direnv.nix-direnv.enable = true;
@@ -22,7 +36,7 @@ with lib; {
 
     programs.atuin = {
       enable = true;
-      enableNushellIntegration = true;
+      enableNushellIntegration = false;
       flags = [ "--disable-up-arrow" ];
       settings = {
         auto_sync = true;
@@ -33,7 +47,7 @@ with lib; {
 
     programs.zoxide = {
       enable = true;
-      enableNushellIntegration = true;
+      enableNushellIntegration = false;
     };
 
     programs.nushell = {
@@ -42,52 +56,63 @@ with lib; {
       envFile.source = ./env.nu;
       shellAliases =
         {
-          ssh = "ssh.exe";
-          ssh-add = "ssh-add.exe";
           cat = "bat";
           ls = "ls";
           emacsBg = "pueue add -- emacs";
-        };
+        } //
+        (if pkgs.stdenv.isLinux then
+          {
+            ssh = "ssh.exe";
+            ssh-add = "ssh-add.exe";
+          }
+        else
+          { });
+      extraEnv = ''
+        let atuin_cache = "${config.xdg.cacheHome}/atuin"
+        if not ($atuin_cache | path exists) {
+          mkdir $atuin_cache
+        }
+        ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
+      '';
+      extraConfig = ''
+        source ${config.xdg.cacheHome}/atuin/init.nu
+      '';
     };
 
-    services.pueue = {
-      enable = true;
-      settings = {
-        client = {
-          restart_in_place = false;
-          read_local_logs = true;
-          show_confirmation_questions = false;
-          show_expanded_aliases = false;
-          dark_mode = false;
-          max_status_lines = null;
-          status_time_format = "%H:%M:%S";
-          status_datetime_format = "%Y-%m-%d\n%H:%M:%S";
-        };
-        daemon = {
-          pause_group_on_failure = false;
-          pause_all_on_failure = false;
-          callback = null;
-          callback_log_lines = 10;
-        };
-        shared = {
-          pueue_directory = null;
-          runtime_directory = null;
-          use_unix_socket = false;
-          pid_path = null;
-          unix_socket_path = null;
-          host = "127.0.0.1";
-          port = "6924";
-          daemon_cert = null;
-          daemon_key = null;
-          shared_secret_path = null;
+    services = mkIf config.modules.nushell.start-pueue {
+      pueue = {
+        enable = true;
+        settings = {
+          client = {
+            restart_in_place = false;
+            read_local_logs = true;
+            show_confirmation_questions = false;
+            show_expanded_aliases = false;
+            dark_mode = false;
+            max_status_lines = null;
+            status_time_format = "%H:%M:%S";
+            status_datetime_format = "%Y-%m-%d\n%H:%M:%S";
+          };
+          daemon = {
+            pause_group_on_failure = false;
+            pause_all_on_failure = false;
+            callback = null;
+            callback_log_lines = 10;
+          };
+          shared = {
+            pueue_directory = null;
+            runtime_directory = null;
+            use_unix_socket = false;
+            pid_path = null;
+            unix_socket_path = null;
+            host = "127.0.0.1";
+            port = "6924";
+            daemon_cert = null;
+            daemon_key = null;
+            shared_secret_path = null;
+          };
         };
       };
-    };
-    home.file.".npmrc" = {
-      executable = false;
-      text = ''
-        prefix = \$\{HOME\}/.npm-packages
-      '';
     };
   };
 }

@@ -1,0 +1,24 @@
+[user]
+  email = git@justinbarclay.ca
+  name = Justin Barclay
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFbygxEvFlS66vaugGRlbXRO4yjozS8G+yYrKh9lmZo
+[color]
+  ui = true
+[core]
+  editor = emacs
+  excludesfile = ~/.gitignore
+  sshCommand = ssh
+[init]
+  defaultBranch = main
+[pull]
+  rebase = true
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+  gpgSign = true
+[tag]
+  gpgSign = true
+[github]
+  user = justinbarclay

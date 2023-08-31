@@ -65,7 +65,7 @@ with lib; {
         if not ($atuin_cache | path exists) {
           mkdir $atuin_cache
         }
-        ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --string --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
+        ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
       '';
       extraConfig = ''
         source ${config.xdg.cacheHome}/atuin/init.nu

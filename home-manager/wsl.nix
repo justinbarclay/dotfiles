@@ -58,7 +58,7 @@ with lib; {
         ripgrep
         wget
         curl
-        exa
+        eza
         wsl-open
         man-pages
         man-pages-posix

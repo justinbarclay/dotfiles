@@ -59,7 +59,7 @@
     ripgrep
     wget
     curl
-    exa
+    eza
     man-pages
     man-pages-posix
     ripgrep

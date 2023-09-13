@@ -32,7 +32,7 @@ with lib; {
           # Needed for things like custom treesitter builds or vterm
           gcc
 
-          (emacs-git.override {
+          (emacs-unstable.override {
             withGTK3 = config.modules.emacs.with-gtk;
             withXwidgets = config.modules.emacs.with-gtk;
           })

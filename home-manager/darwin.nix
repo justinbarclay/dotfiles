@@ -79,7 +79,7 @@
       name = "postgresql@13";
       restart_service = true;
       start_service = true;
-      #link = true;
+      link = true;
       conflicts_with = [ "postgresql" ];
     }
 
@@ -108,7 +108,7 @@
   # Darwin System configuration
   system = {
     keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToEscape = true;
+    keyboard.remapCapsLockToControl = true;
 
     defaults = {
       dock = {

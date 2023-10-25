@@ -17,7 +17,6 @@ with lib; {
       home.sessionVariables = {
         EDITOR = "emacs";
       };
-
       home.packages = with pkgs;
         [
           # Needed for network commnunication

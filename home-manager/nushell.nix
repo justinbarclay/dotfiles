@@ -18,7 +18,6 @@ with lib; {
         nushell
         starship
         nix-direnv
-        pueue
         atuin
         zoxide
         carapace

@@ -15,13 +15,12 @@ with lib; {
       ];
 
       # Direct log output for debugging.
-      launchd.user.agents.pueue = {
+      launchd.user.agents.pueued = {
         serviceConfig = {
+          RunAtLoad = true;
           KeepAlive = true;
           Program = "${pkgs.pueue}/bin/pueued";
-          ProgramArguments = [ "--verbose" ];
-          StandardErrorPath = "/Users/justin/Library/Application Support/pueue/pueue.error.log";
-          StandardOutPath = "/Users/justin/Library/Application Support/pueue/pueue.out.log";
+          ProgramArguments = [ "-vv" ];
         };
       };
     };

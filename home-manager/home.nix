@@ -35,7 +35,7 @@ in
       cachix
       # Basic shell setup
       openssh
-
+      act
       # Database
       postgresql_13
 

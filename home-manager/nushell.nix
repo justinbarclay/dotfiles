@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, system, lib, pkgs, ... }:
 
 with lib; {
   options.modules.nushell = {
@@ -23,6 +23,7 @@ with lib; {
         carapace
         fzf
         tidal-aws-full
+        tidal
       ];
 
     programs.direnv.enable = true;
@@ -39,7 +40,6 @@ with lib; {
       flags = [ "--disable-up-arrow" ];
       settings = {
         auto_sync = true;
-        inline_height = 20;
         search_mode = "skim";
       };
     };

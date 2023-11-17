@@ -20,6 +20,10 @@
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tidal-tools = {
+      url = "git+ssh://git@github.com/tidalmigrations/tidal-tools?ref=jb/flake-update";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,6 +35,7 @@
     , nixos-wsl
     , nix-darwin
     , flake-utils
+    , tidal-tools
     , ...
     }@inputs:
     let
@@ -50,6 +55,10 @@
               allowUnfree = true;
             };
             overlays = [
+              (final: prev:
+                {
+                  tidal = tidal-tools;
+                })
               emacs-overlay
               tidal-overlay.overlays.default
             ];

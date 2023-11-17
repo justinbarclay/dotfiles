@@ -76,22 +76,34 @@
 
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
-    brews = [{
-      name = "postgresql@13";
-      restart_service = true;
-      start_service = true;
-      link = true;
-      conflicts_with = [ "postgresql" ];
-    }
-
-      # Need to write a podman service
+    brews = [
+      {
+        name = "postgresql@13";
+        restart_service = true;
+        start_service = true;
+        link = true;
+        conflicts_with = [ "postgresql" ];
+      }
       {
         name = "podman";
         link = true;
         restart_service = true;
         start_service = true;
-      }];
-    casks = [ "rectangle" "topnotch" "hiddenbar" "raycast" "drata-agent" "1password-cli" "microsoft-edge" "docker" ];
+      }
+      "pngpaste"
+    ];
+    casks = [
+      "rectangle"
+      "topnotch"
+      "hiddenbar"
+      "raycast"
+      "drata-agent"
+      "1password-cli"
+      "microsoft-edge"
+      "docker"
+      "keycastr"
+      "kap"
+    ];
   };
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";

@@ -21,7 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tidal-tools = {
-      url = "git+ssh://git@github.com/tidalmigrations/tidal-tools?ref=jb/flake-update";
+      url = "git+ssh://git@github.com/tidalmigrations/tidal-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -64,8 +64,9 @@
             ];
           };
           extraSpecialArgs = {
-            system = "aarch64-darwin";
+            inherit system;
             inherit user;
+
           };
           modules = [ ./home.nix ];
         };
@@ -85,7 +86,7 @@
             ./darwin.nix
           ];
         };
-      packages."x86_64-linux".homeConfigurations."justin" = mkHomeConfig "x86_64-linux";
-      packages."aarch64-darwin".homeConfigurations."justin" = mkHomeConfig "aarch64-darwin";
+      homeConfigurations."justin@Vider" = mkHomeConfig "x86_64-linux";
+      homeConfigurations."justin@Heimdall" = mkHomeConfig "aarch64-darwin";
     };
 }

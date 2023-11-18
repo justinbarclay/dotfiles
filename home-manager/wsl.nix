@@ -75,6 +75,7 @@ with lib; {
     };
 
     services = {
+      tailscale.enable = true;
       postgresql = {
         enable = true;
         package = pkgs.postgresql_13;

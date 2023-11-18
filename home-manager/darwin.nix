@@ -50,6 +50,7 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   services.activate-system.enable = true;
+  services.tailscale.enable = true;
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
@@ -90,7 +91,10 @@
         restart_service = true;
         start_service = true;
       }
-      "pngpaste"
+      {
+        name = "pngpaste";
+        link = true;
+      }
     ];
     casks = [
       "rectangle"
@@ -122,7 +126,6 @@
   system = {
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
-
     defaults = {
       dock = {
         autohide = true;

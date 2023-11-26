@@ -24,7 +24,7 @@ with lib; {
     users.users.justin = {
       isNormalUser = true;
       shell = pkgs.zsh;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [ "wheel" "docker" "podman" ];
     };
     time.timeZone = "America/Vancouver";
     fonts.fontconfig = {
@@ -67,11 +67,20 @@ with lib; {
         BROWSER = "wsl-open";
       };
     };
-    # security.pki.certificateFiles = [ /home/justin/dev/tidal/application-inventory/Tidal-RootCA/Tidal-RootCA.crt ];
+
     virtualisation.podman = {
       enable = true;
-      dockerCompat = true;
-      dockerSocket.enable = true;
+      # dockerCompat = true;
+      # dockerSocket.enable = true;
+    };
+    virtualisation.docker = {
+      enable = true;
+      # extraOptions = ''
+      #   experimental: true
+      # '';
+      # extraGroups = [ "docker" ];
+      # socketGroup = "docker";
+      # socketMode = "0660";
     };
 
     services = {

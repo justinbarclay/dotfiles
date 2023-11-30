@@ -36,5 +36,20 @@ with lib; {
           ./.gitconfig-wsl;
 
     };
+    home.file.".allowed-signers" = {
+      executable = false;
+      text = ''
+        # This file contains a list of allowed signers for git commits.
+        # It is used by the git hooks to verify that commits are signed by
+        # a trusted key.
+        #
+        # The format is one key per line, with the key ID followed by a space
+        # and the key fingerprint.
+        #
+        # Example:
+        # 1234567890ABCDEF 1234567890ABCDEF1234567890ABCDEF12345678
+        git@justinbarclay.ca ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFbygxEvFlS66vaugGRlbXRO4yjozS8G+yYrKh9lmZo
+      '';
+    };
   };
 }

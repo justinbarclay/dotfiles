@@ -48,9 +48,12 @@
   };
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
-  services.activate-system.enable = true;
-  services.tailscale.enable = true;
+  services = {
+    nix-daemon.enable = true;
+    activate-system.enable = true;
+    tailscale.enable = true;
+  };
+
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
@@ -69,11 +72,15 @@
     nushell
     spotify
     discord
+    (pkgs.writeScriptBin "rebuild-darwin"
+      ''
+        darwin-rebuild switch --flake ~/dotfiles/home-manager
+      '')
   ];
   # So we also use homebrew for GUI packages we want to launch through spotlight/raycast
   homebrew = {
     enable = true;
-    onActivation.cleanup = "uninstall";
+    onActivation.cleanup = "zap";
 
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
@@ -103,9 +110,7 @@
       "raycast"
       "drata-agent"
       "1password-cli"
-      "microsoft-edge"
       "docker"
-      "keycastr"
       "kap"
     ];
   };

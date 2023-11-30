@@ -86,7 +86,7 @@
             ./darwin.nix
           ];
         };
-      homeConfigurations."justin@Vider" = mkHomeConfig "x86_64-linux";
+      homeConfigurations."justin@nixos" = mkHomeConfig "x86_64-linux";
       homeConfigurations."justin@Heimdall" = mkHomeConfig "aarch64-darwin";
     };
 }

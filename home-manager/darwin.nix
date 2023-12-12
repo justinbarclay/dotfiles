@@ -111,7 +111,9 @@
       "drata-agent"
       "1password-cli"
       "docker"
+      "vlc"
       "kap"
+      "keycastr"
     ];
   };
 

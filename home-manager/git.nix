@@ -25,6 +25,7 @@ with lib; {
       text = ''
         **/**/shell.nix
         **/**/.envrc
+        **/**/.direnv/
       '';
     };
 

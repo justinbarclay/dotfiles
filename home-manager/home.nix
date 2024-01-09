@@ -20,8 +20,12 @@ in
 
   modules.gtk.enable = stdenv.isLinux;
 
-  programs.home-manager.enable = true;
-
+  programs = {
+    home-manager.enable = true;
+    mu.enable = true;
+    msmtp.enable = true;
+    mbsync.enable = true;
+  };
   home = {
     username = "${user}";
     language.base = "en_CA.UTF-8";
@@ -50,6 +54,8 @@ in
       nodejs
       pandoc
       texlive.combined.scheme-medium
+
+      mu
 
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"

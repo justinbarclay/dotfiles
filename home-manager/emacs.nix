@@ -17,6 +17,11 @@ with lib; {
       home.sessionVariables = {
         EDITOR = "emacs";
       };
+      programs.emacs = {
+        extraPackages = epkgs: [
+          epkgs.mu4e
+        ];
+      };
       home.packages = with pkgs;
         [
           # Needed for network commnunication
@@ -40,6 +45,7 @@ with lib; {
           hunspell
           hunspellDicts.en_CA
 
+          emacsPackages.mu4e
           # Dirvish
           coreutils
           fd

@@ -3,12 +3,15 @@ let
   stdenv = pkgs.stdenv;
 in
 {
-  imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ./gtk.nix ];
+  imports = [ ./git.nix ./zsh.nix ./emacs.nix ./nushell.nix ./gtk.nix ./email.nix ];
   modules.git = {
     is-darwin = stdenv.isDarwin;
     enable = true;
   };
   modules.zsh.enable = false;
+  modules.email = {
+    enable = true;
+  };
   modules.nushell = {
     enable = true;
     start-pueue = stdenv.isLinux;
@@ -22,10 +25,8 @@ in
 
   programs = {
     home-manager.enable = true;
-    mu.enable = true;
-    msmtp.enable = true;
-    mbsync.enable = true;
   };
+
   home = {
     username = "${user}";
     language.base = "en_CA.UTF-8";
@@ -54,8 +55,6 @@ in
       nodejs
       pandoc
       texlive.combined.scheme-medium
-
-      mu
 
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"

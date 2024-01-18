@@ -33,8 +33,8 @@ with lib; {
       executable = false;
       source =
         if config.modules.git.is-darwin then
-          ./.gitconfig-darwin else
-          ./.gitconfig-wsl;
+          ./config/.gitconfig-darwin else
+          ./config/.gitconfig-wsl;
 
     };
     home.file.".allowed-signers" = {

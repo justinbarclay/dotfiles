@@ -34,6 +34,12 @@ with lib; {
       enableNushellIntegration = true;
     };
 
+    home.file.".config/starship.toml" = {
+      executable = false;
+      enable = true;
+      source = ./config/starship.toml;
+    };
+
     programs.atuin = {
       enable = true;
       enableNushellIntegration = false;
@@ -51,8 +57,8 @@ with lib; {
 
     programs.nushell = {
       enable = true;
-      configFile.source = ./config.nu;
-      envFile.source = ./env.nu;
+      configFile.source = ./config/config.nu;
+      envFile.source = ./config/env.nu;
       shellAliases =
         {
           cat = "bat";

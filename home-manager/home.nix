@@ -69,7 +69,7 @@ in
     };
     file.".wezterm.lua" = {
       executable = false;
-      source = ./.wezterm.lua;
+      source = ./config/.wezterm.lua;
     };
     stateVersion =
       "22.11"; # To figure this out you can comment out the line and see what version it expected.

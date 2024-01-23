@@ -1,9 +1,5 @@
 add_newline = false
 
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[🐶](bold purple)'
-error_symbol = '[😼](bold red)'
-
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
 

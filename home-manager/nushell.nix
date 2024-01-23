@@ -42,17 +42,19 @@ with lib; {
 
     programs.atuin = {
       enable = true;
-      enableNushellIntegration = false;
+      enableNushellIntegration = true;
       flags = [ "--disable-up-arrow" ];
       settings = {
         auto_sync = true;
+        workspaces = true;
+        sync_frequency = "1h";
         search_mode = "skim";
       };
     };
 
     programs.zoxide = {
       enable = true;
-      enableNushellIntegration = false;
+      enableNushellIntegration = true;
     };
 
     programs.nushell = {
@@ -72,16 +74,16 @@ with lib; {
           }
         else
           { });
-      extraEnv = ''
-        let atuin_cache = "${config.xdg.cacheHome}/atuin"
-        if not ($atuin_cache | path exists) {
-          mkdir $atuin_cache
-        }
-        ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
-      '';
-      extraConfig = ''
-        source ${config.xdg.cacheHome}/atuin/init.nu
-      '';
+      # extraEnv = ''
+      #   let atuin_cache = "${config.xdg.cacheHome}/atuin"
+      #   if not ($atuin_cache | path exists) {
+      #     mkdir $atuin_cache
+      #   }
+      #   ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
+      # '';
+      # extraConfig = ''
+      #   source ${config.xdg.cacheHome}/atuin/init.nu
+      # '';
     };
 
     services = mkIf config.modules.nushell.start-pueue {

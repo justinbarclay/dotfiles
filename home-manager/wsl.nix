@@ -61,6 +61,7 @@ with lib; {
         eza
         wsl-open
         man-pages
+        roboto-mono
         man-pages-posix
       ];
       variables = rec {

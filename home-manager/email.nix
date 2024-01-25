@@ -33,7 +33,7 @@ with lib; {
         mu.enable = true;
         primary = true;
         realName = "Justin Barclay";
-        passwordCommand = "op item get fastmail-smtp --field password";
+        passwordCommand = if pkgs.stdenv.isDarwin then "op item get fastmail-smtp --field password" else "op.exe item get fastmail-smtp --field password";
         userName = "me@justinbarclay.ca";
       };
     };

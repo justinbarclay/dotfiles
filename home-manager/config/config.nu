@@ -9,10 +9,9 @@
 
 # External completer example
 let carapace_completer = {|spans|
-    carapace $spans.0 nushell $spans | from json
+  carapace $spans.0 nushell ...$spans | from json
 }
 
-use ~/.nix-profile/share/tidal-aws/tidal-aws.nu
 # The default config record. This is where much of your global configuration is setup.
 $env.config = {
   # true or false to enable or disable the welcome banner at startup
@@ -91,7 +90,7 @@ $env.config = {
   use_ansi_coloring: true
   bracketed_paste: true # enable bracketed paste, currently useless on windows
   edit_mode: emacs # emacs, vi
-  shell_integration: true # enables terminal markers and a workaround to arrow keys stop working issue
+  shell_integration:  ((sys |get host.name) == "Darwin")
   render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
 
   hooks: {

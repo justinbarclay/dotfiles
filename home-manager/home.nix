@@ -54,6 +54,7 @@ in
       bottom
       nodejs
       pandoc
+      zeitfetch
       texlive.combined.scheme-medium
 
       pkgs.nodePackages."prettier"

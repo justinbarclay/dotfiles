@@ -54,9 +54,8 @@ in
       bottom
       nodejs
       pandoc
-      zeitfetch
       texlive.combined.scheme-medium
-
+      mkcert
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"
       eslint_d

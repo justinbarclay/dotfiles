@@ -81,9 +81,9 @@ with lib; {
       #   }
       #   ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
       # '';
-      # extraConfig = ''
-      #   source ${config.xdg.cacheHome}/atuin/init.nu
-      # '';
+      extraConfig = ''
+        use ${pkgs.tidal-aws-full}/share/tidal-aws/tidal-aws.nu
+      '';
     };
 
     services = mkIf config.modules.nushell.start-pueue {

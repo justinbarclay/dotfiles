@@ -13,7 +13,6 @@ end
 -- This is where you actually apply your config choices
 config.audible_bell = 'Disabled'
 config.automatically_reload_config = true
-config.default_prog = { 'nu' }
 config.tab_bar_at_bottom = true
 config.window_decorations = 'RESIZE'
 config.window_frame = {

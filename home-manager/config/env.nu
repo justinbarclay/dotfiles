@@ -1,6 +1,6 @@
 $env.EDITOR = "emacs"
 
-if (not (sys | get host.name) == "Windows") {
+if (not ((sys | get host.name) == "Windows")) {
    $env.PATH = ($env.PATH | split row (char esep) | prepend [$"($env.HOME)/.local/bin",$"($env.HOME)/bin",$"($env.HOME)/.cargo/bin",$"($env.HOME)/.config/home-manager/scripts"])
    $env.AWS_REGION = ca-central-1
 }

@@ -20,5 +20,7 @@
   gpgSign = true
 [tag]
   gpgSign = true
+[branch]
+	sort = -committerdate
 [github]
   user = justinbarclay

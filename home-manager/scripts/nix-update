@@ -1,5 +1,20 @@
 #!/bin/sh
 nix-channel --update
 cd ~/.config/home-manager
+
+case $(uname) in
+  Linux)
+    op.exe inject -i email.nix.tpl -o email.nix
+    ;;
+  Darwin)
+    op inject -i email.tpl.nix -o email.nix
+    ;;
+  '*')
+    echo Hi, stranger!
+    ;;
+esac
+
 nix flake update
 home-manager switch
+
+shred -u ./email.nix

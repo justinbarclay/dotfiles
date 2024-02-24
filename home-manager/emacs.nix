@@ -17,11 +17,6 @@ with lib; {
       home.sessionVariables = {
         EDITOR = "emacs";
       };
-      programs.emacs = {
-        extraPackages = epkgs: [
-          epkgs.mu4e
-        ];
-      };
       home.packages = with pkgs;
         [
           # Needed for network commnunication
@@ -37,6 +32,7 @@ with lib; {
           gcc
 
           (emacs-git.override {
+            withSQLite3 = true;
             withGTK3 = config.modules.emacs.with-gtk;
             withXwidgets = config.modules.emacs.with-gtk;
           })

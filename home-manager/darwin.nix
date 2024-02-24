@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-  imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ];
+  imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
 
   modules.darwin.postgres = {
     enable = false;
@@ -11,6 +11,11 @@
   };
   modules.darwin.redis = {
     enable = true;
+  };
+
+  modules.darwin.mbsync = {
+    enable = true;
+    postExec = "${pkgs.mu}/bin/mu index";
   };
   # Nix configuration ------------------------------------------------------------------------------
   nixpkgs.config.allowUnfree = true;

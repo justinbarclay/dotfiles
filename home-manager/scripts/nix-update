@@ -13,6 +13,7 @@ case $(uname) in
     echo Hi, stranger!
     ;;
 esac
+export NIXPKGS_ALLOW_BROKEN=1;
 
 nix flake update
 home-manager switch

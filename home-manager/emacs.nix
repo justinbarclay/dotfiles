@@ -42,6 +42,7 @@ with lib; {
           hunspellDicts.en_CA
 
           emacsPackages.mu4e
+          emacsPackages.auctex
           # Dirvish
           coreutils
           fd

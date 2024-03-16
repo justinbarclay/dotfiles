@@ -49,7 +49,7 @@ with lib; {
           ffmpeg
           ffmpegthumbnailer
           poppler
-          rnix-lsp
+          nil
         ];
     };
 }

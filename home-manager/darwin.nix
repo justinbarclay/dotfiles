@@ -26,8 +26,8 @@
       home = "/Users/justin";
     };
   };
-
   nix = {
+
     extraOptions = ''
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)
@@ -52,6 +52,7 @@
     '';
   };
 
+
   # Auto upgrade nix package and the daemon service.
   services = {
     nix-daemon.enable = true;
@@ -75,6 +76,7 @@
     ripgrep
     wezterm
     nushell
+
     spotify
     discord
     (pkgs.writeScriptBin "rebuild-darwin"

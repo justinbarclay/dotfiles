@@ -4,7 +4,7 @@ cd ~/.config/home-manager
 
 case $(uname) in
   Linux)
-    op.exe inject -i email.nix.tpl -o email.nix
+    op.exe inject -i email.tpl.nix -o email.nix
     ;;
   Darwin)
     op inject -i email.tpl.nix -o email.nix

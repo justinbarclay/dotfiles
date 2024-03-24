@@ -73,8 +73,9 @@
     eza
     man-pages
     man-pages-posix
-    ripgrep
     wezterm
+    _1password
+
     nushell
 
     spotify
@@ -88,6 +89,8 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
+    onActivation.autoUpdate = false;
+    onActivation.upgrade = true;
 
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
@@ -100,12 +103,6 @@
         conflicts_with = [ "postgresql" ];
       }
       {
-        name = "podman";
-        link = true;
-        restart_service = true;
-        start_service = true;
-      }
-      {
         name = "pngpaste";
         link = true;
       }
@@ -116,7 +113,6 @@
       "hiddenbar"
       "raycast"
       "drata-agent"
-      "1password-cli"
       "docker"
       "vlc"
       "kap"
@@ -126,9 +122,7 @@
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";
   environment.shells = [ pkgs.nushell pkgs.zsh pkgs.bashInteractive ];
-  environment.shellAliases = {
-    docker = "podman";
-  };
+
   # https://github.com/nix-community/home-manager/issues/423
   programs.nix-index.enable = true;
 

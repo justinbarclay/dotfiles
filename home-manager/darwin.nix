@@ -27,19 +27,33 @@
     };
   };
   nix = {
-
+    linux-builder = {
+      enable = true;
+      ephemeral = true;
+      maxJobs = 4;
+      config = {
+        virtualisation = {
+          darwin-builder = {
+            diskSize = 40 * 1024;
+            memorySize = 8 * 1024;
+          };
+          cores = 6;
+        };
+      };
+    };
     extraOptions = ''
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)
       experimental-features = nix-command flakes auto-allocate-uids
     '';
     settings = {
-      trusted-users = [ "root" "justin" ];
+      trusted-users = [ "root" "justin" "@admin" ];
       auto-optimise-store = true;
+      extra-trusted-users = "justin";
     };
+
     gc.automatic = true;
   };
-
   # Enable experimental nix command and flake
 
   # Create /etc/.zshrc that loads the nix-darwin environment.
@@ -75,7 +89,7 @@
     man-pages-posix
     wezterm
     _1password
-
+    nixos-rebuild
     nushell
 
     spotify

@@ -91,7 +91,6 @@
     _1password
     nixos-rebuild
     nushell
-
     spotify
     discord
     (pkgs.writeScriptBin "rebuild-darwin"
@@ -131,6 +130,7 @@
       "vlc"
       "kap"
       "keycastr"
+      "calibre"
     ];
   };
 

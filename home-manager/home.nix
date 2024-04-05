@@ -54,6 +54,7 @@ in
       bottom
       nodejs
       pandoc
+      android-tools
       texlive.combined.scheme-medium
       mkcert
       pkgs.nodePackages."prettier"

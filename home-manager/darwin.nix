@@ -28,7 +28,7 @@
   };
   nix = {
     linux-builder = {
-      enable = true;
+      enable = false;
       ephemeral = true;
       maxJobs = 4;
       config = {
@@ -78,23 +78,26 @@
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
   environment.systemPackages = with pkgs; [
-    lldb_16
-    git
-    bat
-    ripgrep
-    wget
-    curl
-    eza
-    man-pages
-    man-pages-posix
-    wezterm
     _1password
+    bat
+    curl
+    discord
+    eza
+    git
+    lldb_16
+    # man-pages
+    # man-pages-posix
     nixos-rebuild
     nushell
+    ripgrep
     spotify
-    discord
+    wezterm
+    wget
+    zellij
+    tmux
     (pkgs.writeScriptBin "rebuild-darwin"
       ''
+        nix flake update ~/dotfiles/home-manager
         darwin-rebuild switch --flake ~/dotfiles/home-manager
       '')
   ];

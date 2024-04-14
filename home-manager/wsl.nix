@@ -68,6 +68,9 @@ with lib; {
         BROWSER = "wsl-open";
       };
     };
+    environment.shellAliases = {
+      ssh = "ssh.exe";
+    };
 
     virtualisation.podman = {
       enable = true;
@@ -83,7 +86,6 @@ with lib; {
       # socketGroup = "docker";
       # socketMode = "0660";
     };
-
     services = {
       tailscale.enable = true;
       postgresql = {

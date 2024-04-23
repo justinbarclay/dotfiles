@@ -42,7 +42,7 @@ in
       openssh
       act
       # Database
-      postgresql_13
+      postgresql_16
 
       #virtualisation
       podman
@@ -55,7 +55,7 @@ in
       nodejs
       pandoc
       android-tools
-      texlive.combined.scheme-medium
+      texlive.combined.scheme-full
       mkcert
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"

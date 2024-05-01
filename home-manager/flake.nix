@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
+      url = "github:nix-community/NixOS-WSL/0b90c1d982d443358b3f7b3a303405449a2bfe54";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {

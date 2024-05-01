@@ -53,6 +53,7 @@ with lib; {
     programs.dconf.enable = true;
     environment = {
       systemPackages = with pkgs; [
+        # nushell
         git
         bat
         ripgrep

@@ -94,7 +94,7 @@
     wezterm
     wget
     zellij
-    tmux
+
     (pkgs.writeScriptBin "rebuild-darwin"
       ''
         nix flake update ~/dotfiles/home-manager
@@ -112,7 +112,7 @@
     # `CREATE USER postgres SUPERUSER;`
     brews = [
       {
-        name = "postgresql@13";
+        name = "postgresql@16";
         restart_service = true;
         start_service = true;
         link = true;

@@ -9,7 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
+      url = "github:nix-community/NixOS-WSL/0b90c1d982d443358b3f7b3a303405449a2bfe54";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -44,7 +44,7 @@
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "33a166b214c841d6fa5874ccc925871b2394a7e3"; # change the revision
+        rev = "76c2bc6a106076a377fca4334a612d2fad5d49b0"; # change the revision
       });
 
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration

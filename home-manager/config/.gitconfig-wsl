@@ -1,7 +1,7 @@
 [user]
   email = git@justinbarclay.ca
   name = Justin Barclay
-  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGFbygxEvFlS66vaugGRlbXRO4yjozS8G+yYrKh9lmZo
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBqVCte0Vkc+RYfgML98nLwwumgt3T5825/q8Fl5bbbP
 [color]
   ui = true
 [core]

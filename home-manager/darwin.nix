@@ -27,19 +27,33 @@
     };
   };
   nix = {
-
+    linux-builder = {
+      enable = false;
+      ephemeral = true;
+      maxJobs = 4;
+      config = {
+        virtualisation = {
+          darwin-builder = {
+            diskSize = 40 * 1024;
+            memorySize = 8 * 1024;
+          };
+          cores = 6;
+        };
+      };
+    };
     extraOptions = ''
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)
       experimental-features = nix-command flakes auto-allocate-uids
     '';
     settings = {
-      trusted-users = [ "root" "justin" ];
+      trusted-users = [ "root" "justin" "@admin" ];
       auto-optimise-store = true;
+      extra-trusted-users = "justin";
     };
+
     gc.automatic = true;
   };
-
   # Enable experimental nix command and flake
 
   # Create /etc/.zshrc that loads the nix-darwin environment.
@@ -64,23 +78,26 @@
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
   environment.systemPackages = with pkgs; [
-    lldb_16
-    git
+    _1password
     bat
-    ripgrep
-    wget
     curl
-    eza
-    man-pages
-    man-pages-posix
-    ripgrep
-    wezterm
-    nushell
-
-    spotify
     discord
+    eza
+    git
+    lldb_16
+    # man-pages
+    # man-pages-posix
+    nixos-rebuild
+    nushell
+    ripgrep
+    spotify
+    wezterm
+    wget
+    zellij
+
     (pkgs.writeScriptBin "rebuild-darwin"
       ''
+        nix flake update ~/dotfiles/home-manager
         darwin-rebuild switch --flake ~/dotfiles/home-manager
       '')
   ];
@@ -88,22 +105,18 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
+    onActivation.autoUpdate = false;
+    onActivation.upgrade = true;
 
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
     brews = [
       {
-        name = "postgresql@13";
+        name = "postgresql@16";
         restart_service = true;
         start_service = true;
         link = true;
         conflicts_with = [ "postgresql" ];
-      }
-      {
-        name = "podman";
-        link = true;
-        restart_service = true;
-        start_service = true;
       }
       {
         name = "pngpaste";
@@ -116,19 +129,17 @@
       "hiddenbar"
       "raycast"
       "drata-agent"
-      "1password-cli"
       "docker"
       "vlc"
       "kap"
       "keycastr"
+      "calibre"
     ];
   };
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";
   environment.shells = [ pkgs.nushell pkgs.zsh pkgs.bashInteractive ];
-  environment.shellAliases = {
-    docker = "podman";
-  };
+
   # https://github.com/nix-community/home-manager/issues/423
   programs.nix-index.enable = true;
 

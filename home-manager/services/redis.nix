@@ -38,7 +38,7 @@ with lib; {
 
 
       # Direct log output for debugging.
-      launchd.user.agents.postgresql.serviceConfig = {
+      launchd.user.agents.redis.serviceConfig = {
         StandardErrorPath = "/Users/postgres/Library/Application Support/Redis/redis.error.log";
         StandardOutPath = "/Users/postgres/Library/Application Support/Redis/redis.out.log";
       };

@@ -3,7 +3,7 @@
   imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
 
   modules.darwin.postgres = {
-    enable = false;
+    enable = true;
     user = "justin";
   };
   modules.darwin.pueue = {
@@ -24,6 +24,12 @@
       name = "justin";
       shell = pkgs.nushell;
       home = "/Users/justin";
+    };
+    postgres = {
+      name = "postgres";
+      home = "/Users/postgres";
+      description = "PostgreSQL user";
+      # "/Users/justin/Library/Application Support/Postgresql/.keep".text = "";
     };
   };
   nix = {
@@ -94,7 +100,6 @@
     wezterm
     wget
     zellij
-
     (pkgs.writeScriptBin "rebuild-darwin"
       ''
         nix flake update ~/dotfiles/home-manager
@@ -112,13 +117,6 @@
     # `CREATE USER postgres SUPERUSER;`
     brews = [
       {
-        name = "postgresql@16";
-        restart_service = true;
-        start_service = true;
-        link = true;
-        conflicts_with = [ "postgresql" ];
-      }
-      {
         name = "pngpaste";
         link = true;
       }
@@ -132,6 +130,7 @@
       "docker"
       "vlc"
       "kap"
+      "istat-menus"
       "keycastr"
       "calibre"
     ];

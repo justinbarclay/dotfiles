@@ -48,8 +48,6 @@ in
       # Basic shell setup
       openssh
       act
-      # Database
-      postgresql_16
 
       #virtualisation
       podman

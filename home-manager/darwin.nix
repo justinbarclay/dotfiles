@@ -143,8 +143,7 @@
   programs.nix-index.enable = true;
 
   # Fonts
-  fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [ nerdfonts powerline-fonts ];
+  fonts.packages = with pkgs; [ nerdfonts powerline-fonts ];
 
   # Darwin System configuration
   system = {

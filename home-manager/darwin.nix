@@ -76,6 +76,7 @@
   # Auto upgrade nix package and the daemon service.
   services = {
     nix-daemon.enable = true;
+    postgresql.enable = true;
     activate-system.enable = true;
     tailscale.enable = true;
   };

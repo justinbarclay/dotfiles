@@ -35,7 +35,7 @@ config.font = wezterm.font_with_fallback {
 }
 config.font_size = default_font_size;
 -- For example, changing the color scheme:
-config.color_scheme = 'Everblush (Gogh)'
+config.color_scheme = 'Laserwave (Gogh)'
 
 -- and finally, return the configuration to wezterm
 return config

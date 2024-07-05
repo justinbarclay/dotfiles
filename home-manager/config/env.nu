@@ -4,8 +4,6 @@ if (not ((sys host | get name) == "Windows")) {
    $env.PATH = ($env.PATH | split row (char esep) | prepend [$"($env.HOME)/.local/bin",$"($env.HOME)/bin",$"($env.HOME)/.cargo/bin",$"($env.HOME)/.config/home-manager/scripts"])
    $env.AWS_REGION = ca-central-1
 }
-mkdir ~/.cache/starship
-starship init nu | save -f ~/.cache/starship/init.nu
 
 zoxide init nushell |
   str replace "def-env" "def --env" --all |  # https://github.com/ajeetdsouza/zoxide/pull/632

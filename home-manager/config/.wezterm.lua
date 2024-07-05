@@ -28,7 +28,9 @@ config.window_frame = {
   -- Default to 10.0 on Windows but 12.0 on other systems
   font_size = default_font_size,
 }
-
+if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
+   config.default_prog = { 'nu', '-l' }
+end
 config.font = wezterm.font_with_fallback {
   'CaskaydiaCove Nerd Font Mono',
   'DengXian',

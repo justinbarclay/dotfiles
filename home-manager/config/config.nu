@@ -758,10 +758,11 @@ $env.config = {
 
 def good_morning [ ] {
   let tidal_wave = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd \\wsl.localhost\nixos\home\justin\dev\tidal\tidal-wave)
-  wezterm.exe cli send-text --pane-id $tidal_wave "tidal-aws mmp\r\n" --no-paste
   wezterm.exe cli set-tab-title --pane-id $tidal_wave "Tidal Wave🌊"
   let mmp = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd \\wsl.localhost\nixos\home\justin\dev\tidal\application-inventory)
-  wezterm.exe cli set-tab-title --pane-id $tidal_wave "MMP ♦️"
+  wezterm.exe cli set-tab-title --pane-id $mmp "MMP ♦️"
+  wezterm.exe cli send-text --pane-id $mmp "tidal-aws mmp\r\n" --no-paste
+
 }
 
 def select_service [cluster] {

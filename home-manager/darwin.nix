@@ -3,9 +3,10 @@
   imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
 
   modules.darwin.postgres = {
-    enable = true;
+    enable = false;
     user = "justin";
   };
+
   modules.darwin.pueue = {
     enable = true;
   };
@@ -32,6 +33,8 @@
       # "/Users/justin/Library/Application Support/Postgresql/.keep".text = "";
     };
   };
+
+  pngpaste = pkgs.callPackage ./packages/pngpaste { };
   nix = {
     linux-builder = {
       enable = false;
@@ -84,29 +87,31 @@
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
-  environment.systemPackages = with pkgs; [
-    _1password
-    bat
-    curl
-    discord
-    eza
-    git
-    lldb_16
-    # man-pages
-    # man-pages-posix
-    nixos-rebuild
-    nushell
-    ripgrep
-    spotify
-    wezterm
-    wget
-    zellij
-    (pkgs.writeScriptBin "rebuild-darwin"
-      ''
-        nix flake update ~/dotfiles/home-manager
-        darwin-rebuild switch --flake ~/dotfiles/home-manager
-      '')
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      _1password
+      bat
+      curl
+      discord
+      eza
+      git
+      lldb_16
+      pngpaste
+      # man-pages
+      # man-pages-posix
+      nixos-rebuild
+      nushell
+      ripgrep
+      spotify
+      wezterm
+      wget
+      zellij
+      (pkgs.writeScriptBin "rebuild-darwin"
+        ''
+          nix flake update ~/dotfiles/home-manager
+          darwin-rebuild switch --flake ~/dotfiles/home-manager
+        '')
+    ];
   # So we also use homebrew for GUI packages we want to launch through spotlight/raycast
   homebrew = {
     enable = true;
@@ -116,12 +121,6 @@
 
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
-    brews = [
-      {
-        name = "pngpaste";
-        link = true;
-      }
-    ];
     casks = [
       "rectangle"
       "topnotch"

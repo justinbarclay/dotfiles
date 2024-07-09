@@ -33,8 +33,6 @@
       # "/Users/justin/Library/Application Support/Postgresql/.keep".text = "";
     };
   };
-
-  pngpaste = pkgs.callPackage ./packages/pngpaste { };
   nix = {
     linux-builder = {
       enable = false;
@@ -96,7 +94,7 @@
       eza
       git
       lldb_16
-      pngpaste
+      (pkgs.callPackage ./packages/pngpaste.nix { })
       # man-pages
       # man-pages-posix
       nixos-rebuild

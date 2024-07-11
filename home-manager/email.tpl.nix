@@ -40,25 +40,25 @@ with lib; {
         userName = "{{ op://Private/fastmail-smtp/username }}";
       };
 
-      accounts.gmail = {
-        flavor = "gmail.com";
-        address = "{{ op://Private/gmail-smtp/username }}";
-        imap =
-          {
-            host = "imap.gmail.com";
-            port = 993;
-          };
-        mbsync = {
-          enable = true;
-          create = "maildir";
-        };
-        msmtp.enable = true;
-        mu.enable = true;
-        primary = false;
-        realName = "Justin Barclay";
-        passwordCommand = if pkgs.stdenv.isDarwin then "/usr/local/bin/op item get gmail-smtp --field password" else "op.exe item get gmail-smtp --field password";
-        userName = "{{ op://Private/gmail-smtp/username }}";
-      };
+      # accounts.gmail = {
+      #   flavor = "gmail.com";
+      #   address = "{{ op://Private/gmail-smtp/username }}";
+      #   imap =
+      #     {
+      #       host = "imap.gmail.com";
+      #       port = 993;
+      #     };
+      #   mbsync = {
+      #     enable = true;
+      #     create = "maildir";
+      #   };
+      #   msmtp.enable = true;
+      #   mu.enable = true;
+      #   primary = false;
+      #   realName = "Justin Barclay";
+      #   passwordCommand = if pkgs.stdenv.isDarwin then "/usr/local/bin/op item get gmail-smtp --field password" else "op.exe item get gmail-smtp --field password";
+      #   userName = "{{ op://Private/gmail-smtp/username }}";
+      # };
     };
   };
 }

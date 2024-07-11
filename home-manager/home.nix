@@ -9,16 +9,16 @@ in
     ./emacs.nix
     ./nushell.nix
     ./gtk.nix
-    # ./email.nix
+    ./email.nix
   ];
   modules.git = {
     is-darwin = stdenv.isDarwin;
     enable = true;
   };
   modules.zsh.enable = false;
-  # modules.email = {
-  #   enable = true;
-  # };
+  modules.email = {
+    enable = true;
+  };
   modules.nushell = {
     enable = true;
     start-pueue = stdenv.isLinux;

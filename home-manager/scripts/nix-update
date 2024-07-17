@@ -1,5 +1,4 @@
 #!/bin/sh
-nix-channel --update
 cd ~/.config/home-manager
 
 case $(uname) in

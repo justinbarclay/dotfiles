@@ -3,7 +3,6 @@
 with lib;
 
 let
-
   cfg = config.modules.darwin.mbsync;
 
   mbsyncOptions = [ "--all" ] ++ optional (cfg.verbose) "--verbose";

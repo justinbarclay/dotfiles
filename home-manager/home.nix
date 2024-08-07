@@ -67,6 +67,28 @@ in
       pkgs.nodePackages."prettier"
       pkgs.nodePackages."typescript-language-server"
       eslint_d
+      (pkgs.writeScriptBin "nix-update"
+        ''
+          cd ~/.config/home-manager
+
+          case $(uname) in
+            Linux)
+              op.exe inject -i email.tpl.nix -o email.nix
+              ;;
+            Darwin)
+              op inject -i email.tpl.nix -o email.nix
+              ;;
+            '*')
+              echo Hi, stranger!
+              ;;
+          esac
+          export NIXPKGS_ALLOW_BROKEN=1;
+
+          nix flake update
+          home-manager switch
+
+          shred -u ./email.nix
+        '')
     ];
 
     file.".npmrc" = {

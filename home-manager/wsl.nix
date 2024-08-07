@@ -37,22 +37,28 @@ with lib; {
     fonts.packages = with pkgs; [ nerdfonts powerline-fonts ];
     i18n.defaultLocale = "en_CA.UTF-8";
 
-    programs.zsh = {
-      enable = true;
-      loginShellInit = ''
-        if [[ $- == *i* ]]; then
-          exec nu "$@"
-        fi
-      '';
+    programs = {
+      zsh = {
+        enable = true;
+        loginShellInit = ''
+          if [[ $- == *i* ]]; then
+            exec nu "$@"
+          fi
+        '';
+      };
       shellAliases =
         {
           ssh = "ssh.exe";
           ssh-add = "ssh-add.exe";
         };
     };
-    programs.dconf.enable = true;
-    environment = {
-      systemPackages = with pkgs; [
+
+    dconf.enable = true;
+  };
+
+  environment = {
+    systemPackages = with pkgs;
+      [
         # nushell
         git
         bat
@@ -64,45 +70,50 @@ with lib; {
         man-pages
         roboto-mono
         man-pages-posix
+        (pkgs.writeScriptBin "rebuild-nix"
+          ''
+            sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure
+          '')
       ];
-      variables = rec {
-        BROWSER = "wsl-open";
-      };
-    };
-    environment.shellAliases = {
-      ssh = "ssh.exe";
-    };
 
-    virtualisation.podman = {
-      enable = true;
-      # dockerCompat = true;
-      # dockerSocket.enable = true;
+    variables = rec {
+      BROWSER = "wsl-open";
     };
-    virtualisation.docker = {
-      enable = true;
-      # extraOptions = ''
-      #   experimental: true
-      # '';
-      # extraGroups = [ "docker" ];
-      # socketGroup = "docker";
-      # socketMode = "0660";
-    };
-    services = {
-      tailscale.enable = true;
-      postgresql = {
-        enable = true;
-        package = pkgs.postgresql_16;
-        enableTCPIP = true;
-        authentication = pkgs.lib.mkOverride 16 ''
-          local all all trust
-          host all all 127.0.0.1/32 trust
-          host all all ::1/128 trust
-        '';
-      };
-      # Use "" to start a standard redis instance
-      redis.servers."".enable = true;
-      redis.servers."".openFirewall = true;
-    };
-    system.stateVersion = "23.11";
   };
+  environment.shellAliases = {
+    ssh = "ssh.exe";
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    # dockerCompat = true;
+    # dockerSocket.enable = true;
+  };
+  virtualisation.docker = {
+    enable = true;
+    # extraOptions = ''
+    #   experimental: true
+    # '';
+    # extraGroups = [ "docker" ];
+    # socketGroup = "docker";
+    # socketMode = "0660";
+  };
+  services = {
+    tailscale.enable = true;
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql_16;
+      enableTCPIP = true;
+      authentication = pkgs.lib.mkOverride 16 ''
+        local all all trust
+        host all all 127.0.0.1/32 trust
+        host all all ::1/128 trust
+      '';
+    };
+    # Use "" to start a standard redis instance
+    redis.servers."".enable = true;
+    redis.servers."".openFirewall = true;
+  };
+  system.stateVersion = "23.11";
+};
 }

@@ -13,7 +13,6 @@
   modules.darwin.redis = {
     enable = true;
   };
-
   modules.darwin.mbsync = {
     enable = true;
     postExec = "${pkgs.mu}/bin/mu index";
@@ -73,11 +72,20 @@
     '';
   };
 
-
   # Auto upgrade nix package and the daemon service.
   services = {
     nix-daemon.enable = true;
-    postgresql.enable = true;
+    postgresql = {
+      # enable = true;
+      # package = pkgs.postgresql_16;
+      # enableTCPIP = true;
+      # dataDir = "/usr/local/var/postgres";
+      # authentication = pkgs.lib.mkOverride 16 ''
+      #   local all all trust
+      #   host all all 127.0.0.1/32 trust
+      #    host all all ::1/128 trust
+      # '';
+    };
     activate-system.enable = true;
     tailscale.enable = true;
   };
@@ -110,6 +118,7 @@
           darwin-rebuild switch --flake ~/dotfiles/home-manager
         '')
     ];
+
   # So we also use homebrew for GUI packages we want to launch through spotlight/raycast
   homebrew = {
     enable = true;
@@ -123,6 +132,7 @@
       "rectangle"
       "topnotch"
       "hiddenbar"
+      "amethyst"
       "raycast"
       "drata-agent"
       "docker"

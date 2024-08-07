@@ -15,6 +15,7 @@ in
     is-darwin = stdenv.isDarwin;
     enable = true;
   };
+
   modules.zsh.enable = false;
   modules.email = {
     enable = true;
@@ -45,6 +46,7 @@ in
       cowsay
       gnupg
       cachix
+      nil
       # Basic shell setup
       openssh
       act
@@ -77,6 +79,7 @@ in
       executable = false;
       source = ./config/.wezterm.lua;
     };
+
     stateVersion =
       "22.11"; # To figure this out you can comment out the line and see what version it expected.
   };

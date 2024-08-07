@@ -12,8 +12,8 @@ with lib; {
     gtk = {
       enable = true;
       theme = {
-        name = "Materia-dark";
-        package = pkgs.materia-theme;
+        name = "Tokyo Night";
+        package = pkgs.tokyonight-gtk-theme;
       };
     };
 
@@ -21,7 +21,6 @@ with lib; {
       packages = with pkgs; [
         wl-clipboard-x11
         xdg-utils
-
         gtk3
         gsettings-desktop-schemas
       ];

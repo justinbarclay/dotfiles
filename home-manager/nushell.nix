@@ -93,6 +93,7 @@ with lib; {
           client = {
             restart_in_place = false;
             read_local_logs = true;
+            default_parallel_tasks = 2;
             show_confirmation_questions = false;
             show_expanded_aliases = false;
             dark_mode = false;

@@ -114,7 +114,6 @@
       zellij
       (pkgs.writeScriptBin "rebuild-darwin"
         ''
-          nix flake update ~/dotfiles/home-manager
           darwin-rebuild switch --flake ~/dotfiles/home-manager
         '')
     ];

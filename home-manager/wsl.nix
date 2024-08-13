@@ -70,6 +70,7 @@ with lib; {
         man-pages
         roboto-mono
         man-pages-posix
+
         (pkgs.writeScriptBin "rebuild-nix"
           ''
             sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure
@@ -115,5 +116,4 @@ with lib; {
     redis.servers."".openFirewall = true;
   };
   system.stateVersion = "23.11";
-};
 }

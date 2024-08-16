@@ -45,75 +45,77 @@ with lib; {
             exec nu "$@"
           fi
         '';
+        shellAliases =
+          {
+            ssh = "ssh.exe";
+            ssh-add = "ssh-add.exe";
+          };
       };
-      shellAliases =
-        {
-          ssh = "ssh.exe";
-          ssh-add = "ssh-add.exe";
-        };
+
+      dconf.enable = true;
+
+      nix-ld = {
+        enable = true;
+        package = pkgs.nix-ld-rs;
+      };
     };
 
-    dconf.enable = true;
-  };
+    environment = {
+      systemPackages = with pkgs;
+        [
+          # nushell
+          git
+          bat
+          ripgrep
+          wget
+          curl
+          eza
+          wsl-open
+          man-pages
+          roboto-mono
+          man-pages-posix
 
-  environment = {
-    systemPackages = with pkgs;
-      [
-        # nushell
-        git
-        bat
-        ripgrep
-        wget
-        curl
-        eza
-        wsl-open
-        man-pages
-        roboto-mono
-        man-pages-posix
+          (pkgs.writeScriptBin "rebuild-nix"
+            ''
+              sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure
+            '')
+        ];
 
-        (pkgs.writeScriptBin "rebuild-nix"
-          ''
-            sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure
-          '')
-      ];
-
-    variables = rec {
-      BROWSER = "wsl-open";
+      variables = rec {
+        BROWSER = "wsl-open";
+      };
     };
-  };
-  environment.shellAliases = {
-    ssh = "ssh.exe";
-  };
 
-  virtualisation.podman = {
-    enable = true;
-    # dockerCompat = true;
-    # dockerSocket.enable = true;
-  };
-  virtualisation.docker = {
-    enable = true;
-    # extraOptions = ''
-    #   experimental: true
-    # '';
-    # extraGroups = [ "docker" ];
-    # socketGroup = "docker";
-    # socketMode = "0660";
-  };
-  services = {
-    tailscale.enable = true;
-    postgresql = {
+    virtualisation.podman = {
       enable = true;
-      package = pkgs.postgresql_16;
-      enableTCPIP = true;
-      authentication = pkgs.lib.mkOverride 16 ''
-        local all all trust
-        host all all 127.0.0.1/32 trust
-        host all all ::1/128 trust
-      '';
+      # dockerCompat = true;
+      # dockerSocket.enable = true;
     };
-    # Use "" to start a standard redis instance
-    redis.servers."".enable = true;
-    redis.servers."".openFirewall = true;
+    virtualisation.docker = {
+      enable = true;
+      # extraOptions = ''
+      #   experimental: true
+      # '';
+      # extraGroups = [ "docker" ];
+      # socketGroup = "docker";
+      # socketMode = "0660";
+    };
+    services = {
+      tailscale.enable = true;
+      postgresql = {
+        enable = true;
+        package = pkgs.postgresql_16;
+        enableTCPIP = true;
+        authentication = pkgs.lib.mkOverride 16 ''
+          local all all trust
+          host all all 127.0.0.1/32 trust
+          host all all ::1/128 trust
+        '';
+      };
+      # Use "" to start a standard redis instance
+      redis.servers."".enable = true;
+      redis.servers."".openFirewall = true;
+    };
+    system.stateVersion = "23.11";
   };
-  system.stateVersion = "23.11";
 }

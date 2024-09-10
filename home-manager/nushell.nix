@@ -34,12 +34,6 @@ with lib; {
       enableNushellIntegration = true;
     };
 
-    home.file.".config/starship.toml" = {
-      executable = false;
-      enable = true;
-      source = ./config/starship.toml;
-    };
-
     programs.atuin = {
       enable = true;
       enableNushellIntegration = true;
@@ -50,6 +44,12 @@ with lib; {
         sync_frequency = "1h";
         search_mode = "skim";
       };
+    };
+
+    home.file.".config/starship.toml" = {
+      executable = false;
+      enable = true;
+      source = ./config/starship.toml;
     };
 
     programs.zoxide = {

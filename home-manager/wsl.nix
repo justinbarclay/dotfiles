@@ -63,6 +63,11 @@ with lib; {
     environment = {
       systemPackages = with pkgs;
         [
+          # use the windows variant off ssh for better interaction with 1Password's SSH agent.
+          (pkgs.writeScriptBin "ssh"
+            ''
+              /mnt/c/Windows/System32/OpenSSH/ssh.exe "$@"
+            '')
           # nushell
           git
           bat

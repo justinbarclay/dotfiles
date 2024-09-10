@@ -7,7 +7,7 @@
 [core]
   editor = emacs
   excludesfile = ~/.gitignore
-  sshCommand = ssh.exe
+  sshCommand = /mnt/c/Windows/System32/OpenSSH/ssh.exe
 [init]
   defaultBranch = main
 [pull]

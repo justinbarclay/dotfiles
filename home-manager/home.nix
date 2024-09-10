@@ -51,8 +51,6 @@ in
       gnupg
       cachix
       nil
-      # Basic shell setup
-      openssh
       act
 
       #virtualisation

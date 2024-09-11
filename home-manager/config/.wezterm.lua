@@ -36,6 +36,8 @@ config.font = wezterm.font_with_fallback {
   'DengXian',
 }
 config.font_size = default_font_size;
+
+config.front_end = 'WebGpu';
 -- For example, changing the color scheme:
 config.color_scheme = 'Laserwave (Gogh)'
 

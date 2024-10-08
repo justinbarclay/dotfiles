@@ -139,7 +139,7 @@
       "kap"
       "istat-menus"
       "keycastr"
-      "calibre"
+      # "calibre"
     ];
   };
 

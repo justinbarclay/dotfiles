@@ -14,3 +14,7 @@ if ((sys host | get name) == "NixOS") {
   $env.WINDOWS_HOST = (ip route | grep default | awk '{print $3; exit;}')
   $env.DISPLAY = ($env.WINDOWS_HOST + ":0")
 }
+
+if ((sys host | get name) == "Windows") {
+  $env.KOMOREBI_CONFIG_HOME = $"($env.HOME)/.config/komorebi"
+}

@@ -91,7 +91,7 @@ $env.config = {
         vi_insert: block # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (block is the default)
         vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
-    footer_mode: "25" # always, never, number_of_rows, auto
+    footer_mode: 25 # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
     use_ansi_coloring: true
@@ -762,12 +762,15 @@ $env.config = {
 }
 
 def good_morning [ ] {
+  if (not ((sys host | get name) == "Windows")) {
+ print "Good Morning Justin"
+} else {
   let tidal_wave = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd \\wsl.localhost\nixos\home\justin\dev\tidal\tidal-wave)
   wezterm.exe cli set-tab-title --pane-id $tidal_wave "Tidal Wave🌊"
   let mmp = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd \\wsl.localhost\nixos\home\justin\dev\tidal\application-inventory)
   wezterm.exe cli set-tab-title --pane-id $mmp "MMP ♦️"
   wezterm.exe cli send-text --pane-id $mmp "tidal-aws mmp\r\n" --no-paste
-
+}
 }
 
 def select_service [cluster] {
@@ -797,11 +800,6 @@ def get_service_ip_addresses [cluster: string # ECS Cluster to search through
   # Get the public IP addresses of the EC2 instances
 
   aws ec2 describe-instances --instance-ids ...$ec2_instance_ids | from json | get Reservations | get Instances | each {|i| select PrivateIpAddress InstanceId } | flatten
-}
-
-
-if (not ((sys host | get name) == "Windows")) {
- hide good_morning
 }
 
 source ~/.cache/starship/init.nu

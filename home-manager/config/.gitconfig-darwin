@@ -24,3 +24,5 @@
 	sort = -committerdate
 [github]
   user = justinbarclay
+[alias]
+  cleanup = "!git branch --merged | rg -v '^\\*|master|main' | xargs -n 1 git branch -d"

@@ -79,7 +79,7 @@
           modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
         };
 
-      darwinConfigurations."Heimdall" = nix-darwin.lib.darwinSystem
+      darwinConfigurations."heimdall" = nix-darwin.lib.darwinSystem
         {
           system = "aarch64-darwin";
           modules = [

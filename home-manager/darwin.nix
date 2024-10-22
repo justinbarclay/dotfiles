@@ -118,6 +118,10 @@
         '')
     ];
 
+  networking = {
+    hostName = "heimdall";
+    computerName = "heimdall";
+  };
   # So we also use homebrew for GUI packages we want to launch through spotlight/raycast
   homebrew = {
     enable = true;
@@ -139,7 +143,7 @@
       "kap"
       "istat-menus"
       "keycastr"
-      "calibre"
+      # "calibre"
     ];
   };
 
@@ -163,7 +167,7 @@
         show-recents = false;
         launchanim = true;
       };
-      smb.NetBIOSName = "Heimdall";
+      smb.NetBIOSName = "heimdall";
       finder = {
         AppleShowAllExtensions = true;
         _FXShowPosixPathInTitle = false;

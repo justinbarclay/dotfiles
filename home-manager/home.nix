@@ -66,8 +66,8 @@ in
       android-tools
       texlive.combined.scheme-full
       mkcert
-      pkgs.nodePackages."prettier"
-      pkgs.nodePackages."typescript-language-server"
+      nodePackages."prettier"
+      nodePackages."typescript-language-server"
       eslint_d
       (pkgs.writeScriptBin "nix-update"
         ''

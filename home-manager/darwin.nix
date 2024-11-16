@@ -54,10 +54,9 @@
     '';
     settings = {
       trusted-users = [ "root" "justin" "@admin" ];
-      auto-optimise-store = true;
       extra-trusted-users = "justin";
     };
-
+    optimise.automatic = true;
     gc.automatic = true;
   };
   # Enable experimental nix command and flake
@@ -86,7 +85,6 @@
       #    host all all ::1/128 trust
       # '';
     };
-    activate-system.enable = true;
     tailscale.enable = true;
   };
 
@@ -132,7 +130,6 @@
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
     casks = [
-      "rectangle"
       "topnotch"
       "hiddenbar"
       "amethyst"

@@ -66,7 +66,6 @@
           extraSpecialArgs = {
             inherit system;
             inherit user;
-
           };
           modules = [ ./home.nix ];
         };

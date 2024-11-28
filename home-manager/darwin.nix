@@ -93,7 +93,7 @@
   # Issue: https://github.com/nix-community/home-manager/issues/1341
   environment.systemPackages = with pkgs;
     [
-      _1password
+      _1password-cli
       bat
       curl
       discord
@@ -151,7 +151,7 @@
   programs.nix-index.enable = true;
 
   # Fonts
-  fonts.packages = with pkgs; [ nerdfonts powerline-fonts ];
+  fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts ];
 
   # Darwin System configuration
   system = {

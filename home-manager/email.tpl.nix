@@ -36,7 +36,7 @@ with lib; {
         mu.enable = true;
         primary = true;
         realName = "Justin Barclay";
-        passwordCommand = if pkgs.stdenv.isDarwin then "op item get fastmail-smtp --field password" else "op.exe item get fastmail-smtp --field password";
+        passwordCommand = if pkgs.stdenv.isDarwin then "op item get fastmail-smtp --field password --reveal" else "op.exe item get fastmail-smtp --field password --reveal";
         userName = "{{ op://Private/fastmail-smtp/username }}";
       };
 

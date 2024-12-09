@@ -74,15 +74,12 @@ with lib; {
           }
         else
           { });
-      # extraEnv = ''
-      #   let atuin_cache = "${config.xdg.cacheHome}/atuin"
-      #   if not ($atuin_cache | path exists) {
-      #     mkdir $atuin_cache
-      #   }
-      #   ${pkgs.atuin}/bin/atuin init nu --disable-up-arrow | str replace --all 'let-env ' '$env.' | save --force ${config.xdg.cacheHome}/atuin/init.nu
-      # '';
+
+      extraEnv = ''
+        $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS | append ${pkgs.tidal-aws-full}/share/tidal-aws)
+      '';
       extraConfig = ''
-        use ${pkgs.tidal-aws-full}/share/tidal-aws/tidal-aws.nu
+        use tidal-aws.nu
       '';
     };
 

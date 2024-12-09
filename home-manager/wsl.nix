@@ -34,7 +34,7 @@ with lib; {
         <dir>/mnt/c/Windows/Fonts</dir>
       '';
     };
-    fonts.packages = with pkgs; [ nerdfonts powerline-fonts ];
+    fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts ];
     i18n.defaultLocale = "en_CA.UTF-8";
 
     programs = {

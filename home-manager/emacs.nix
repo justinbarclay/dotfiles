@@ -34,7 +34,7 @@ with lib; {
           (emacs-git.override {
             withSQLite3 = true;
             withGTK3 = config.modules.emacs.with-gtk;
-            withXwidgets = config.modules.emacs.with-gtk;
+            # withXwidgets = config.modules.emacs.with-gtk;
           })
 
           # Let's spell good

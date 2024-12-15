@@ -106,7 +106,6 @@
       nixos-rebuild
       nushell
       ripgrep
-      spotify
       wezterm
       wget
       zellij

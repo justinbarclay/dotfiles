@@ -43,6 +43,7 @@ with lib; {
 
           emacsPackages.mu4e
           emacsPackages.auctex
+          ltex-ls
           # Dirvish
           coreutils
           fd

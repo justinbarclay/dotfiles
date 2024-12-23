@@ -44,6 +44,7 @@ with lib; {
           emacsPackages.mu4e
           emacsPackages.auctex
           ltex-ls
+          leetcode-cli
           # Dirvish
           coreutils
           fd
@@ -51,6 +52,13 @@ with lib; {
           ffmpegthumbnailer
           poppler
           nil
+
+          # code-compass
+          python3
+          cloc
+          gource
+          zulu23
+          code-maat
         ];
     };
 }

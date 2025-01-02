@@ -19,6 +19,7 @@ in
   modules.zsh.enable = false;
   modules.email = {
     enable = true;
+    username = builtins.getEnv "fastmailUsername";
   };
   modules.nushell = {
     enable = true;
@@ -72,24 +73,25 @@ in
       (pkgs.writeScriptBin "nix-update"
         ''
           cd ~/.config/home-manager
+          export NIXPKGS_ALLOW_BROKEN=1;
+
+          nix flake update
 
           case $(uname) in
             Linux)
-              op.exe inject -i email.tpl.nix -o email.nix
+              OP_COMMAND="op.exe read"
               ;;
             Darwin)
-              op inject -i email.tpl.nix -o email.nix
+              OP_COMMAND="op read"
               ;;
             '*')
               echo Hi, stranger!
               ;;
           esac
-          export NIXPKGS_ALLOW_BROKEN=1;
 
-          nix flake update
-          home-manager switch
-
-          shred -u ./email.nix
+          export fastmailUsername=$($OP_COMMAND op://Private/fastmail-smtp/username)
+          # Allow environment variables to be read for fastmail username
+          home-manager switch --impure
         '')
     ];
 

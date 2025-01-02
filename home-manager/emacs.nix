@@ -14,6 +14,15 @@ with lib; {
 
   config = mkIf config.modules.emacs.enable
     {
+      programs.emacs = {
+        enable = true;
+        package = pkgs.emacs-git.override {
+          withSQLite3 = true;
+          withGTK3 = config.modules.emacs.with-gtk;
+          # withXwidgets = config.modules.emacs.with-gtk;
+        };
+        extraPackages = (epkgs: [ epkgs.treesit-grammars.with-all-grammars epkgs.mu4e epkgs.auctex ]);
+      };
       home.sessionVariables = {
         EDITOR = "emacs";
       };
@@ -31,18 +40,12 @@ with lib; {
           # Needed for things like custom treesitter builds or vterm
           gcc
 
-          (emacs-git.override {
-            withSQLite3 = true;
-            withGTK3 = config.modules.emacs.with-gtk;
-            # withXwidgets = config.modules.emacs.with-gtk;
-          })
-
           # Let's spell good
           hunspell
           hunspellDicts.en_CA
 
-          emacsPackages.mu4e
-          emacsPackages.auctex
+
+
           ltex-ls
           leetcode-cli
           # Dirvish

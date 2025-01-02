@@ -33,7 +33,6 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 end
 config.font = wezterm.font_with_fallback {
   'CaskaydiaCove Nerd Font Mono',
-  'DengXian',
 }
 config.font_size = default_font_size;
 

@@ -99,7 +99,7 @@
       discord
       eza
       git
-      lldb_16
+      lldb_19
       (pkgs.callPackage ./packages/pngpaste.nix { })
       # man-pages
       # man-pages-posix
@@ -150,7 +150,7 @@
   programs.nix-index.enable = true;
 
   # Fonts
-  fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts ];
+  fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts paratype-pt-mono ];
 
   # Darwin System configuration
   system = {

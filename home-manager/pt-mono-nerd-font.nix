@@ -6,7 +6,7 @@
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "paratype-pt-mono-nerd";
-  version = "1.8.0-${nerd-font-patcher.version}";
+  version = "2.005-${nerd-font-patcher.version}";
 
   src = paratype-pt-mono;
 
@@ -20,8 +20,8 @@ stdenvNoCC.mkDerivation rec {
   buildPhase = ''
     runHook preBuild
     mkdir -p build/
-    for f in share/fonts/opentype/*; do
-      nerd-font-patcher $f --complete --no-progressbars --outputdir build
+    for f in share/fonts/truetype/*; do
+      nerd-font-patcher $f --complete --no-progressbars --outputdir ./build
       # note: this will *not* return an error exit code on failure, but instead
       # write out a corrupt file, so an additional check phase is required
     done
@@ -46,8 +46,8 @@ stdenvNoCC.mkDerivation rec {
 
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/share/fonts/opentype/
-    install -Dm 444 build/* $out/share/fonts/opentype/
+    mkdir -p $out/share/fonts/truetype
+    install -Dm 444 build/* $out/share/fonts/truetype
     runHook postInstall
   '';
 

@@ -1,5 +1,9 @@
 { lib, pkgs, config, ... }:
-
+let
+  paratype-pt-mono-nerd-patched = (pkgs.callPackage ./pt-mono-nerd-font.nix {
+    paratype-pt-mono = pkgs.paratype-pt-mono;
+  });
+in
 with builtins;
 with lib; {
   config = {
@@ -34,8 +38,15 @@ with lib; {
         <dir>/mnt/c/Windows/Fonts</dir>
       '';
     };
-    fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts paratype-pt-mono ];
-    i18n.defaultLocale = "en_CA.UTF-8";
+    fonts.packages = with pkgs; [
+      roboto-mono
+      nerd-fonts.caskaydia-mono
+      yanone-kaffeesatz
+      powerline-fonts
+      paratype-pt-mono
+      paratype-pt-mono-nerd-patched
+    ];
+    i18n. defaultLocale = "en_CA.UTF-8";
 
     programs = {
       zsh = {
@@ -77,7 +88,6 @@ with lib; {
           eza
           wsl-open
           man-pages
-          roboto-mono
           man-pages-posix
 
           (pkgs.writeScriptBin "rebuild-nix"

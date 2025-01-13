@@ -98,7 +98,7 @@ in
     file.".npmrc" = {
       executable = false;
       text = ''
-        prefix = \$\{HOME\}/.npm-packages
+        prefix = ~/.npm-packages
       '';
     };
     file.".wezterm.lua" = {

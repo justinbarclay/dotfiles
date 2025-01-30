@@ -47,6 +47,7 @@ with lib; {
 
 
           ltex-ls
+          harper
           leetcode-cli
           # Dirvish
           coreutils

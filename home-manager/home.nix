@@ -70,6 +70,7 @@ in
       nodePackages."prettier"
       nodePackages."typescript-language-server"
       eslint_d
+      ollama
       (pkgs.writeScriptBin "nix-update"
         ''
           cd ~/.config/home-manager

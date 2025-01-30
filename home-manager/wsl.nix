@@ -89,6 +89,8 @@ with lib; {
           wsl-open
           man-pages
           man-pages-posix
+          home-manager
+          nushell
 
           (pkgs.writeScriptBin "rebuild-nix"
             ''

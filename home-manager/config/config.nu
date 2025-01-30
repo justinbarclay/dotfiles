@@ -802,5 +802,7 @@ def get_service_ip_addresses [cluster: string # ECS Cluster to search through
   aws ec2 describe-instances --instance-ids ...$ec2_instance_ids | from json | get Reservations | get Instances | each {|i| select PrivateIpAddress InstanceId } | flatten
 }
 
-source ~/.cache/starship/init.nu
-source ~/.cache/zoxide/init.nu
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+source ~/.config/zoxide/init.nu

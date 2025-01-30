@@ -69,6 +69,8 @@ in
       mkcert
       nodePackages."prettier"
       nodePackages."typescript-language-server"
+      nodePackages."typescript"
+
       eslint_d
       ollama
       (pkgs.writeScriptBin "nix-update"

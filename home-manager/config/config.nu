@@ -82,8 +82,7 @@ $env.config = {
     }
 
     filesize: {
-        metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
+        unit: metric
     }
 
     cursor_shape: {
@@ -802,7 +801,9 @@ def get_service_ip_addresses [cluster: string # ECS Cluster to search through
   aws ec2 describe-instances --instance-ids ...$ec2_instance_ids | from json | get Reservations | get Instances | each {|i| select PrivateIpAddress InstanceId } | flatten
 }
 
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
-source ~/.config/zoxide/init.nu
+# mkdir ($nu.data-dir | path join "vendor/autoload")
+# starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+source ~/.config/starship/starship.nu
+source ~/.cache/zoxide/init.nu

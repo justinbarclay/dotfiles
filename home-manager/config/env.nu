@@ -5,6 +5,9 @@ if (not ((sys host | get name) == "Windows")) {
    $env.AWS_REGION = "ca-central-1"
 }
 
+mkdir ($nu.home-path | path join ".config/starship")
+starship init nu | save -f ($nu.home-path | path join ".config/starship/starship.nu")
+
 zoxide init nushell | save --force ~/.config/zoxide/init.nu
 
 if ((sys host | get name) == "NixOS") {

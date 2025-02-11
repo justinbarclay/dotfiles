@@ -8,7 +8,8 @@ if (not ((sys host | get name) == "Windows")) {
 mkdir ($nu.home-path | path join ".config/starship")
 starship init nu | save -f ($nu.home-path | path join ".config/starship/starship.nu")
 
-zoxide init nushell | save --force ~/.config/zoxide/init.nu
+mkdir ($nu.home-path | path join ".config/zoxide")
+zoxide init nushell | save -f ($nu.home-path | path join ".config/zoxide/init.nu" )
 
 if ((sys host | get name) == "NixOS") {
   $env.WINDOWS_HOST = (ip route | grep default | awk '{print $3; exit;}')

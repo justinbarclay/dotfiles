@@ -26,6 +26,9 @@ with lib; {
         **/**/shell.nix
         **/**/.envrc
         **/**/.direnv/
+        **/**/.projectile-cache.eld
+        **/**/.projectile.cache
+        .aider*
       '';
     };
 

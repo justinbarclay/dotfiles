@@ -21,7 +21,7 @@ with lib; {
           withGTK3 = config.modules.emacs.with-gtk;
           # withXwidgets = config.modules.emacs.with-gtk;
         };
-        extraPackages = (epkgs: [ epkgs.treesit-grammars.with-all-grammars epkgs.mu4e epkgs.auctex ]);
+        extraPackages = (epkgs: [ epkgs.treesit-grammars.with-all-grammars epkgs.mu4e epkgs.auctex epkgs.vterm ]);
       };
       home.sessionVariables = {
         EDITOR = "emacs";
@@ -57,12 +57,9 @@ with lib; {
           poppler
           nil
 
-          # code-compass
-          python3
           cloc
-          gource
-          zulu23
-          code-maat
+
+          aider-chat
         ];
     };
 }

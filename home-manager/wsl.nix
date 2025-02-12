@@ -1,9 +1,4 @@
 { lib, pkgs, config, ... }:
-let
-  paratype-pt-mono-nerd-patched = (pkgs.callPackage ./pt-mono-nerd-font.nix {
-    paratype-pt-mono = pkgs.paratype-pt-mono;
-  });
-in
 with builtins;
 with lib; {
   config = {
@@ -43,8 +38,6 @@ with lib; {
       nerd-fonts.caskaydia-mono
       yanone-kaffeesatz
       powerline-fonts
-      paratype-pt-mono
-      paratype-pt-mono-nerd-patched
     ];
     i18n. defaultLocale = "en_CA.UTF-8";
 

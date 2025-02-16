@@ -1,11 +1,6 @@
 { pkgs, lib, ... }:
 {
-  imports = [ ./services/postgres.nix ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
-
-  modules.darwin.postgres = {
-    enable = false;
-    user = "justin";
-  };
+  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
 
   modules.darwin.pueue = {
     enable = true;
@@ -25,13 +20,10 @@
       shell = pkgs.nushell;
       home = "/Users/justin";
     };
-    postgres = {
-      name = "postgres";
-      home = "/Users/postgres";
-      description = "PostgreSQL user";
-      # "/Users/justin/Library/Application Support/Postgresql/.keep".text = "";
-    };
   };
+
+  ids.gids.nixbld = 30000;
+
   nix = {
     linux-builder = {
       enable = false;
@@ -73,7 +65,6 @@
 
   # Auto upgrade nix package and the daemon service.
   services = {
-    nix-daemon.enable = true;
     postgresql = {
       # enable = true;
       # package = pkgs.postgresql_16;
@@ -123,11 +114,22 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "zap";
-    onActivation.autoUpdate = false;
+    onActivation.autoUpdate = true;
     onActivation.upgrade = true;
 
+    taps = [
+      "homebrew/bundle"
+      "homebrew/services"
+    ];
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
+    brews = [
+      {
+        name = "postgresql@16";
+        link = true;
+        start_service = true;
+      }
+    ];
     casks = [
       "topnotch"
       "hiddenbar"

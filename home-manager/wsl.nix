@@ -7,7 +7,6 @@ with lib; {
       wslConf.automount.root = "/mnt";
       defaultUser = "justin";
       startMenuLaunchers = true;
-      nativeSystemd = true;
     };
 
     nix = {
@@ -26,12 +25,15 @@ with lib; {
       extraGroups = [ "wheel" "docker" "podman" ];
     };
     time.timeZone = "America/Vancouver";
-    fonts.fontconfig = {
-      enable = true;
-      # https://nixos.wiki/wiki/Fonts#Use_custom_font_substitutions
-      localConf = ''
-        <dir>/mnt/c/Windows/Fonts</dir>
-      '';
+    fonts = {
+      fontconfig = {
+        enable = true;
+        hinting.style = "full";
+        # https://nixos.wiki/wiki/Fonts#Use_custom_font_substitutions
+        localConf = ''
+          <dir>/mnt/c/Windows/Fonts</dir>
+        '';
+      };
     };
     fonts.packages = with pkgs; [
       roboto-mono

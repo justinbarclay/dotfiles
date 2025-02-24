@@ -28,7 +28,8 @@ with lib; {
     fonts = {
       fontconfig = {
         enable = true;
-        hinting.style = "full";
+        hinting.style = "none";
+        subpixel.lcdfilter = "none";
         # https://nixos.wiki/wiki/Fonts#Use_custom_font_substitutions
         localConf = ''
           <dir>/mnt/c/Windows/Fonts</dir>

@@ -16,10 +16,9 @@ with lib; {
     {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacs-git.override {
+        package = pkgs.emacs-unstable.override {
           withSQLite3 = true;
           withGTK3 = config.modules.emacs.with-gtk;
-          # withXwidgets = config.modules.emacs.with-gtk;
         };
         extraPackages = (epkgs: [ epkgs.treesit-grammars.with-all-grammars epkgs.mu4e epkgs.auctex epkgs.vterm ]);
       };
@@ -43,8 +42,6 @@ with lib; {
           # Let's spell good
           hunspell
           hunspellDicts.en_CA
-
-
 
           ltex-ls
           harper

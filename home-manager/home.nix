@@ -73,6 +73,7 @@ in
 
       eslint_d
       ollama
+      tidal.packages.${system}.default
       (pkgs.writeScriptBin "nix-update"
         ''
           cd ~/.config/home-manager

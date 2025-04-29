@@ -16,11 +16,18 @@ with lib; {
     {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacs-unstable.override {
+        package = pkgs.emacs30.override {
           withSQLite3 = true;
           withGTK3 = config.modules.emacs.with-gtk;
+          withNativeCompilation = pkgs.stdenv.isLinux;
         };
-        extraPackages = (epkgs: [ epkgs.treesit-grammars.with-all-grammars epkgs.mu4e epkgs.auctex epkgs.vterm ]);
+        extraPackages =
+          (epkgs: [
+            epkgs.treesit-grammars.with-all-grammars
+            epkgs.auctex
+            epkgs.vterm
+          ] ++
+          (if pkgs.stdenv.isLinux then [ epkgs.mu4e ] else [ ]));
       };
       home.sessionVariables = {
         EDITOR = "emacs";

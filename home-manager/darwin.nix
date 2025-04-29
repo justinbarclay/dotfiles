@@ -9,7 +9,7 @@
     enable = true;
   };
   modules.darwin.mbsync = {
-    enable = true;
+    enable = false;
     postExec = "${pkgs.mu}/bin/mu index";
   };
   # Nix configuration ------------------------------------------------------------------------------

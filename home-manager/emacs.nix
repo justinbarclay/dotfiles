@@ -26,8 +26,8 @@ with lib; {
             epkgs.treesit-grammars.with-all-grammars
             epkgs.auctex
             epkgs.vterm
-          ] ++
-          (if pkgs.stdenv.isLinux then [ epkgs.mu4e ] else [ ]));
+            epkgs.mu4e
+          ]);
       };
       home.sessionVariables = {
         EDITOR = "emacs";

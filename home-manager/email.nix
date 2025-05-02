@@ -16,7 +16,7 @@ with lib;
 
       programs = {
         mu = {
-          enable = false;
+          enable = true;
         };
         msmtp.enable = true;
         mbsync.enable = true;

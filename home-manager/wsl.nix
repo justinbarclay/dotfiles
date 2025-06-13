@@ -15,6 +15,7 @@ with lib; {
       '';
       settings = {
         trusted-users = [ "root" "justin" ];
+        download-buffer-size = 524288000;
         auto-optimise-store = true;
       };
     };
@@ -85,6 +86,7 @@ with lib; {
           wsl-open
           man-pages
           man-pages-posix
+          nodePackages."prettier"
           home-manager
           nushell
 

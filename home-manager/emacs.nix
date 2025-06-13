@@ -37,6 +37,8 @@ with lib; {
           # Needed for network commnunication
           gnutls
 
+          # needed by lsp-mode
+          unzip
           # This needs to be around or GTK gets mad about the themes displayed
           #
           # Used by magit

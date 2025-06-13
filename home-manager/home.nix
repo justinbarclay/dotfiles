@@ -67,7 +67,6 @@ in
       android-tools
       texlive.combined.scheme-full
       mkcert
-      nodePackages."prettier"
       nodePackages."typescript-language-server"
       nodePackages."typescript"
 

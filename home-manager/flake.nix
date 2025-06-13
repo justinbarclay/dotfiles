@@ -37,7 +37,7 @@
     , flake-utils
     , tidal-tools
     , ...
-    }@inputs:
+    }:
     let
       user = "justin";
 

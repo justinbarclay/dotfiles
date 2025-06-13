@@ -102,7 +102,7 @@
       zellij
       (pkgs.writeScriptBin "rebuild-darwin"
         ''
-          darwin-rebuild switch --flake ~/dotfiles/home-manager
+          sudo darwin-rebuild switch --flake ~/dotfiles/home-manager
         '')
     ];
 
@@ -141,7 +141,6 @@
       "kap"
       "istat-menus"
       "keycastr"
-      # "calibre"
     ];
   };
 
@@ -156,6 +155,7 @@
 
   # Darwin System configuration
   system = {
+    primaryUser = "justin";
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
     defaults = {

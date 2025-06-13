@@ -19,3 +19,7 @@ if ((sys host | get name) == "NixOS") {
 if ((sys host | get name) == "Windows") {
   $env.KOMOREBI_CONFIG_HOME = $"($env.HOME)/.config/komorebi"
 }
+
+if ((sys host | get name) == "Darwin") {
+  $env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin')
+}

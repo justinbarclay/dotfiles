@@ -16,7 +16,7 @@ with lib; {
     {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacs30.override {
+        package = pkgs.emacs-igc.override {
           withSQLite3 = true;
           withGTK3 = config.modules.emacs.with-gtk;
           withNativeCompilation = pkgs.stdenv.isLinux;
@@ -66,6 +66,9 @@ with lib; {
           cloc
 
           aider-chat
+
+          vale-ls
+          vale
         ];
     };
 }

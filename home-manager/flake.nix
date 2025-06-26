@@ -44,7 +44,7 @@
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "2d35141c7cfac4d784498427f3ad6f28bf980c3d";
+        rev = "37908db8f6ce22f6db7728c4622d4d02f9ff6d70";
       });
 
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration

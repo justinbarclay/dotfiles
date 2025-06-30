@@ -65,7 +65,7 @@ in
       nodejs_22
       pandoc
       android-tools
-      texlive.combined.scheme-full
+      texliveFull
       mkcert
       nodePackages."typescript-language-server"
       nodePackages."typescript"

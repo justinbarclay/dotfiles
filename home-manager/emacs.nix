@@ -26,6 +26,7 @@ with lib; {
             epkgs.treesit-grammars.with-all-grammars
             epkgs.auctex
             epkgs.vterm
+            epkgs.pdf-tools
             epkgs.mu4e
           ]);
       };

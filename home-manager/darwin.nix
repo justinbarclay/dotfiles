@@ -96,6 +96,7 @@
       # man-pages-posix
       nixos-rebuild
       nushell
+      aerospace
       ripgrep
       wezterm
       wget

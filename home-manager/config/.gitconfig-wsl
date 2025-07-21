@@ -15,7 +15,7 @@
 [gpg]
   format = ssh
 [gpg "ssh"]
-  program = op-ssh-sign.exe
+  program = op-ssh-sign-wsl
 [commit]
   gpgSign = true
 [tag]

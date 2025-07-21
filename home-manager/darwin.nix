@@ -138,11 +138,11 @@
       "amethyst"
       "raycast"
       "drata-agent"
-      "docker"
       "vlc"
       "kap"
       "istat-menus"
       "keycastr"
+      "docker"
     ];
   };
 

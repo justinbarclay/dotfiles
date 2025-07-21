@@ -62,7 +62,7 @@ in
       graphviz
       zip
       bottom
-      nodejs_22
+      nodejs_24
       pandoc
       android-tools
       texliveFull

@@ -77,6 +77,7 @@
       # '';
     };
     tailscale.enable = true;
+    sketchybar = { enable = true; };
   };
 
   # Apps
@@ -122,6 +123,7 @@
     taps = [
       "homebrew/bundle"
       "homebrew/services"
+      "mediosz/tap"
     ];
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
@@ -133,9 +135,11 @@
       }
     ];
     casks = [
-      "topnotch"
-      "hiddenbar"
-      "amethyst"
+      "swipeaerospace"
+      "hyperkey"
+      # "topnotch"
+      # "hiddenbar"
+      # "amethyst"
       "raycast"
       "drata-agent"
       "vlc"

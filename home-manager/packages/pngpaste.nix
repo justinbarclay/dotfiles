@@ -1,6 +1,6 @@
-{ lib, darwin, fetchFromGitHub, ... }:
+{ lib, darwin, stdenv, fetchFromGitHub, ... }:
 
-darwin.apple_sdk.stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   name = "pngpaste";
   version = "0.2.3";
   src = fetchFromGitHub {
@@ -9,10 +9,8 @@ darwin.apple_sdk.stdenv.mkDerivation rec {
     rev = "67c39829fedb97397b691617f10a68af75cf0867";
     hash = "sha256-uvajxSelk1Wfd5is5kmT2fzDShlufBgC0PDCeabEOSE=";
   };
-  buildInputs = with darwin.apple_sdk.frameworks; [
-    AppKit
-    Cocoa
-    Foundation
+  buildInputs = [
+    # darwin.apple-sdk_14
   ];
   installPhase = ''
     mkdir -p $out/bin

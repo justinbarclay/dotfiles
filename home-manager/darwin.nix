@@ -92,7 +92,9 @@
       eza
       git
       lldb_19
-      (pkgs.callPackage ./packages/pngpaste.nix { })
+      (pkgs.callPackage ./packages/pngpaste.nix {
+        darwin = darwin;
+      })
       # man-pages
       # man-pages-posix
       nixos-rebuild
@@ -141,7 +143,6 @@
       # "hiddenbar"
       # "amethyst"
       "raycast"
-      "drata-agent"
       "vlc"
       "kap"
       "istat-menus"

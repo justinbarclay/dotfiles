@@ -70,6 +70,8 @@ with lib; {
 
           vale-ls
           vale
+
+          gemini-cli
         ];
     };
 }

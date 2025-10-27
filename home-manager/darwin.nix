@@ -147,7 +147,7 @@
       "kap"
       "istat-menus"
       "keycastr"
-      "docker"
+      "docker-desktop"
     ];
   };
 

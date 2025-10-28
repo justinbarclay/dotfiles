@@ -72,6 +72,7 @@ with lib; {
           vale
 
           gemini-cli
+          emacs-lsp-booster
         ];
     };
 }

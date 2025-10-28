@@ -24,6 +24,10 @@
       url = "git+ssh://git@github.com/tidalmigrations/tidal-tools";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    emacs-lsp-booster = {
+      url = "github:slotThe/emacs-lsp-booster-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -36,6 +40,7 @@
     , nix-darwin
     , flake-utils
     , tidal-tools
+    , emacs-lsp-booster
     , ...
     }:
     let
@@ -61,6 +66,7 @@
                 })
               emacs-overlay
               tidal-overlay.overlays.default
+              emacs-lsp-booster.overlays.default
             ];
           };
           extraSpecialArgs = {

@@ -62,10 +62,7 @@ with lib; {
 
       dconf.enable = true;
 
-      nix-ld = {
-        enable = true;
-        package = pkgs.nix-ld-rs;
-      };
+      nix-ld.enable = true;
     };
 
     environment = {

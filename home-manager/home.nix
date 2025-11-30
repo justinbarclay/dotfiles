@@ -71,7 +71,7 @@ in
       nodePackages."typescript"
 
       eslint_d
-      ollama
+      # ollama
       tidal.packages.${system}.default
       (pkgs.writeScriptBin "nix-update"
         ''

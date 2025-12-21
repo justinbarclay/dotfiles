@@ -23,7 +23,7 @@ with lib; {
         };
         extraPackages =
           (epkgs: [
-            epkgs.treesit-grammars.with-all-grammars
+            (epkgs.treesit-grammars.with-grammars (ps: lib.filter (p: !p.meta.broken) (lib.attrValues ps)))
             epkgs.auctex
             epkgs.vterm
             epkgs.pdf-tools

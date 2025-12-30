@@ -65,6 +65,76 @@
 
   # Auto upgrade nix package and the daemon service.
   services = {
+    aerospace = {
+      enable = true;
+      settings = {
+        gaps = {
+          outer.left = 0;
+          outer.right = 0;
+          outer.bottom = 0;
+          outer.top = 0;
+          inner.horizontal = 0;
+          inner.vertical = 0;
+        };
+        mode.main.binding = {
+          cmd-ctrl-alt-comma = "mode service";
+
+          cmd-ctrl-alt-1 = "workspace 1";
+          cmd-ctrl-alt-2 = "workspace 2";
+          cmd-ctrl-alt-3 = "workspace 3";
+          cmd-ctrl-alt-c = "workspace c";
+          cmd-ctrl-alt-e = "workspace e";
+          cmd-ctrl-alt-t = "workspace t";
+
+          cmd-ctrl-alt-shift-1 = "move-node-to-workspace 1";
+          cmd-ctrl-alt-shift-2 = "move-node-to-workspace 2";
+          cmd-ctrl-alt-shift-3 = "move-node-to-workspace 3";
+          cmd-ctrl-alt-shift-c = "move-node-to-workspace c";
+          cmd-ctrl-alt-shift-e = "move-node-to-workspace e";
+          cmd-ctrl-alt-shift-t = "move-node-to-workspace t";
+        };
+        mode.service.binding = {
+          cmd-ctrl-alt-comma = [ "reload-config" "mode main" ];
+        };
+        exec-on-workspace-change = [
+          "/bin/bash"
+          "-c"
+          "/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
+        ];
+        on-window-detected = [
+          {
+            "if" = {
+              app-name-regex-substring = "emacs";
+            };
+            run = "move-node-to-workspace e";
+          }
+          {
+            "if" = {
+              app-id = "com.github.wez.wezterm";
+            };
+            run = "move-node-to-workspace t";
+          }
+          {
+            "if" = {
+              app-id = "com.tinyspeck.slackmacgap";
+            };
+            run = "move-node-to-workspace c";
+          }
+          {
+            "if" = {
+              app-id = "com.hnc.Discord";
+            };
+            run = "move-node-to-workspace c";
+          }
+          {
+            "if" = {
+              app-id = "org.whispersystems.signal-desktop";
+            };
+            run = "move-node-to-workspace c";
+          }
+        ];
+      };
+    };
     postgresql = {
       # enable = true;
       # package = pkgs.postgresql_16;
@@ -139,9 +209,6 @@
     casks = [
       "swipeaerospace"
       "hyperkey"
-      # "topnotch"
-      # "hiddenbar"
-      # "amethyst"
       "raycast"
       "vlc"
       "kap"

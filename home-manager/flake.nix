@@ -33,12 +33,11 @@
   outputs =
     { self
     , nixpkgs
-    , emacs-overlay
+      #    , emacs-overlay
     , home-manager
     , tidal-overlay
     , nixos-wsl
     , nix-darwin
-    , flake-utils
     , tidal-tools
     , emacs-lsp-booster
     , ...

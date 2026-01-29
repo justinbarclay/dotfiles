@@ -66,7 +66,7 @@ with lib; {
 
           cloc
 
-          aider-chat
+          # aider-chat
 
           vale-ls
           vale

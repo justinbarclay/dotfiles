@@ -14,6 +14,7 @@
   };
   # Nix configuration ------------------------------------------------------------------------------
   nixpkgs.config.allowUnfree = true;
+
   users.users = {
     justin = {
       name = "justin";
@@ -25,6 +26,8 @@
   ids.gids.nixbld = 30000;
 
   nix = {
+    # use determinate nix to manage nix
+    enable = false;
     linux-builder = {
       enable = false;
       ephemeral = true;
@@ -48,8 +51,8 @@
       trusted-users = [ "root" "justin" "@admin" ];
       extra-trusted-users = "justin";
     };
-    optimise.automatic = true;
-    gc.automatic = true;
+    optimise.automatic = false;
+    gc.automatic = false;
   };
   # Enable experimental nix command and flake
 
@@ -147,7 +150,7 @@
       # '';
     };
     tailscale.enable = true;
-    sketchybar = { enable = true; };
+    sketchybar = { enable = false; };
   };
 
   # Apps
@@ -200,6 +203,7 @@
     # Unfortunately we need to create the postgres superuser ourselves
     # `CREATE USER postgres SUPERUSER;`
     brews = [
+      "rubyfmt"
       {
         name = "postgresql@16";
         link = true;

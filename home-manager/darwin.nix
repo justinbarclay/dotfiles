@@ -150,7 +150,7 @@
       # '';
     };
     tailscale.enable = true;
-    sketchybar = { enable = false; };
+    sketchybar = { enable = true; };
   };
 
   # Apps
@@ -229,7 +229,14 @@
   programs.nix-index.enable = true;
 
   # Fonts
-  fonts.packages = with pkgs; [ nerd-fonts.caskaydia-mono yanone-kaffeesatz powerline-fonts paratype-pt-mono ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.caskaydia-mono
+    nerd-fonts.hack
+    sketchybar-app-font
+    yanone-kaffeesatz
+    powerline-fonts
+    paratype-pt-mono
+  ];
 
   # Darwin System configuration
   system = {

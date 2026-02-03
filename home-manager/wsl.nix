@@ -73,6 +73,8 @@ with lib; {
             ''
               /mnt/c/Windows/System32/OpenSSH/ssh.exe "$@"
             '')
+
+          uwufetch
           # nushell
           git
           bat

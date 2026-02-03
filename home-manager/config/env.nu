@@ -5,11 +5,11 @@ if (not ((sys host | get name) == "Windows")) {
    $env.AWS_REGION = "ca-central-1"
 }
 
-mkdir ($nu.home-path | path join ".config/starship")
-starship init nu | save -f ($nu.home-path | path join ".config/starship/starship.nu")
+mkdir ($nu.home-dir | path join ".config/starship")
+starship init nu | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
 
-mkdir ($nu.home-path | path join ".config/zoxide")
-zoxide init nushell | save -f ($nu.home-path | path join ".config/zoxide/init.nu" )
+mkdir ($nu.home-dir | path join ".config/zoxide")
+zoxide init nushell | save -f ($nu.home-dir | path join ".config/zoxide/init.nu" )
 
 if ((sys host | get name) == "NixOS") {
   $env.WINDOWS_HOST = (ip route | grep default | awk '{print $3; exit;}')

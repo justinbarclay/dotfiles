@@ -71,8 +71,10 @@ with lib; {
           vale-ls
           vale
 
-          gemini-cli
           emacs-lsp-booster
+
+          gemini-cli
+          copilot-cli
         ];
     };
 }

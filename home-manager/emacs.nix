@@ -73,8 +73,9 @@ with lib; {
 
           emacs-lsp-booster
 
+
           gemini-cli
-          copilot-cli
+          github-copilot-cli
         ];
     };
 }

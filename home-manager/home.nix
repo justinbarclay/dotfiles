@@ -64,7 +64,8 @@ in
       bottom
       nodejs_24
       pandoc
-      android-tools
+      multimarkdown
+
       texliveFull
       mkcert
       nodePackages."typescript-language-server"

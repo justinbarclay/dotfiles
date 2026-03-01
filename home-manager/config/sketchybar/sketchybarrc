@@ -15,7 +15,7 @@ source "$CONFIG_DIR/colors.zsh" # Loads all defined colors
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=40 radius=30 color=$BAR_COLOR #color=0xff001f30 color=0x40000000
+sketchybar --bar position=top height=40 corner_radius=30 color=$BAR_COLOR #color=0xff001f30 color=0x40000000
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
@@ -49,7 +49,7 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
   for sid in $(aerospace list-workspaces --monitor "$monitor"); do
     # Determine which display this workspace should be shown on
     display_id="1"
-    if [ "$sid" -ge 8 ] && [ "$sid" -le 10 ]; then
+    if [[ "$sid" =~ ^[0-9]+$ ]] && [ "$sid" -ge 8 ] && [ "$sid" -le 10 ]; then
       display_id="2"
     fi
 
@@ -81,7 +81,7 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
 done
 
 # Load Icons on startup for all monitors
-for monitor in $(aerospace list-monitors); do
+for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-screens-id}"); do
   for sid in $(aerospace list-workspaces --monitor "$monitor" --empty no); do
     apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
 

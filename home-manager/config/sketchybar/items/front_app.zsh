@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 front_app=(
-  label.font="$FONT:Black:12.0"
+  label.font="ProggyClean CE Nerd Font Mono:Regular:18.0"
   icon.background.drawing=on
   display=active
   script="$PLUGIN_DIR/front_app.zsh"
@@ -10,4 +10,3 @@ front_app=(
 sketchybar --add item front_app left         \
            --set front_app "${front_app[@]}" \
            --subscribe front_app front_app_switched
-

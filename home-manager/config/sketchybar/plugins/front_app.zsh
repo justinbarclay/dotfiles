@@ -10,8 +10,10 @@
 #fi
 
 if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set "$NAME" label="$INFO"
+  icon=$($CONFIG_DIR/plugins/icon_map_fn.zsh "$INFO")
+  sketchybar --set "$NAME" icon="$icon" label="$INFO"
 else
   app=$(aerospace list-windows --focused --format "%{app-name}")
-  sketchybar --set "$NAME" label="$app"
+  icon=$($CONFIG_DIR/plugins/icon_map_fn.zsh "$app")
+  sketchybar --set "$NAME" icon="$icon" label="$app"
 fi

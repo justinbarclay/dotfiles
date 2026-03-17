@@ -119,7 +119,8 @@ sketchybar --add item clock right \
   --set clock update_freq=10 script="$PLUGIN_DIR/clock.zsh" \
   --add item volume right \
   --set volume script="$PLUGIN_DIR/volume.zsh" \
-  --subscribe volume volume_change \
+           click_script="osascript -e 'set volume output muted not (output muted of (get volume settings))'" \
+  --subscribe volume volume_change mouse.scrolled \
   --add item battery right \
   --set battery update_freq=120 script="$PLUGIN_DIR/battery.zsh" \
   --subscribe battery system_woke power_source_change \

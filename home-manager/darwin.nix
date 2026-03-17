@@ -177,7 +177,8 @@
       wezterm
       wget
       zellij
-      nodePackages."prettier"
+      nodejs_25
+      nodePackages_latest."prettier"
       (pkgs.writeScriptBin "rebuild-darwin"
         ''
           sudo darwin-rebuild switch --flake ~/dotfiles/home-manager

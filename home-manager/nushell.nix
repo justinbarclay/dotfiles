@@ -22,7 +22,7 @@ with lib; {
         zoxide
         carapace
         fzf
-        tidal-aws-full
+        tidal-dev-tools-full
         tidal
       ];
 
@@ -76,7 +76,7 @@ with lib; {
           { });
 
       extraEnv = ''
-        $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS | append ${pkgs.tidal-aws-full}/share/tidal-aws)
+        $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS | append ${pkgs.tidal-dev-tools-full}/share/tidal-aws | append ${pkgs.tidal-dev-tools-full}/share/tidal-certs  )
       '';
       extraConfig = ''
         use tidal-aws.nu

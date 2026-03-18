@@ -33,7 +33,6 @@
   outputs =
     { self
     , nixpkgs
-      # , emacs-overlay
     , home-manager
     , tidal-overlay
     , nixos-wsl
@@ -48,7 +47,7 @@
       emacs-overlay = import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "20c4fcd7890cff1cb07df5e0da0b9842f4edfcd1";
+        rev = "7440fb92bd4f38dd351dd3410f711f4aa7a4e7e8";
       });
 
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration

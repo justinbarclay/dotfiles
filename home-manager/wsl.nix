@@ -130,6 +130,6 @@ with lib; {
       redis.servers."".enable = true;
       redis.servers."".openFirewall = true;
     };
-    system.stateVersion = "23.11";
+    system.stateVersion = "26.05";
   };
 }

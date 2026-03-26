@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
       url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
@@ -33,6 +34,7 @@
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-stable
     , home-manager
     , tidal-overlay
     , nixos-wsl
@@ -61,6 +63,7 @@
               (final: prev:
                 {
                   tidal = tidal-tools;
+                  direnv = (import nixpkgs-stable { inherit system; }).direnv;
                 })
               emacs-overlay
               tidal-overlay.overlays.default

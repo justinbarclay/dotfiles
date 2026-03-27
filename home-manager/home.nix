@@ -23,7 +23,7 @@ in
   };
   modules.nushell = {
     enable = true;
-    start-pueue = stdenv.isLinux;
+    start-pueue = true;
   };
   modules.emacs = {
     enable = true;

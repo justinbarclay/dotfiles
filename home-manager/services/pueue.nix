@@ -21,6 +21,15 @@ with lib; {
           KeepAlive = true;
           Program = "${pkgs.pueue}/bin/pueued";
           ProgramArguments = [ "-vv" ];
+          WorkingDirectory = "/Users/justin";
+          StandardOutPath = "/Users/justin/.pueue.stdout.log";
+          StandardErrorPath = "/Users/justin/.pueue.stderr.log";
+          EnvironmentVariables = {
+            PATH = "/etc/profiles/per-user/justin/bin:/run/current-system/sw/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+            HOME = "/Users/justin";
+            SHELL = "/run/current-system/sw/bin/nu";
+          };
+          ProcessType = "Interactive";
         };
       };
     };

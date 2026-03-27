@@ -1,6 +1,11 @@
 { pkgs, lib, ... }:
 {
-  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ];
+  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ];
+
+  modules.darwin.postgres = {
+    enable = true;
+    user = "justin";
+  };
 
   modules.darwin.pueue = {
     enable = true;
@@ -144,17 +149,6 @@
         ];
       };
     };
-    postgresql = {
-      # enable = true;
-      # package = pkgs.postgresql_16;
-      # enableTCPIP = true;
-      # dataDir = "/usr/local/var/postgres";
-      # authentication = pkgs.lib.mkOverride 16 ''
-      #   local all all trust
-      #   host all all 127.0.0.1/32 trust
-      #    host all all ::1/128 trust
-      # '';
-    };
     tailscale.enable = true;
     sketchybar = { enable = true; };
   };
@@ -207,15 +201,8 @@
       "homebrew/services"
       "mediosz/tap"
     ];
-    # Unfortunately we need to create the postgres superuser ourselves
-    # `CREATE USER postgres SUPERUSER;`
     brews = [
       "rubyfmt"
-      {
-        name = "postgresql@16";
-        link = true;
-        start_service = true;
-      }
     ];
     casks = [
       "swipeaerospace"

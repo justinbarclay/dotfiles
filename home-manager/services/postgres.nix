@@ -38,6 +38,15 @@ with lib; {
         '';
       };
 
+      # Create a superuser matching the login user after postgres starts.
+      launchd.daemons.postgresql.serviceConfig.KeepAlive = true;
+      system.activationScripts.postActivation.text = ''
+        if /usr/local/var/postgres/data/postmaster.pid 2>/dev/null; then
+          psql -U postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='${config.modules.darwin.postgres.user}'" \
+            | grep -q 1 || psql -U postgres -c "CREATE USER ${config.modules.darwin.postgres.user} SUPERUSER;"
+        fi
+      '';
+
 
       # Direct log output for debugging.
       launchd.user.agents.postgresql.serviceConfig = {

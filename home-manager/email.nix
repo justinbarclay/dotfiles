@@ -9,9 +9,10 @@ with lib;
     };
     username = mkOption {
       type = types.str;
+      default = "";
     };
   };
-  config = mkIf config.modules.email.enable
+  config = mkIf (config.modules.email.enable && config.modules.email.username != "")
     {
 
       programs = {

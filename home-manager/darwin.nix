@@ -225,7 +225,7 @@
       "kap"
       "istat-menus"
       "keycastr"
-      "docker-desktop"
+      "podman-desktop"
     ];
   };
 

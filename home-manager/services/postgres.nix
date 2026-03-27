@@ -14,7 +14,22 @@ with lib; {
 
   config = mkIf config.modules.darwin.postgres.enable
     {
-      users.users = { };
+      users.knownUsers = [ "postgres" ];
+      users.users.postgres = {
+        uid = 70;
+        gid = 70;
+        home = "/var/lib/postgresql";
+        createHome = true;
+        shell = "/bin/sh";
+        description = "PostgreSQL server account";
+      };
+
+      users.knownGroups = [ "postgres" ];
+      users.groups.postgres = {
+        gid = 70;
+        description = "PostgreSQL server group";
+      };
+
       services = {
         postgresql = {
           enable = true;
@@ -24,16 +39,15 @@ with lib; {
         };
       };
 
-      # Create the PostgreSQL data directory, if it does not exist.
+      # Create the PostgreSQL data directory and initialise it as the postgres user.
       system.activationScripts.preActivation = {
         enable = true;
         text = ''
           if [ ! -d "/usr/local/var/postgres/data" ]; then
             echo "creating PostgreSQL data directory..."
-            sudo mkdir -m 750 -p /usr/local/var/postgres/data/
-            echo "16" > /usr/local/var/postgres/data/PG_VERSION
-            su - postgres -c "initdb --locale en_CA.UTF-8 --encoding UTF-8 -D /usr/local/var/postgres/data"
-            chown -R justin:staff /usr/local/var/postgres/data/
+            mkdir -m 750 -p /usr/local/var/postgres/data/
+            chown postgres:postgres /usr/local/var/postgres/data/
+            su - postgres -c "${pkgs.postgresql_16}/bin/initdb --locale en_CA.UTF-8 --encoding UTF-8 -D /usr/local/var/postgres/data"
           fi
         '';
       };
@@ -41,17 +55,19 @@ with lib; {
       # Create a superuser matching the login user after postgres starts.
       launchd.daemons.postgresql.serviceConfig.KeepAlive = true;
       system.activationScripts.postActivation.text = ''
-        if /usr/local/var/postgres/data/postmaster.pid 2>/dev/null; then
-          psql -U postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='${config.modules.darwin.postgres.user}'" \
-            | grep -q 1 || psql -U postgres -c "CREATE USER ${config.modules.darwin.postgres.user} SUPERUSER;"
+        if [ -f /usr/local/var/postgres/data/postmaster.pid ]; then
+          ${pkgs.postgresql_16}/bin/psql -U postgres -tAc \
+            "SELECT 1 FROM pg_roles WHERE rolname='${config.modules.darwin.postgres.user}'" \
+            | grep -q 1 || \
+            ${pkgs.postgresql_16}/bin/psql -U postgres \
+              -c "CREATE USER ${config.modules.darwin.postgres.user} SUPERUSER;"
         fi
       '';
 
-
       # Direct log output for debugging.
-      launchd.user.agents.postgresql.serviceConfig = {
-        StandardErrorPath = "/Users/postgres/Library/Application Support/Postgresql/postgres.error.log";
-        StandardOutPath = "/Users/postgres/Library/Application Support/Postgresql/postgres.out.log";
+      launchd.daemons.postgresql.serviceConfig = {
+        StandardErrorPath = "/var/lib/postgresql/postgres.error.log";
+        StandardOutPath = "/var/lib/postgresql/postgres.out.log";
       };
     };
 }

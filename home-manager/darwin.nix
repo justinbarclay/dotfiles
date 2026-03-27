@@ -9,8 +9,14 @@
     enable = true;
   };
   modules.darwin.mbsync = {
-    enable = false;
-    postExec = "${pkgs.mu}/bin/mu index";
+    enable = true;
+    postExec = ''
+      ${pkgs.mu}/bin/mu index
+      NEW_COUNT=$(${pkgs.mu}/bin/mu find flag:new 2>/dev/null | wc -l | tr -d ' ')
+      if [ "$NEW_COUNT" -gt 0 ]; then
+        /usr/bin/osascript -e "display notification \"$NEW_COUNT new email(s)\" with title \"📬 New Mail\""
+      fi
+    '';
   };
   # Nix configuration ------------------------------------------------------------------------------
   nixpkgs.config.allowUnfree = true;

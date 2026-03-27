@@ -45,7 +45,8 @@ with lib; {
         text = ''
           if [ ! -d "/usr/local/var/postgres/data" ]; then
             echo "creating PostgreSQL data directory..."
-            mkdir -m 750 -p /usr/local/var/postgres/data/
+            mkdir -p /usr/local/var/postgres/data/
+            chmod 750 /usr/local/var/postgres/data/
             chown postgres:postgres /usr/local/var/postgres/data/
             su - postgres -c "${pkgs.postgresql_16}/bin/initdb --locale en_CA.UTF-8 --encoding UTF-8 -D /usr/local/var/postgres/data"
           fi

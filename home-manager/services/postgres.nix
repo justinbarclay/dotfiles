@@ -42,12 +42,5 @@ with lib; {
               -c "CREATE USER ${config.modules.darwin.postgres.user} SUPERUSER;"
         fi
       '';
-
-      # Direct log output for debugging.
-      launchd.daemons.postgresql.serviceConfig = {
-        KeepAlive = true;
-        StandardErrorPath = "/var/lib/postgresql/postgres.error.log";
-        StandardOutPath = "/var/lib/postgresql/postgres.out.log";
-      };
     };
 }

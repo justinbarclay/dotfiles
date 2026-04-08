@@ -68,8 +68,8 @@ in
 
       texliveFull
       mkcert
-      nodePackages."typescript-language-server"
-      nodePackages."typescript"
+      typescript-language-server
+      typescript
 
       # eslint_d
       # ollama

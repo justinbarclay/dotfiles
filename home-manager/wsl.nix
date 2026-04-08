@@ -85,7 +85,7 @@ with lib; {
           wsl-open
           man-pages
           man-pages-posix
-          nodePackages."prettier"
+          prettier
           home-manager
           nushell
 

@@ -806,4 +806,4 @@ def get_service_ip_addresses [cluster: string # ECS Cluster to search through
 # starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 source ~/.config/starship/starship.nu
-source ~/.cache/zoxide/init.nu
+source ~/.config/zoxide/init.nu

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
       url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
@@ -41,6 +42,7 @@
     , nix-darwin
     , tidal-tools
     , emacs-lsp-booster
+    , determinate
     , ...
     }:
     let
@@ -89,6 +91,7 @@
         {
           system = "aarch64-darwin";
           modules = [
+            determinate.darwinModules.default
             ./darwin.nix
           ];
         };

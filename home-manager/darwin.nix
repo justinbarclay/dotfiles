@@ -36,6 +36,12 @@
 
   ids.gids.nixbld = 30000;
 
+  determinateNix = {
+    enable = true;
+    nixosVmBasedLinuxBuilder = {
+      enable = true;
+    };
+  };
   nix = {
     # use determinate nix to manage nix
     enable = false;
@@ -44,13 +50,13 @@
       ephemeral = true;
       maxJobs = 4;
       config = {
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 40 * 1024;
-            memorySize = 8 * 1024;
-          };
-          cores = 6;
-        };
+        # virtualisation = {
+        #   darwin-builder = {
+        #     diskSize = 40 * 1024;
+        #     memorySize = 8 * 1024;
+        #   };
+        #   cores = 6;
+        # };
       };
     };
     extraOptions = ''
@@ -197,8 +203,6 @@
     onActivation.upgrade = true;
 
     taps = [
-      "homebrew/bundle"
-      "homebrew/services"
       "mediosz/tap"
     ];
     brews = [
@@ -236,19 +240,30 @@
   system = {
     primaryUser = "justin";
     keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToControl = true;
+    keyboard.remapCapsLockToControl = false;
     defaults = {
+      NSGlobalDomain = {
+        ApplePressAndHoldEnabled = false;
+        KeyRepeat = 2;
+        InitialKeyRepeat = 15;
+        AppleKeyboardUIMode = 3;
+        NSAutomaticWindowAnimationsEnabled = false;
+      };
       dock = {
         autohide = true;
         orientation = "bottom";
         show-recents = false;
         launchanim = true;
+        mru-spaces = false;
       };
       smb.NetBIOSName = "heimdall";
       finder = {
         AppleShowAllExtensions = true;
         _FXShowPosixPathInTitle = false;
         FXEnableExtensionChangeWarning = false;
+        FXPreferredViewStyle = "Nlsv";
+        QuitMenuItem = true;
+        ShowPathbar = true;
       };
       trackpad = {
         TrackpadRightClick = true;

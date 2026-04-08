@@ -40,6 +40,7 @@ in
     automatic = true;
     persistent = true;
   };
+
   home = {
     username = "${user}";
     language.base = "en_CA.UTF-8";

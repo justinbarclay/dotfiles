@@ -113,6 +113,12 @@ in
     file.".config/sketchybar" = {
       source = ./config/sketchybar;
     };
+    file."GEMINI.md" = {
+      text = builtins.readFile ./config/GEMINI.md + "\n\n" + builtins.readFile ./config/AGENTS.md;
+    };
+    file."AGENTS.md" = {
+      source = ./config/AGENTS.md;
+    };
 
     stateVersion =
       "26.05"; # To figure this out you can comment out the line and see what version it expected.

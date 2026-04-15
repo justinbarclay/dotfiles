@@ -245,7 +245,7 @@
   system = {
     primaryUser = "justin";
     keyboard.enableKeyMapping = true;
-    keyboard.remapCapsLockToControl = false;
+    keyboard.remapCapsLockToControl = true;
     defaults = {
       NSGlobalDomain = {
         ApplePressAndHoldEnabled = false;

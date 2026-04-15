@@ -194,10 +194,10 @@ function icon_map() {
   "Element")
     icon_result=":element:"
     ;;
-  "Emacs")
+  "Emacs" | "emacs")
     icon_result=":emacs:"
     ;;
-  "emacs")
+  "\.emacs-wrapped")
     icon_result=":emacs:"
     ;;
   "Evernote Legacy")

@@ -119,6 +119,9 @@ in
     file."AGENTS.md" = {
       source = ./config/AGENTS.md;
     };
+    file.".config/eca/config.json" = {
+      source = ./config/eca-config.json;
+    };
 
     stateVersion =
       "26.05"; # To figure this out you can comment out the line and see what version it expected.

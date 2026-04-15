@@ -3,7 +3,7 @@
   imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ];
 
   modules.darwin.postgres = {
-    enable = true;
+    enable = false;
     user = "justin";
   };
 
@@ -207,6 +207,11 @@
     ];
     brews = [
       "rubyfmt"
+      {
+        name = "postgresql@18";
+        restart_service = "changed";
+        start_service = true;
+      }
     ];
     casks = [
       "swipeaerospace"

@@ -15,6 +15,7 @@ with lib; {
   config = mkIf config.modules.git.enable {
     home.packages = with pkgs; [
       git
+      gh
       # Needed to sign commits
       gnupg
     ];

@@ -76,29 +76,7 @@ in
       # eslint_d
       # ollama
       tidal.packages.${system}.default
-      (pkgs.writeScriptBin "nix-update"
-        ''
-          cd ~/.config/home-manager
-          export NIXPKGS_ALLOW_BROKEN=1;
-
-          nix flake update
-
-          case $(uname) in
-            Linux)
-              OP_COMMAND="op.exe read"
-              ;;
-            Darwin)
-              OP_COMMAND="op read"
-              ;;
-            '*')
-              echo Hi, stranger!
-              ;;
-          esac
-
-          export fastmailUsername=$($OP_COMMAND op://Private/fastmail-smtp/username)
-          # Allow environment variables to be read for fastmail username
-          home-manager switch --impure
-        '')
+      (pkgs.writeScriptBin "rebuild-home" (builtins.readFile ./scripts/rebuild-home))
     ];
 
     file.".npmrc" = {

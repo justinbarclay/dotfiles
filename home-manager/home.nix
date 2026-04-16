@@ -10,6 +10,7 @@ in
     ./nushell.nix
     ./gtk.nix
     ./email.nix
+    ./llm.nix
   ];
   modules.git = {
     is-darwin = stdenv.isDarwin;
@@ -112,15 +113,6 @@ in
     };
     file.".config/sketchybar" = {
       source = ./config/sketchybar;
-    };
-    file."GEMINI.md" = {
-      text = builtins.readFile ./config/GEMINI.md + "\n\n" + builtins.readFile ./config/AGENTS.md;
-    };
-    file."AGENTS.md" = {
-      source = ./config/AGENTS.md;
-    };
-    file.".config/eca/config.json" = {
-      source = ./config/eca-config.json;
     };
 
     stateVersion =

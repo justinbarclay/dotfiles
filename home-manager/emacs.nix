@@ -72,10 +72,6 @@ with lib; {
           vale
 
           emacs-lsp-booster
-
-
-          gemini-cli
-          github-copilot-cli
         ];
     };
 }

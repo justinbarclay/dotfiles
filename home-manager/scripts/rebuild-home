@@ -9,10 +9,10 @@ def main [
         nix flake update
     }
 
-    let os = (sys host | get name)
+    let os = (sys host | get long_os_version | split words | first)
 
     let username = match $os {
-        "Linux" => (op.exe read "op://Private/fastmail-smtp/username")
+        "Linux" | "NixOs" => (op.exe read "op://Private/fastmail-smtp/username")
         "Darwin" => (op read "op://Private/fastmail-smtp/username")
         _ => {
             print "Hi, stranger!"

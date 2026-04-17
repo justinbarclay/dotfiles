@@ -33,6 +33,7 @@ If an `AGENTS.md` file exists, please follow the instructions within it to ensur
   - Follow idiomatic functional patterns for the target language.
   - Suggest test cases (unit or integration) alongside implementation.
 ﻿- **Emacs Integration:** When the task involves Emacs configuration specifically, use `use-package` and Org-mode syntax for configuration snippets.
+- **Ruby Integration:** When writing specs, keep them as unnested as possible nestring things in context + describe is often overly verbose and means the test names can be simplified.
 
 ## Agent Documentation
 

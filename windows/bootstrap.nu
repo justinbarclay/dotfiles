@@ -1,13 +1,14 @@
 #!/usr/bin/env nu
-# Bootstrap a new Windows machine from this dotfiles repository.
+# Full first-time setup for a new Windows machine.
 #
-# Prerequisites (install these manually first):
-#   - Nushell   https://github.com/nushell/nushell/releases
-#   - Git       https://git-scm.com/downloads/win
-#   - WezTerm   https://wezfurlong.org/wezterm/installation.html
-#   - 1Password https://1password.com/downloads/windows/
+# Do NOT run this directly on a machine that doesn't have Nushell yet.
+# Use the PowerShell pre-bootstrap instead — it installs Nushell and then
+# calls this script automatically:
 #
-# Then clone the repo and run:
+#   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+#   .\windows\bootstrap.ps1
+#
+# If Nushell is already installed you can also invoke this directly:
 #   nu windows/bootstrap.nu
 
 let dotfiles = ($env.USERPROFILE | path join "dotfiles")
@@ -30,7 +31,10 @@ def section [title: string] {
 # 1. Verify prerequisites
 # ---------------------------------------------------------------------------
 section "Checking prerequisites"
-for cmd in ["winget" "git" "nu"] { check_command $cmd }
+# Note: git is needed to clone the repo but is NOT checked here because
+# bootstrap.ps1 (the intended entry point) handles cloning before this runs.
+# winget is available if the script reached this point (bootstrap.ps1 checks it).
+for cmd in ["winget" "nu"] { check_command $cmd }
 print "Prerequisites OK."
 
 # ---------------------------------------------------------------------------

@@ -27,10 +27,8 @@ Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [hom
 - [NixOS-WSL](https://github.com/nix-community/NixOS-WSL) installed
 
 ### Windows (native host) only
-- [Nushell](https://github.com/nushell/nushell/releases) installed (needed to run the bootstrap)
-- [Git for Windows](https://git-scm.com/downloads/win) installed
-- [WezTerm](https://wezfurlong.org/wezterm/installation.html) installed
-- [1Password](https://1password.com/downloads/windows/) installed with SSH agent enabled
+- **winget** available — ships with Windows 10 1809+ via *App Installer*; update it from the Microsoft Store if needed
+- The repo cloned somewhere (e.g. `%USERPROFILE%\dotfiles`) — Git for Windows is installed *by* the bootstrap, so a plain `winget install Git.Git` or the GitHub Desktop bundled Git is sufficient to clone
 
 ## Deploying
 
@@ -56,19 +54,23 @@ home-manager switch --flake ~/dotfiles/home-manager#justin@nixos
 
 ### Windows (native host)
 
-```nu
-# First-time bootstrap (run from repo root in a native Nushell session):
-nu windows/bootstrap.nu
-
-# Upgrade all packages and re-export manifests:
-nu windows/update.nu
+```powershell
+# From a plain PowerShell prompt — no Nushell required.
+# Clone the repo first, then:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\windows\bootstrap.ps1
 ```
 
-The bootstrap script will:
-1. Install [Scoop](https://scoop.sh) if missing
-2. Add Scoop buckets and install CLI tools from `windows/scoop.json`
-3. Install GUI apps via `winget import windows/winget.json`
-4. Symlink config files (nushell, wezterm, git, komorebi, whkd, starship) to their Windows locations
+`bootstrap.ps1` installs Nushell via winget and then calls `bootstrap.nu`, which:
+1. Installs [Scoop](https://scoop.sh) if missing
+2. Adds Scoop buckets and installs CLI tools from `windows/scoop.json`
+3. Installs remaining GUI apps via `winget import windows/winget.json`
+4. Symlinks config files (nushell, wezterm, git, komorebi, whkd, starship) to their Windows locations
+
+```nu
+# Upgrade all packages and re-export manifests (after initial setup):
+nu windows/update.nu
+```
 
 ### Update everything (flake inputs + home-manager switch)
 
@@ -97,7 +99,8 @@ home-manager/
 ├── scripts/           # nix-update, rebuild-nix
 └── services/          # Darwin launchd services (redis, pueue, mbsync, postgres)
 windows/
-├── bootstrap.nu       # First-time setup for the native Windows host
+├── bootstrap.ps1      # Step 1: run from plain PowerShell — installs Nushell then calls bootstrap.nu
+├── bootstrap.nu       # Step 2: full first-time setup (Scoop, Winget, symlinks)
 ├── update.nu          # Upgrade all packages + re-export manifests
 ├── winget.json        # Declarative Winget manifest (GUI apps, core tools)
 ├── scoop.json         # Declarative Scoop manifest (CLI dev tools)

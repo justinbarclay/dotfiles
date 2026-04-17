@@ -47,11 +47,15 @@
     }:
     let
       user = "justin";
+      lib = nixpkgs.lib;
 
-      emacs-overlay = import (builtins.fetchGit {
+      emacs-overlay = system: import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = "52a095892ca74be27cd229accd59cc61df21d48a";
+        rev = if lib.hasSuffix "darwin" system then
+          "52a095892ca74be27cd229accd59cc61df21d48a"
+        else
+          "f188652e2cbea570880d983968a152cd76b68315";
       });
 
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration
@@ -67,7 +71,7 @@
                   tidal = tidal-tools;
                   direnv = (import nixpkgs-stable { inherit system; }).direnv;
                 })
-              emacs-overlay
+              (emacs-overlay system)
               tidal-overlay.overlays.default
               emacs-lsp-booster.overlays.default
             ];
@@ -78,7 +82,6 @@
           };
           modules = [ ./home.nix ];
         };
-      lib = nixpkgs.lib;
     in
     {
       nixosConfigurations."vider" = lib.nixosSystem

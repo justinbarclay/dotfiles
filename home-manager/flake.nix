@@ -52,10 +52,11 @@
       emacs-overlay = system: import (builtins.fetchGit {
         url = "https://github.com/nix-community/emacs-overlay.git";
         ref = "master";
-        rev = if lib.hasSuffix "darwin" system then
-          "52a095892ca74be27cd229accd59cc61df21d48a"
-        else
-          "f188652e2cbea570880d983968a152cd76b68315";
+        rev =
+          if lib.hasSuffix "darwin" system then
+            "52a095892ca74be27cd229accd59cc61df21d48a"
+          else
+            "f188652e2cbea570880d983968a152cd76b68315";
       });
 
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration

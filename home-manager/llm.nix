@@ -18,11 +18,15 @@ let
         "run"
         "-i"
         "--rm"
+        "--network=host"
         "-e"
-        "DATABASE_URI=\${env:POSTGRES_DATABASE_URI}"
+        "DATABASE_URI"
         "crystaldba/postgres-mcp"
         "--access-mode=restricted"
       ];
+      env = {
+        DATABASE_URI = "\${POSTGRES_DATABASE_URI}";
+      };
     };
     # Example:
     # sqlite = {

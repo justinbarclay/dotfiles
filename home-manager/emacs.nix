@@ -19,7 +19,7 @@ with lib; {
         package = pkgs.emacs-igc.override {
           withSQLite3 = true;
           withGTK3 = config.modules.emacs.with-gtk;
-          withNativeCompilation = pkgs.stdenv.isLinux;
+          withNativeCompilation = true;
         };
         extraPackages =
           (epkgs: [

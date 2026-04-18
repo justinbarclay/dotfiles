@@ -88,12 +88,14 @@
       nixosConfigurations."vider" = lib.nixosSystem
         {
           system = "x86_64-linux";
+          specialArgs = { inherit user; };
           modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
         };
 
       darwinConfigurations."heimdall" = nix-darwin.lib.darwinSystem
         {
           system = "aarch64-darwin";
+          specialArgs = { inherit user; };
           modules = [
             determinate.darwinModules.default
             ./darwin.nix

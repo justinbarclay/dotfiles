@@ -14,11 +14,29 @@ jobs:
     name: Check Nix formatting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/nix-installer-action@v22
 
       - name: Check formatting
         run: |
           find home-manager -name '*.nix' -not -path '*/result*' \
             | xargs nix run nixpkgs#nixpkgs-fmt -- --check
+
+  parse:
+    name: Parse-check Nix files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: DeterminateSystems/nix-installer-action@v22
+
+      - name: Parse all .nix files
+        # Catches syntax errors that the formatter does not.
+        # Full flake evaluation is blocked in CI by private SSH inputs
+        # (tidal-overlay, tidal-tools); see README for details.
+        run: |
+          find home-manager -name '*.nix' -not -path '*/result*' \
+            | xargs -I{} nix-instantiate --parse {} > /dev/null

@@ -139,4 +139,17 @@ The public key used for verification is stored in `config/.gitconfig-darwin` and
 
 ## CI
 
-GitHub Actions runs `nixpkgs-fmt --check` on all `.nix` files on every push and PR. Private flake inputs (`tidal-overlay`, `tidal-tools`) mean full evaluation cannot run in CI without deploy keys.
+GitHub Actions runs two jobs on every push and PR:
+
+1. **format** — `nixpkgs-fmt --check` on all `.nix` files
+2. **parse** — `nix-instantiate --parse` on all `.nix` files (catches syntax errors the formatter misses)
+
+> Full flake evaluation (`nix flake check`) is not run in CI because the private SSH inputs (`tidal-overlay`, `tidal-tools`) require deploy keys that are not available in the public CI environment.
+
+## Legacy / archived paths
+
+| Path | Status |
+|------|--------|
+| `guix/` | Archived — predates the Nix setup; kept for historical reference |
+| `setup.sh` | Archived — old zsh symlink bootstrap; superseded by `windows/bootstrap.ps1` and nix-darwin |
+| `setup.org` | Archived — old Arch/Guix notes; superseded by this README |

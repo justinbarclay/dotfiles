@@ -2,7 +2,7 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     devenv.url = "github:cachix/devenv/latest";

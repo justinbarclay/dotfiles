@@ -9,7 +9,7 @@ def select_service [cluster] {
 #
 # If service name is null then the user will be prompted to select one from all available services in `cluster`
 def get_service_ip_addresses [cluster: string # ECS Cluster to search through
-                              service_name?: string # Service name to find associated instance ids
+  service_name?: string # Service name to find associated instance ids
 ]: nothing  -> list<string> {
   # Get the task ARNs
   mut service = $service_name
@@ -32,51 +32,51 @@ def get_service_ip_addresses [cluster: string # ECS Cluster to search through
 
 if ((sys host | get name) == "Windows") {
 
-    # ---------------------------------------------------------------------------
-    # Aliases
-    # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # Aliases
+  # ---------------------------------------------------------------------------
 
-    # Open files/folders in Explorer (mirrors `open` on macOS)
-    alias open = explorer.exe
+  # Open files/folders in Explorer (mirrors `open` on macOS)
+  alias open = explorer.exe
 
-    # Clipboard helpers that match the macOS pbcopy/pbpaste names
-    alias pbcopy  = clip.exe
-    def pbpaste [] {
-        powershell.exe -NoProfile -Command "Get-Clipboard"
+  # Clipboard helpers that match the macOS pbcopy/pbpaste names
+  alias pbcopy  = clip.exe
+  def pbpaste [] {
+    powershell.exe -NoProfile -Command "Get-Clipboard"
+  }
+
+  # Use the Windows hosts file shortcut people usually forget exists
+  alias hosts = notepad.exe C:\Windows\System32\drivers\etc\hosts
+
+  # ---------------------------------------------------------------------------
+  # WezTerm workspace launcher
+  # ---------------------------------------------------------------------------
+
+  # Spawn a tab in the WSL:nixos domain and return its pane-id
+  def wez-spawn [
+    cwd: string       # Path inside WSL (\\wsl.localhost\nixos\...)
+    --title: string   # Optional tab title
+  ] {
+    let pane = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd $cwd)
+    if not ($title | is-empty) {
+      wezterm.exe cli set-tab-title --pane-id $pane $title
     }
+    $pane
+  }
 
-    # Use the Windows hosts file shortcut people usually forget exists
-    alias hosts = notepad.exe C:\Windows\System32\drivers\etc\hosts
+  # Send a command to a pane and press Enter
+  def wez-send [pane: string, command: string] {
+    wezterm.exe cli send-text --pane-id $pane --no-paste $"($command)\r\n"
+  }
 
-    # ---------------------------------------------------------------------------
-    # WezTerm workspace launcher
-    # ---------------------------------------------------------------------------
-
-    # Spawn a tab in the WSL:nixos domain and return its pane-id
-    def wez-spawn [
-        cwd: string       # Path inside WSL (\\wsl.localhost\nixos\...)
-        --title: string   # Optional tab title
-    ] {
-        let pane = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd $cwd)
-        if not ($title | is-empty) {
-            wezterm.exe cli set-tab-title --pane-id $pane $title
-        }
-        $pane
-    }
-
-    # Send a command to a pane and press Enter
-    def wez-send [pane: string, command: string] {
-        wezterm.exe cli send-text --pane-id $pane --no-paste $"($command)\r\n"
-    }
-
-    # ---------------------------------------------------------------------------
-    # good_morning — open project tabs in WezTerm (Windows-side only)
-    # ---------------------------------------------------------------------------
-    def good_morning [] {
-        let tidal_wave = (wez-spawn \\wsl.localhost\nixos\home\justin\dev\tidal\tidal-wave --title "Tidal Wave🌊")
-        wez-send $tidal_wave "tidal-aws mmp"
-        let mmp = (wez-spawn \\wsl.localhost\nixos\home\justin\dev\tidal\application-inventory --title "MMP ♦️")
-        wez-send $mmp "tidal-aws mmp"
-    }
+  # ---------------------------------------------------------------------------
+  # good_morning — open project tabs in WezTerm (Windows-side only)
+  # ---------------------------------------------------------------------------
+  def good_morning [] {
+    let wsl_home = $"\\\\wsl.localhost\\nixos\\home\\(whoami)"
+    let tidal_wave = (wez-spawn $"($wsl_home)\\dev\\tidal\\tidal-wave" --title "Tidal Wave🌊")
+    wez-send $tidal_wave "tidal-aws mmp"
+    let mmp = (wez-spawn $"($wsl_home)\\dev\\tidal\\application-inventory" --title "MMP ♦️")
+  }
 
 }

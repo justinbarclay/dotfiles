@@ -28,12 +28,34 @@ config.window_frame = {
   -- Default to 10.0 on Windows but 12.0 on other systems
   font_size = default_font_size,
 }
+
+-- Windows-specific configuration
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
-   config.default_prog = { 'nu', '-l' }
+  -- Open new tabs/windows inside WSL by default instead of cmd/PowerShell
+  config.default_prog = { 'nu', '-l' }
+  config.default_domain = 'WSL:NixOS'
+
+  -- Quick-launch menu so you can still reach PowerShell or a bare Nu session
+  config.launch_menu = {
+    { label = 'NixOS WSL (nu)',  domain = { DomainName = 'WSL:NixOS' },  args = { 'nu', '-l' } },
+    { label = 'PowerShell',      args = { 'pwsh', '-NoLogo' } },
+    { label = 'Nushell (native)', args = { 'nu', '-l' } },
+  }
+
+  -- Prefer the Nerd Font installed by Scoop; fall back to the Cascadia variants
+  -- that ship with Windows Terminal / VS Code so there is always a fallback.
+  config.font = wezterm.font_with_fallback {
+    'CaskaydiaMono Nerd Font',
+    'CaskaydiaMono NF',
+    'Cascadia Code NF',
+    'Cascadia Mono NF',
+  }
+else
+  config.font = wezterm.font_with_fallback {
+    'CaskaydiaMono Nerd Font',
+  }
 end
-config.font = wezterm.font_with_fallback {
-  'CaskaydiaMono Nerd Font',
-}
+
 config.font_size = default_font_size;
 
 config.front_end = 'WebGpu';

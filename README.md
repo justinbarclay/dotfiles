@@ -1,6 +1,6 @@
 # dotfiles
 
-Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [home-manager](https://github.com/nix-community/home-manager) and [nix-darwin](https://github.com/LnL7/nix-darwin).
+Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [home-manager](https://github.com/nix-community/home-manager) and [nix-darwin](https://github.com/LnL7/nix-darwin). A separate `windows/` directory covers the native Windows host that runs WezTerm + WSL.
 
 ## Machines
 
@@ -8,6 +8,7 @@ Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [hom
 |------|----|------|--------|
 | `heimdall` | macOS | aarch64-darwin | `darwinConfigurations.heimdall` |
 | `vider` | NixOS WSL | x86_64-linux | `nixosConfigurations.vider` |
+| *(Windows host)* | Windows 11 | x86_64 | `windows/bootstrap.nu` |
 
 ## Prerequisites
 
@@ -24,6 +25,12 @@ Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [hom
 
 ### WSL only
 - [NixOS-WSL](https://github.com/nix-community/NixOS-WSL) installed
+
+### Windows (native host) only
+- [Nushell](https://github.com/nushell/nushell/releases) installed (needed to run the bootstrap)
+- [Git for Windows](https://git-scm.com/downloads/win) installed
+- [WezTerm](https://wezfurlong.org/wezterm/installation.html) installed
+- [1Password](https://1password.com/downloads/windows/) installed with SSH agent enabled
 
 ## Deploying
 
@@ -46,6 +53,22 @@ rebuild-nix
 # Home config
 home-manager switch --flake ~/dotfiles/home-manager#justin@nixos
 ```
+
+### Windows (native host)
+
+```nu
+# First-time bootstrap (run from repo root in a native Nushell session):
+nu windows/bootstrap.nu
+
+# Upgrade all packages and re-export manifests:
+nu windows/update.nu
+```
+
+The bootstrap script will:
+1. Install [Scoop](https://scoop.sh) if missing
+2. Add Scoop buckets and install CLI tools from `windows/scoop.json`
+3. Install GUI apps via `winget import windows/winget.json`
+4. Symlink config files (nushell, wezterm, git, komorebi, whkd, starship) to their Windows locations
 
 ### Update everything (flake inputs + home-manager switch)
 
@@ -73,6 +96,14 @@ home-manager/
 ├── packages/          # Custom Nix packages (pngpaste, pt-mono-nerd-font)
 ├── scripts/           # nix-update, rebuild-nix
 └── services/          # Darwin launchd services (redis, pueue, mbsync, postgres)
+windows/
+├── bootstrap.nu       # First-time setup for the native Windows host
+├── update.nu          # Upgrade all packages + re-export manifests
+├── winget.json        # Declarative Winget manifest (GUI apps, core tools)
+├── scoop.json         # Declarative Scoop manifest (CLI dev tools)
+├── .gitconfig         # Native Windows git config (correct SSH/signing paths)
+├── komorebi.json      # Tiling WM config (mirrors AeroSpace on macOS)
+└── whkdrc             # Hotkey config for whkd (mirrors AeroSpace bindings)
 ```
 
 ## SSH & Commit Signing Setup
@@ -83,6 +114,7 @@ Git is configured to sign commits with your SSH key via 1Password.
 2. Enable the SSH agent in 1Password → Settings → Developer
 3. Verify the key path in `git.nix` matches your 1Password SSH agent socket
 4. On WSL, `op-ssh-sign-wsl.exe` must be on your Windows PATH
+5. On the native Windows host, `windows/.gitconfig` points directly to the 1Password `op-ssh-sign.exe` binary; adjust the path if your 1Password installation differs from the default
 
 The public key used for verification is stored in `config/.gitconfig-darwin` and `config/.gitconfig-wsl` under `[gpg.ssh] allowedSignersFile`.
 
@@ -91,6 +123,8 @@ The public key used for verification is stored in `config/.gitconfig-darwin` and
 | Tool | Purpose |
 |------|---------|
 | [aerospace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager (macOS), 6 workspaces |
+| [komorebi](https://github.com/LGUG2Z/komorebi) | Tiling window manager (Windows), mirrors AeroSpace layout |
+| [whkd](https://github.com/LGUG2Z/whkd) | Hotkey daemon for komorebi (Windows) |
 | [sketchybar](https://github.com/FelixKratz/SketchyBar) | Status bar (macOS) |
 | [nushell](https://www.nushell.sh) | Primary shell |
 | [atuin](https://github.com/atuinsh/atuin) | Shell history sync |

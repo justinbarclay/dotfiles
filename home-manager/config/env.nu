@@ -17,7 +17,13 @@ if ((sys host | get name) == "NixOS") {
 }
 
 if ((sys host | get name) == "Windows") {
-  $env.KOMOREBI_CONFIG_HOME = $"($env.HOME)/.config/komorebi"
+  $env.KOMOREBI_CONFIG_HOME = $"($nu.home-dir)/.config/komorebi"
+  $env.AWS_REGION = "ca-central-1"
+  # Prepend Scoop shims and 1Password CLI so they shadow system installs
+  $env.PATH = ($env.PATH | split row (char esep) | prepend [
+    $"($nu.home-dir)/scoop/shims",
+    $"($env.LOCALAPPDATA)/1Password/app/8",
+  ])
 }
 
 if ((sys host | get name) == "Darwin") {

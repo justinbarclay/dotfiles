@@ -1,0 +1,34 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.json",
+  "display_index_preferences": {},
+  "window_hiding_behaviour": "Cloak",
+  "cross_monitor_move_behaviour": "Insert",
+  "default_workspace_padding": 8,
+  "default_container_padding": 8,
+  "border": true,
+  "border_width": 2,
+  "border_colours": {
+    "single":   { "r": 86,  "g": 182, "b": 194, "a": 255 },
+    "stack":    { "r": 250, "g": 166, "b": 50,  "a": 255 },
+    "monocle":  { "r": 255, "g": 99,  "b": 110, "a": 255 }
+  },
+  "app_specific_configuration_path": "$Env:USERPROFILE/.config/komorebi/applications.yaml",
+  "monitors": [
+    {
+      "workspaces": [
+        { "name": "1", "layout": "BSP" },
+        { "name": "2", "layout": "BSP" },
+        { "name": "3", "layout": "BSP" },
+        { "name": "c", "layout": "BSP"      },
+        { "name": "e", "layout": "Monocle"  },
+        { "name": "t", "layout": "BSP"      }
+      ],
+      "workspace_rules": [
+        { "app_name_regex": "[Ee]macs",  "workspace": "e", "initial_workspace_rule": true },
+        { "app_name_regex": "WezTerm",   "workspace": "t", "initial_workspace_rule": true },
+        { "app_name_regex": "Slack",     "workspace": "c", "initial_workspace_rule": true },
+        { "app_name_regex": "Discord",   "workspace": "c", "initial_workspace_rule": true }
+      ]
+    }
+  ]
+}

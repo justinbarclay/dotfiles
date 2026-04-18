@@ -1,0 +1,29 @@
+[user]
+  email = git@justinbarclay.ca
+  name = Justin Barclay
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBqVCte0Vkc+RYfgML98nLwwumgt3T5825/q8Fl5bbbP
+[color]
+  ui = true
+[core]
+  editor = runemacs
+  excludesfile = ~/.gitignore
+[init]
+  defaultBranch = main
+[pull]
+  rebase = true
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = C:/Users/justin/AppData/Local/1Password/app/8/op-ssh-sign.exe
+  allowedSignersFile = ~/.allowed-signers
+[commit]
+  gpgSign = true
+[tag]
+  gpgSign = true
+[github]
+  user = justinbarclay
+[branch]
+	sort = -committerdate
+[alias]
+  cleanup-main = "!git checkout -q main && git for-each-ref refs/heads/ \"--format=%(refname:short)\" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse \"$branch^{tree}\") -p $mergeBase -m _)) == \"-\"* ]] && git branch -D $branch; done"
+  cleanup-master = "!git checkout -q master && git for-each-ref refs/heads/ \"--format=%(refname:short)\" | while read branch; do mergeBase=$(git merge-base master $branch) && [[ $(git cherry master $(git commit-tree $(git rev-parse \"$branch^{tree}\") -p $mergeBase -m _)) == \"-\"* ]] && git branch -D $branch; done"

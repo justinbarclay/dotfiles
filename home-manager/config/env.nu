@@ -17,7 +17,7 @@ if ((sys host | get name) == "NixOS") {
 }
 
 if ((sys host | get name) == "Windows") {
-  $env.KOMOREBI_CONFIG_HOME = $"($nu.home-dir)/.config/komorebi"
+  $env.KOMOREBI_CONFIG_HOME = ($nu.home-dir | path join ".config" "komorebi")
   $env.AWS_REGION = "ca-central-1"
   # Prepend Scoop shims and 1Password CLI so they shadow system installs
   $env.PATH = ($env.PATH | split row (char esep) | prepend [

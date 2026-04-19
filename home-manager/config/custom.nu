@@ -52,12 +52,14 @@ if ((sys host | get name) == "Windows") {
   # WezTerm workspace launcher
   # ---------------------------------------------------------------------------
 
-  # Spawn a tab in the WSL:nixos domain and return its pane-id
+  const WEZTERM_WSL_DOMAIN = "WSL:NixOS"
+
+  # Spawn a tab in the WSL:NixOS domain and return its pane-id
   def wez-spawn [
     cwd: string       # Path inside WSL (\\wsl.localhost\nixos\...)
     --title: string   # Optional tab title
   ] {
-    let pane = (wezterm.exe cli spawn --domain-name WSL:nixos --cwd $cwd)
+    let pane = (wezterm.exe cli spawn --domain-name $WEZTERM_WSL_DOMAIN --cwd $cwd)
     if not ($title | is-empty) {
       wezterm.exe cli set-tab-title --pane-id $pane $title
     }
@@ -73,7 +75,8 @@ if ((sys host | get name) == "Windows") {
   # good_morning — open project tabs in WezTerm (Windows-side only)
   # ---------------------------------------------------------------------------
   def good_morning [] {
-    let wsl_home = $"\\\\wsl.localhost\\nixos\\home\\(whoami)"
+    let win_user = ($env.USERNAME | str trim)
+    let wsl_home = $"\\\\wsl.localhost\\nixos\\home\\($win_user)"
     let tidal_wave = (wez-spawn $"($wsl_home)\\dev\\tidal\\tidal-wave" --title "Tidal Wave🌊")
     wez-send $tidal_wave "tidal-aws mmp"
     let mmp = (wez-spawn $"($wsl_home)\\dev\\tidal\\application-inventory" --title "MMP ♦️")

@@ -99,7 +99,6 @@ Open a new PowerShell window (so PATH is refreshed) and run:
 # ---------------------------------------------------------------------------
 Write-Section "Handing off to bootstrap.nu"
 
-$repoRoot     = Split-Path -Parent $PSScriptRoot
 $bootstrapNu  = Join-Path $PSScriptRoot 'bootstrap.nu'
 
 Write-Host "Running: $nuExe $bootstrapNu"

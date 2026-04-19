@@ -27,13 +27,26 @@ def section [title: string] {
     print $"\n\e[1;36m== ($title) ==\e[0m"
 }
 
+def safe_mklink [dest: string, src: string] {
+    cmd.exe /c $"mklink \"($dest)\" \"($src)\""
+    if $env.LASTEXITCODE != 0 {
+        error make {
+            msg: $"Failed to create symlink from ($src) to ($dest).
+Ensure you have sufficient privileges or that Developer Mode is enabled.
+(Settings > Update & Security > For developers > Developer Mode)"
+        }
+    }
+}
+
 # ---------------------------------------------------------------------------
 # 1. Verify prerequisites
 # ---------------------------------------------------------------------------
 section "Checking prerequisites"
-# Note: git is needed to clone the repo but is NOT checked here because
-# bootstrap.ps1 (the intended entry point) handles cloning before this runs.
-# winget is available if the script reached this point (bootstrap.ps1 checks it).
+# Note: this script assumes it is being run from an existing checked-out
+# dotfiles working tree. Cloning the repo, if needed, happens before this
+# script is invoked, so git is not checked here.
+# winget should be available when entering via bootstrap.ps1, and we verify it
+# here along with Nushell.
 for cmd in ["winget" "nu"] { check_command $cmd }
 print "Prerequisites OK."
 
@@ -97,7 +110,7 @@ for pair in ($files | transpose key src) {
     let dest = ($nu_config_dir | path join $pair.key)
     if not ($dest | path exists) {
         print $"Linking ($dest)"
-        cmd.exe /c mklink $dest $pair.src
+        safe_mklink $dest $pair.src
     } else {
         print $"($dest) already exists, skipping."
     }
@@ -107,14 +120,16 @@ for pair in ($files | transpose key src) {
 let gitconfig_dest = ($env.USERPROFILE | path join ".gitconfig")
 if not ($gitconfig_dest | path exists) {
     print $"Linking ($gitconfig_dest)"
-    cmd.exe /c mklink $gitconfig_dest ($dotfiles | path join "windows" ".gitconfig")
+    let src = ($dotfiles | path join "windows" ".gitconfig")
+    safe_mklink $gitconfig_dest $src
 }
 
 # WezTerm config (WezTerm on Windows reads from %USERPROFILE%/.config/wezterm/ or %USERPROFILE%/.wezterm.lua)
 let wezterm_dest = ($env.USERPROFILE | path join ".wezterm.lua")
 if not ($wezterm_dest | path exists) {
     print $"Linking ($wezterm_dest)"
-    cmd.exe /c mklink $wezterm_dest ($dotfiles | path join "home-manager" "config" ".wezterm.lua")
+    let src = ($dotfiles | path join "home-manager" "config" ".wezterm.lua")
+    safe_mklink $wezterm_dest $src
 }
 
 # Komorebi config
@@ -123,7 +138,8 @@ mkdir $komorebi_dir
 let komorebi_dest = ($komorebi_dir | path join "komorebi.json")
 if not ($komorebi_dest | path exists) {
     print $"Linking ($komorebi_dest)"
-    cmd.exe /c mklink $komorebi_dest ($dotfiles | path join "windows" "komorebi.json")
+    let src = ($dotfiles | path join "windows" "komorebi.json")
+    safe_mklink $komorebi_dest $src
 }
 
 # whkd config
@@ -132,7 +148,8 @@ mkdir $whkd_dir
 let whkd_dest = ($whkd_dir | path join "whkdrc")
 if not ($whkd_dest | path exists) {
     print $"Linking ($whkd_dest)"
-    cmd.exe /c mklink $whkd_dest ($dotfiles | path join "windows" "whkdrc")
+    let src = ($dotfiles | path join "windows" "whkdrc")
+    safe_mklink $whkd_dest $src
 }
 
 # Starship config
@@ -141,7 +158,8 @@ mkdir $starship_dir
 let starship_dest = ($starship_dir | path join "starship.toml")
 if not ($starship_dest | path exists) {
     print $"Linking ($starship_dest)"
-    cmd.exe /c mklink $starship_dest ($dotfiles | path join "home-manager" "config" "starship.toml")
+    let src = ($dotfiles | path join "home-manager" "config" "starship.toml")
+    safe_mklink $starship_dest $src
 }
 
 # ---------------------------------------------------------------------------

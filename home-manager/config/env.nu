@@ -11,6 +11,10 @@ starship init nu | save -f ($nu.home-dir | path join ".config/starship/starship.
 mkdir ($nu.home-dir | path join ".config/zoxide")
 zoxide init nushell | save -f ($nu.home-dir | path join ".config/zoxide/init.nu" )
 
+mkdir ($nu.home-dir | path join ".cache/carapace")
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash'
+carapace _nushell | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
+
 if ((sys host | get name) == "NixOS") {
   $env.WINDOWS_HOST = (ip route | grep default | awk '{print $3; exit;}')
   $env.DISPLAY = ($env.WINDOWS_HOST + ":0")

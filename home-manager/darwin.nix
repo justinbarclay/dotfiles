@@ -123,6 +123,10 @@
         ];
         on-window-detected = [
           {
+            "if" = { app-name-regex-substring = ".*"; };
+            run = [ "exec-and-forget /run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change" ];
+          }
+          {
             "if" = {
               app-name-regex-substring = "emacs";
             };

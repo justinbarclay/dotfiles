@@ -55,7 +55,7 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
 
     sketchybar --add item space.$sid left \
       --set space.$sid display="$display_id" \
-      --subscribe space.$sid aerospace_workspace_change \
+      --subscribe space.$sid aerospace_workspace_change front_app_switched space_change window_focus \
       --set space.$sid \
       drawing=on \
       background.color=0x44ffffff \

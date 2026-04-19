@@ -6,9 +6,9 @@
 CONFIG_DIR="$HOME/.config/sketchybar"
 source "$CONFIG_DIR/colors.zsh"
 
-if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
+STATE=$(aerospace list-workspaces --focused)
+if [ "$1" = "$STATE" ]; then
   sketchybar --set $NAME background.color=$ACCENT_COLOR label.shadow.drawing=on icon.shadow.drawing=on background.border_width=5 icon.color=$BAR_COLOR label.color=$BAR_COLOR
-# background.color=0x88FF00FF
 else
   sketchybar --set $NAME background.color=0x44FFFFFF label.shadow.drawing=off icon.shadow.drawing=off background.border_width=0 icon.color=$WHITE label.color=$WHITE
 fi

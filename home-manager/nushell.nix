@@ -65,12 +65,12 @@ with lib; {
         {
           cat = "bat";
           ls = "ls";
-          emacsBg = "pueue add -- emacs";
         } //
         (if pkgs.stdenv.isLinux then
           {
             ssh = "ssh.exe";
             ssh-add = "ssh-add.exe";
+            emacsBg = "pueue add -- emacs";
           }
         else
           { });
@@ -80,6 +80,11 @@ with lib; {
       '';
       extraConfig = ''
         use tidal-aws.nu
+        ${if pkgs.stdenv.isDarwin then ''
+          def --env emacsBg [] {
+            pueue add -- emacs $env.PWD
+          }
+        '' else ""}
       '';
     };
 

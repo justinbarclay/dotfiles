@@ -276,26 +276,8 @@ properties:
         Ensure: Absent
 
     # -------------------------------------------------------------------------
-    # WinGet packages
+    # WinGet packages (Explicit dependencies)
     # -------------------------------------------------------------------------
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: 1password
-      directives:
-        description: Install 1Password password manager
-        allowPrerelease: false
-      settings:
-        Id: AgileBits.1Password
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: 1password-cli
-      directives:
-        description: Install 1Password CLI (op)
-        allowPrerelease: false
-      settings:
-        Id: AgileBits.1Password.CLI
-        Source: winget
-
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: git
       directives:
@@ -324,15 +306,6 @@ properties:
         Source: winget
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: vscode
-      directives:
-        description: Install Visual Studio Code
-        allowPrerelease: false
-      settings:
-        Id: Microsoft.VisualStudioCode
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: komorebi
       directives:
         description: Install komorebi tiling window manager
@@ -350,59 +323,26 @@ properties:
         Id: LGUG2Z.whkd
         Source: winget
 
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: emacs
+    # -------------------------------------------------------------------------
+    # WinGet packages (Dynamic manifest)
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Script
+      id: winget-import
       directives:
-        description: Install GNU Emacs
+        description: Bulk install remaining packages from packages.json
         allowPrerelease: false
       settings:
-        Id: GNU.Emacs
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: powertoys
-      directives:
-        description: Install Microsoft PowerToys
-        allowPrerelease: false
-      settings:
-        Id: Microsoft.PowerToys
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: podman
-      directives:
-        description: Install Podman (daemonless container engine, docker-compatible)
-        allowPrerelease: false
-      settings:
-        Id: RedHat.Podman
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: 7zip
-      directives:
-        description: Install 7-Zip archive manager
-        allowPrerelease: false
-      settings:
-        Id: 7zip.7zip
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: gh
-      directives:
-        description: Install GitHub CLI (required for Copilot CLI extension)
-        allowPrerelease: false
-      settings:
-        Id: GitHub.cli
-        Source: winget
-
-    - resource: Microsoft.WinGet.DSC/WinGetPackage
-      id: copilot-cli
-      directives:
-        description: Install GitHub Copilot CLI
-        allowPrerelease: false
-      settings:
-        Id: GitHub.Copilot
-        Source: winget
+        GetScript: |
+          # We don't have a perfect way to 'get' the state of an entire file, 
+          # so we just return a placeholder.
+          return @{ Result = "Checked" }
+        TestScript: |
+          # For simplicity in this hybrid model, we run the import to ensure state.
+          # winget import is idempotent and will skip already installed packages.
+          return $false 
+        SetScript: |
+          $manifest = Join-Path $env:USERPROFILE 'dotfiles\windows\packages.json'
+          winget import --import-file $manifest --accept-package-agreements --accept-source-agreements
 
     # -------------------------------------------------------------------------
     # JavaScript — fnm (Fast Node Manager)

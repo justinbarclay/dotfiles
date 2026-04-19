@@ -18,6 +18,7 @@
         { "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition" },
         { "PackageIdentifier": "Nushell.Nushell" },
         { "PackageIdentifier": "RedHat.Podman" },
+        { "PackageIdentifier": "Tailscale.Tailscale" },
         { "PackageIdentifier": "RubyInstallerTeam.RubyWithDevKit.3.3" },
         { "PackageIdentifier": "Schniz.fnm" },
         { "PackageIdentifier": "Discord.Discord" },

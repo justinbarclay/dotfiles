@@ -1,0 +1,54 @@
+#+TITLE: Windows Development Environment Architecture
+#+AUTHOR: Justin Barclay
+#+DATE: [2026-04-19 Sun]
+
+* Overview
+This document explains the technical rationale and implementation details for the Windows development environment defined in this repository.
+
+* Core Engine: WinGet Configuration (DSC v3)
+The setup uses ~winget configure~, which leverages *Microsoft.Management.Configuration* (DSC v3).
+- *Declarative State*: Unlike imperative shell scripts, DSC defines the "desired state." It is idempotent, meaning it can be run repeatedly without side effects if the system is already in the correct state.
+- *Resources*: The configuration utilizes various DSC modules:
+  - ~Microsoft.WinGet.DSC~: Native package management.
+  - ~Microsoft.Windows.Developer~: High-level developer experience settings.
+  - ~PSDscResources~: Low-level OS primitives (Registry, Services, Features).
+
+* System Optimization
+
+** Dev Drive (ReFS)
+- *Setting*: ~Microsoft.Windows.Developer/DevDrive~ (100GB, Drive ~D:~).
+- *Rationale*: Traditional NTFS uses heavy metadata locking and synchronous filter drivers (like Antivirus) that slow down many-small-file operations (e.g., ~node_modules~, ~target/~ folders). Dev Drive uses ReFS and *Copy-on-Write (CoW)*, combined with *Defender Performance Mode*, to significantly reduce build latency.
+
+** Long Paths
+- *Setting*: Registry ~LongPathsEnabled=1~.
+- *Rationale*: Windows historically limits paths to 260 characters (~MAX_PATH~). This is frequently exceeded by deep Node.js dependency trees or Rust crate registries.
+
+** Sudo for Windows
+- *Setting*: Registry ~Sudo\Enabled=3~ (Inline).
+- *Rationale*: Provides a Unix-like elevation experience. "Inline" mode allows the elevated process to share the same terminal window handles, enabling seamless workflows without window switching.
+
+* Security Hardening
+
+** Protocol Decommissioning (SMB1 & LLMNR)
+- *Rationale*:
+  - *SMB1*: A legacy protocol with numerous critical vulnerabilities (e.g., EternalBlue).
+  - *LLMNR*: Used for local name resolution but easily spoofed by attackers to capture NTLM hashes.
+
+** Auditing & Privacy
+- *Command Line Auditing*: Logs full process arguments (Event ID 4688). This is vital for post-incident analysis to see exactly what a malicious script or tool executed.
+- *Telemetry*: Disabled via Group Policy registry keys to reduce background noise and enhance privacy.
+
+* Tooling & Integration
+
+** 1Password SSH Agent
+- *Logic*: We disable the built-in ~ssh-agent~ service so 1Password can own the ~\\.\pipe\openssh-ssh-agent~ named pipe.
+- *Git Integration*: By setting ~$env:GIT_SSH~ to the Windows OpenSSH client, Git is forced to use the client that natively supports the 1Password pipe, rather than a bundled MinGW client.
+
+** Environment Variables
+- ~$HOME~: Explicitly set to ~%USERPROFILE%~. This forces cross-platform tools (Git, SSH, Emacs) to use a single, predictable root for config files (~.ssh/~, ~.config/~), preventing "configuration fragmentation" between ~AppData~ and the User folder.
+
+* Maintenance Strategy
+
+** Drift Detection
+- *Implementation*: ~windows/check-drift.ps1~ run via a Scheduled Task (~DotfilesDriftCheck~).
+- *Mechanism*: Uses ~winget configure test~ to perform a non-destructive audit. This ensures that security policies or performance settings haven't been reverted by system updates or manual intervention.

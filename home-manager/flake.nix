@@ -2,7 +2,7 @@
   description = "My Home Manager Flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     devenv.url = "github:cachix/devenv/latest";
@@ -88,12 +88,14 @@
       nixosConfigurations."vider" = lib.nixosSystem
         {
           system = "x86_64-linux";
+          specialArgs = { inherit user; };
           modules = [ nixos-wsl.nixosModules.wsl ./wsl.nix ];
         };
 
       darwinConfigurations."heimdall" = nix-darwin.lib.darwinSystem
         {
           system = "aarch64-darwin";
+          specialArgs = { inherit user; };
           modules = [
             determinate.darwinModules.default
             ./darwin.nix

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+  "CreationDate": "2026-04-19T00:00:00.000Z",
+  "Sources": [
+    {
+      "Packages": [
+        { "PackageIdentifier": "7zip.7zip" },
+        { "PackageIdentifier": "AgileBits.1Password" },
+        { "PackageIdentifier": "AgileBits.1Password.CLI" },
+        { "PackageIdentifier": "Git.Git" },
+        { "PackageIdentifier": "GitHub.Copilot" },
+        { "PackageIdentifier": "GitHub.cli" },
+        { "PackageIdentifier": "GNU.Emacs" },
+        { "PackageIdentifier": "LGUG2Z.komorebi" },
+        { "PackageIdentifier": "LGUG2Z.whkd" },
+        { "PackageIdentifier": "Microsoft.PowerToys" },
+        { "PackageIdentifier": "Microsoft.VisualStudioCode" },
+        { "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition" },
+        { "PackageIdentifier": "Nushell.Nushell" },
+        { "PackageIdentifier": "RedHat.Podman" },
+        { "PackageIdentifier": "RubyInstallerTeam.RubyWithDevKit.3.3" },
+        { "PackageIdentifier": "Schniz.fnm" },
+        { "PackageIdentifier": "Discord.Discord" },
+        { "PackageIdentifier": "wez.wezterm" }
+      ],
+      "SourceDetails": {
+        "Argument": "https://cdn.winget.microsoft.com/cache",
+        "Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+        "Name": "winget",
+        "Type": "Microsoft.PreIndexed.Package"
+      }
+    }
+  ],
+  "WinGetVersion": "1.9.25200"
+}

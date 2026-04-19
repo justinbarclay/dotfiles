@@ -1,0 +1,36 @@
+.shell nu
+
+# Reload komorebi config
+alt + ctrl + win + oem_comma : komorebic reload-configuration
+
+# Focus workspaces  (mirrors AeroSpace cmd-ctrl-alt-N on macOS)
+alt + ctrl + win + 1 : komorebic focus-workspace 0
+alt + ctrl + win + 2 : komorebic focus-workspace 1
+alt + ctrl + win + 3 : komorebic focus-workspace 2
+alt + ctrl + win + c : komorebic focus-workspace 3
+alt + ctrl + win + e : komorebic focus-workspace 4
+alt + ctrl + win + t : komorebic focus-workspace 5
+
+# Move window to workspace  (mirrors AeroSpace cmd-ctrl-alt-shift-N)
+alt + ctrl + win + shift + 1 : komorebic move-to-workspace 0
+alt + ctrl + win + shift + 2 : komorebic move-to-workspace 1
+alt + ctrl + win + shift + 3 : komorebic move-to-workspace 2
+alt + ctrl + win + shift + c : komorebic move-to-workspace 3
+alt + ctrl + win + shift + e : komorebic move-to-workspace 4
+alt + ctrl + win + shift + t : komorebic move-to-workspace 5
+
+# Focus direction
+alt + ctrl + win + h : komorebic focus left
+alt + ctrl + win + j : komorebic focus down
+alt + ctrl + win + k : komorebic focus up
+alt + ctrl + win + l : komorebic focus right
+
+# Move window in direction
+alt + ctrl + win + shift + h : komorebic move left
+alt + ctrl + win + shift + j : komorebic move down
+alt + ctrl + win + shift + k : komorebic move up
+alt + ctrl + win + shift + l : komorebic move right
+
+# Resize
+alt + ctrl + win + oem_plus  : komorebic resize-axis vertical increase
+alt + ctrl + win + oem_minus : komorebic resize-axis vertical decrease

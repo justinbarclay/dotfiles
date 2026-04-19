@@ -1,0 +1,12 @@
+<Configuration>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\Users\justin\dotfiles</HostFolder>
+      <SandboxFolder>C:\Users\WDAGUtilityAccount\Desktop\dotfiles</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <LogonCommand>
+    <Command>powershell.exe -ExecutionPolicy Bypass -File C:\Users\WDAGUtilityAccount\Desktop\dotfiles\windows\sandbox-bootstrap.ps1</Command>
+  </LogonCommand>
+</Configuration>

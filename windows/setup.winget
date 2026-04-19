@@ -1,0 +1,701 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+# WinGet DSC configuration for a fresh Windows dev machine.
+# Run with:  winget configure -f windows\setup.winget --accept-configuration-agreements
+properties:
+  configurationVersion: 0.2.0
+  resources:
+
+    # -------------------------------------------------------------------------
+    # Assertions
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.Windows.Developer/OsVersion
+      id: assert-os-version
+      directives:
+        description: Require Windows 11 (build 22000+)
+        allowPrerelease: false
+      settings:
+        MinVersion: "10.0.22000"
+
+    # -------------------------------------------------------------------------
+    # System settings
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.Windows.Developer/DeveloperMode
+      id: developer-mode
+      directives:
+        description: Enable Developer Mode (required for unprivileged symlink creation)
+        allowPrerelease: false
+      settings:
+        Ensure: Present
+
+    - resource: Microsoft.Windows.Developer/WindowsExplorer
+      id: explorer-settings
+      directives:
+        description: Show file extensions, hidden files, and End Task on taskbar right-click
+        allowPrerelease: false
+      settings:
+        FileExtensions: Show
+        HiddenFiles: Show
+        TaskbarEndTask: Show
+
+    - resource: Microsoft.Windows.Developer/Taskbar
+      id: taskbar-settings
+      directives:
+        description: Left-align icons; hide Widgets, Search, and Task View buttons
+        allowPrerelease: false
+      settings:
+        Alignment: Left
+        WidgetsButton: Hide
+        SearchBoxMode: Hide
+        TaskViewButton: Hide
+
+    - resource: Microsoft.Windows.Developer/DarkMode
+      id: dark-mode
+      directives:
+        description: Enable system-wide Dark Mode
+        allowPrerelease: false
+      settings:
+        Ensure: Present
+
+    - resource: Microsoft.Windows.Developer/DevDrive
+      id: primary-dev-drive
+      directives:
+        description: Create a 100GB Dev Drive for source code and package caches
+        allowPrerelease: true
+        securityContext: elevated
+      settings:
+        Ensure: Present
+        DriveLetter: D
+        Label: DevDrive
+        SizeInBytes: 107374182400 # 100GB
+        Location: 'C:\DevDrives\Primary.vhdx'
+        DiskType: Dynamic
+
+    # Disable the default Windows SSH agent so 1Password can take over the pipe.
+    - resource: PSDscResources/Service
+      id: disable-windows-ssh-agent
+      directives:
+        description: Disable built-in OpenSSH agent (required for 1Password SSH Agent)
+        allowPrerelease: false
+      settings:
+        Name: ssh-agent
+        State: Stopped
+        StartupType: Disabled
+
+    - resource: PSDscResources/Registry
+      id: git-ssh-path
+      directives:
+        description: Ensure Git uses the native Windows OpenSSH client
+        allowPrerelease: false
+      settings:
+        Key: HKCU:\Environment
+        ValueName: GIT_SSH
+        ValueData: C:\Windows\System32\OpenSSH\ssh.exe
+        ValueType: String
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: home-env-var
+      directives:
+        description: Set HOME environment variable to match USERPROFILE
+        allowPrerelease: false
+      settings:
+        Key: HKCU:\Environment
+        ValueName: HOME
+        ValueData: "%USERPROFILE%"
+        ValueType: ExpandString
+        Ensure: Present
+
+    # Long paths: removes the 260-character MAX_PATH limit.
+    # Required by Node.js deep dependency trees, Rust crates, Python venvs, etc.
+    - resource: PSDscResources/Registry
+      id: long-paths
+      directives:
+        description: Enable Win32 long path support (>260 chars)
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem
+        ValueName: LongPathsEnabled
+        ValueData: '1'
+        ValueType: Dword
+        Ensure: Present
+
+    # Sudo: available on Windows 11 24H2+ (build 26100+).
+    # Mode 3 = inline (runs in the same window, like Unix sudo).
+    # Values: 0=disabled, 1=forceNewWindow, 2=disableInput, 3=inline
+    - resource: PSDscResources/Registry
+      id: sudo
+      directives:
+        description: Enable sudo for Windows in inline mode (Win 11 24H2+ only)
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Sudo
+        ValueName: Enabled
+        ValueData: '3'
+        ValueType: Dword
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: clipboard-history
+      directives:
+        description: Enable clipboard history (Win+V)
+        allowPrerelease: false
+      settings:
+        Key: HKCU:\Software\Microsoft\Clipboard
+        ValueName: EnableClipboardHistory
+        ValueData: '1'
+        ValueType: Dword
+        Ensure: Present
+
+    # -------------------------------------------------------------------------
+    # Security settings
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Registry
+      id: disable-llmnr
+      directives:
+        description: Disable LLMNR to prevent local network spoofing
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
+        ValueName: EnableMulticast
+        ValueData: '0'
+        ValueType: Dword
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: disable-telemetry
+      directives:
+        description: Disable Windows Telemetry
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
+        ValueName: AllowTelemetry
+        ValueData: 0
+        ValueType: Dword
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: powershell-execution-policy
+      directives:
+        description: Set PowerShell execution policy to RemoteSigned
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell
+        ValueName: ExecutionPolicy
+        ValueData: RemoteSigned
+        ValueType: String
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: cmd-line-auditing
+      directives:
+        description: Enable Command Line Auditing for process creation events
+        allowPrerelease: false
+      settings:
+        Key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+        ValueName: ProcessCreationIncludeCmdLine_Output
+        ValueData: '1'
+        ValueType: Dword
+        Ensure: Present
+
+    # -------------------------------------------------------------------------
+    # Windows Optional Features
+    # NOTE: These require a reboot. DSC will prompt automatically.
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/WindowsOptionalFeature
+      id: wsl
+      directives:
+        description: Enable Windows Subsystem for Linux
+        allowPrerelease: false
+      settings:
+        Name: Microsoft-Windows-Subsystem-Linux
+        Ensure: Present
+
+    - resource: PSDscResources/WindowsOptionalFeature
+      id: virtual-machine-platform
+      directives:
+        description: Enable Virtual Machine Platform (WSL2 backend)
+        allowPrerelease: false
+      settings:
+        Name: VirtualMachinePlatform
+        Ensure: Present
+
+    - resource: PSDscResources/WindowsOptionalFeature
+      id: bitlocker
+      directives:
+        description: Ensure BitLocker Drive Encryption feature is installed
+        allowPrerelease: false
+      settings:
+        Name: BitLocker
+        Ensure: Present
+
+    - resource: PSDscResources/WindowsOptionalFeature
+      id: disable-smb1
+      directives:
+        description: Disable legacy SMB1 protocol (Security Risk)
+        allowPrerelease: false
+      settings:
+        Name: SMB1Protocol
+        Ensure: Absent
+
+    # -------------------------------------------------------------------------
+    # Bloatware removal
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: remove-news
+      directives:
+        description: Remove Microsoft News
+        allowPrerelease: false
+      settings:
+        Id: Microsoft.BingNews
+        Ensure: Absent
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: remove-weather
+      directives:
+        description: Remove Microsoft Weather
+        allowPrerelease: false
+      settings:
+        Id: Microsoft.BingWeather
+        Ensure: Absent
+
+    # -------------------------------------------------------------------------
+    # WinGet packages
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: 1password
+      directives:
+        description: Install 1Password password manager
+        allowPrerelease: false
+      settings:
+        Id: AgileBits.1Password
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: 1password-cli
+      directives:
+        description: Install 1Password CLI (op)
+        allowPrerelease: false
+      settings:
+        Id: AgileBits.1Password.CLI
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: git
+      directives:
+        description: Install Git for Windows
+        allowPrerelease: false
+      settings:
+        Id: Git.Git
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: nushell
+      directives:
+        description: Install Nushell (primary shell)
+        allowPrerelease: false
+      settings:
+        Id: Nushell.Nushell
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: wezterm
+      directives:
+        description: Install WezTerm terminal emulator
+        allowPrerelease: false
+      settings:
+        Id: wez.wezterm
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vscode
+      directives:
+        description: Install Visual Studio Code
+        allowPrerelease: false
+      settings:
+        Id: Microsoft.VisualStudioCode
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: komorebi
+      directives:
+        description: Install komorebi tiling window manager
+        allowPrerelease: false
+      settings:
+        Id: LGUG2Z.komorebi
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: whkd
+      directives:
+        description: Install whkd hotkey daemon (drives komorebi bindings)
+        allowPrerelease: false
+      settings:
+        Id: LGUG2Z.whkd
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: emacs
+      directives:
+        description: Install GNU Emacs
+        allowPrerelease: false
+      settings:
+        Id: GNU.Emacs
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: powertoys
+      directives:
+        description: Install Microsoft PowerToys
+        allowPrerelease: false
+      settings:
+        Id: Microsoft.PowerToys
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: podman
+      directives:
+        description: Install Podman (daemonless container engine, docker-compatible)
+        allowPrerelease: false
+      settings:
+        Id: RedHat.Podman
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: 7zip
+      directives:
+        description: Install 7-Zip archive manager
+        allowPrerelease: false
+      settings:
+        Id: 7zip.7zip
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: gh
+      directives:
+        description: Install GitHub CLI (required for Copilot CLI extension)
+        allowPrerelease: false
+      settings:
+        Id: GitHub.cli
+        Source: winget
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: copilot-cli
+      directives:
+        description: Install GitHub Copilot CLI
+        allowPrerelease: false
+      settings:
+        Id: GitHub.Copilot
+        Source: winget
+
+    # -------------------------------------------------------------------------
+    # JavaScript — fnm (Fast Node Manager)
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: fnm
+      directives:
+        description: Install fnm (Fast Node Manager) for managing Node.js versions
+        allowPrerelease: false
+      settings:
+        Id: Schniz.fnm
+        Source: winget
+
+    - resource: PSDscResources/Script
+      id: fnm-lts
+      directives:
+        description: Install Node.js LTS and set it as the default via fnm
+        allowPrerelease: false
+      dependsOn:
+        - fnm
+      settings:
+        GetScript: |
+          if (-not (Get-Command fnm -ErrorAction SilentlyContinue)) { return @{ Result = 'false' } }
+          $installed = & fnm list 2>$null
+          return @{ Result = [string]($installed -match 'lts') }
+        TestScript: |
+          if (-not (Get-Command fnm -ErrorAction SilentlyContinue)) { return $false }
+          $installed = & fnm list 2>$null
+          return [bool]($installed -match 'lts')
+        SetScript: |
+          fnm install --lts
+          fnm default lts-latest
+
+    - resource: PSDscResources/Script
+      id: gemini-cli
+      directives:
+        description: Install Google Gemini CLI globally via npm
+        allowPrerelease: false
+      dependsOn:
+        - fnm-lts
+      settings:
+        GetScript: |
+          $installed = npm list -g --depth=0 2>$null
+          return @{ Result = [string]($installed -match '@google/gemini-cli') }
+        TestScript: |
+          if (-not (Get-Command npm -ErrorAction SilentlyContinue)) { return $false }
+          $installed = npm list -g --depth=0 2>$null
+          return [bool]($installed -match '@google/gemini-cli')
+        SetScript: |
+          npm install -g @google/gemini-cli
+
+    # -------------------------------------------------------------------------
+    # Rust — VS Build Tools (MSVC linker) → rustup → stable toolchain
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: vs-build-tools
+      directives:
+        description: Install Visual Studio 2022 Build Tools (provides MSVC linker for Rust)
+        allowPrerelease: false
+      settings:
+        Id: Microsoft.VisualStudio.2022.BuildTools
+        Source: winget
+
+    # Add the C++ workload and Windows SDK to the Build Tools installation.
+    # The Microsoft.VisualStudio.DSC module ships with VS Build Tools.
+    - resource: Microsoft.VisualStudio.DSC/VSComponents
+      id: vs-cpp-workload
+      directives:
+        description: Install C++ build tools workload and Windows 11 SDK
+        allowPrerelease: false
+      dependsOn:
+        - vs-build-tools
+      settings:
+        productId: Microsoft.VisualStudio.Product.BuildTools
+        channelId: VisualStudio.17.Release
+        includeRecommended: false
+        components:
+          - Microsoft.VisualStudio.Workload.VCTools
+          - Microsoft.VisualStudio.Component.Windows11SDK.22621
+
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: rustup
+      directives:
+        description: Install rustup (Rust toolchain manager)
+        allowPrerelease: false
+      dependsOn:
+        - vs-build-tools
+      settings:
+        Id: Rustlang.Rustup
+        Source: winget
+
+    - resource: PSDscResources/Script
+      id: rustup-stable
+      directives:
+        description: Install the Rust stable toolchain and set it as default
+        allowPrerelease: false
+      dependsOn:
+        - rustup
+        - vs-cpp-workload
+      settings:
+        GetScript: |
+          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) { return @{ Result = 'false' } }
+          $toolchains = & rustup toolchain list 2>$null
+          return @{ Result = [string]($toolchains -match 'stable') }
+        TestScript: |
+          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) { return $false }
+          $toolchains = & rustup toolchain list 2>$null
+          return [bool]($toolchains -match 'stable')
+        SetScript: |
+          rustup install stable --no-self-update
+          rustup default stable
+
+    # -------------------------------------------------------------------------
+    # Ruby — RubyInstaller with DevKit (MSYS2 bundled)
+    # -------------------------------------------------------------------------
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      id: ruby
+      directives:
+        description: Install Ruby 3.3 with DevKit (MSYS2 toolchain for native gems)
+        allowPrerelease: false
+      settings:
+        Id: RubyInstallerTeam.RubyWithDevKit.3.3
+        Source: winget
+
+    # ridk install 3 initialises the MSYS2/MINGW toolchain so native gems
+    # (nokogiri, ffi, etc.) can compile C extensions.
+    - resource: PSDscResources/Script
+      id: ruby-devkit-init
+      directives:
+        description: Initialise Ruby DevKit MSYS2 toolchain (required for native gems)
+        allowPrerelease: false
+      dependsOn:
+        - ruby
+      settings:
+        GetScript: |
+          if (-not (Get-Command ridk -ErrorAction SilentlyContinue)) { return @{ Result = 'false' } }
+          $gcc = Get-ChildItem 'C:\' -Filter 'Ruby*' -Directory -ErrorAction SilentlyContinue |
+                 ForEach-Object { Join-Path $_.FullName 'msys64\mingw64\bin\gcc.exe' } |
+                 Where-Object { Test-Path $_ } | Select-Object -First 1
+          return @{ Result = [string]($null -ne $gcc) }
+        TestScript: |
+          if (-not (Get-Command ridk -ErrorAction SilentlyContinue)) { return $false }
+          $gcc = Get-ChildItem 'C:\' -Filter 'Ruby*' -Directory -ErrorAction SilentlyContinue |
+                 ForEach-Object { Join-Path $_.FullName 'msys64\mingw64\bin\gcc.exe' } |
+                 Where-Object { Test-Path $_ } | Select-Object -First 1
+          return ($null -ne $gcc)
+        SetScript: |
+          ridk install 3
+
+    # -------------------------------------------------------------------------
+    # Scoop package manager + CLI tools
+    # Scoop is not a native DSC resource, so we use Script resources.
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Script
+      id: scoop-install
+      directives:
+        description: Install Scoop package manager
+        allowPrerelease: false
+      settings:
+        GetScript: |
+          $present = $null -ne (Get-Command scoop -ErrorAction SilentlyContinue)
+          return @{ Result = [string]$present }
+        TestScript: |
+          return $null -ne (Get-Command scoop -ErrorAction SilentlyContinue)
+        SetScript: |
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+          Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+    - resource: PSDscResources/Script
+      id: scoop-buckets
+      directives:
+        description: Add Scoop buckets (main, extras, nerd-fonts)
+        allowPrerelease: false
+      dependsOn:
+        - scoop-install
+      settings:
+        GetScript: |
+          $buckets = scoop bucket list 2>$null | Select-Object -ExpandProperty Name
+          return @{ Result = ($buckets -join ',') }
+        TestScript: |
+          $buckets = scoop bucket list 2>$null | Select-Object -ExpandProperty Name
+          $required = @('main', 'extras', 'nerd-fonts')
+          return ($required | Where-Object { $buckets -notcontains $_ } | Measure-Object).Count -eq 0
+        SetScript: |
+          $bucketMap = @{
+            'main'       = 'https://github.com/ScoopInstaller/Main'
+            'extras'     = 'https://github.com/ScoopInstaller/Extras'
+            'nerd-fonts' = 'https://github.com/matthewjberger/scoop-nerd-fonts'
+          }
+          $existing = scoop bucket list 2>$null | Select-Object -ExpandProperty Name
+          foreach ($entry in $bucketMap.GetEnumerator()) {
+            if ($existing -notcontains $entry.Key) {
+              scoop bucket add $entry.Key $entry.Value
+            }
+          }
+
+    - resource: PSDscResources/Script
+      id: scoop-apps
+      directives:
+        description: Install CLI tools via Scoop
+        allowPrerelease: false
+      dependsOn:
+        - scoop-buckets
+      settings:
+        GetScript: |
+          $installed = scoop list 2>$null | Select-Object -ExpandProperty Name
+          return @{ Result = ($installed -join ',') }
+        TestScript: |
+          $installed = scoop list 2>$null | Select-Object -ExpandProperty Name
+          $required = @('ripgrep','fd','jq','bat','eza','fzf','zoxide','starship','atuin','carapace','CaskaydiaMono-NF','sqlite','gnutls','hunspell','vale','coreutils')
+          return ($required | Where-Object { $installed -notcontains $_ } | Measure-Object).Count -eq 0
+        SetScript: |
+          $apps = @(
+            'main/ripgrep',
+            'main/fd',
+            'main/jq',
+            'main/bat',
+            'main/eza',
+            'main/fzf',
+            'main/zoxide',
+            'main/starship',
+            'main/atuin',
+            'main/carapace',
+            'nerd-fonts/CaskaydiaMono-NF',
+            'main/sqlite',
+            'main/gnutls',
+            'main/hunspell',
+            'main/vale',
+            'main/coreutils'
+          )
+          foreach ($app in $apps) {
+            scoop install $app
+          }
+
+    # -------------------------------------------------------------------------
+    # Config file symlinks
+    # Assumes the repo is cloned to %USERPROFILE%\dotfiles.
+    # Developer Mode (above) must be enabled first so mklink works without elevation.
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Script
+      id: symlinks
+      directives:
+        description: Symlink dotfiles config files to their Windows locations
+        allowPrerelease: false
+      dependsOn:
+        - developer-mode
+        - nushell
+        - git
+        - wezterm
+        - komorebi
+        - whkd
+      settings:
+        GetScript: |
+          $dotfiles = Join-Path $env:USERPROFILE 'dotfiles'
+          $links = @(
+            @{ Dest = Join-Path $env:APPDATA      'nushell\config.nu' },
+            @{ Dest = Join-Path $env:APPDATA      'nushell\env.nu' },
+            @{ Dest = Join-Path $env:APPDATA      'nushell\custom.nu' },
+            @{ Dest = Join-Path $env:USERPROFILE  '.gitconfig' },
+            @{ Dest = Join-Path $env:USERPROFILE  '.wezterm.lua' },
+            @{ Dest = Join-Path $env:USERPROFILE  '.config\komorebi\komorebi.json' },
+            @{ Dest = Join-Path $env:USERPROFILE  '.config\whkd\whkdrc' },
+            @{ Dest = Join-Path $env:USERPROFILE  '.config\starship.toml' }
+          )
+          $missing = ($links | Where-Object { -not (Test-Path $_.Dest) }).Count
+          return @{ Result = [string]($missing -eq 0) }
+        TestScript: |
+          $links = @(
+            (Join-Path $env:APPDATA     'nushell\config.nu'),
+            (Join-Path $env:APPDATA     'nushell\env.nu'),
+            (Join-Path $env:APPDATA     'nushell\custom.nu'),
+            (Join-Path $env:USERPROFILE '.gitconfig'),
+            (Join-Path $env:USERPROFILE '.wezterm.lua'),
+            (Join-Path $env:USERPROFILE '.config\komorebi\komorebi.json'),
+            (Join-Path $env:USERPROFILE '.config\whkd\whkdrc'),
+            (Join-Path $env:USERPROFILE '.config\starship.toml')
+          )
+          foreach ($link in $links) {
+            if (-not (Test-Path $link)) { return $false }
+            if (-not (Get-Item $link).Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) { return $false }
+          }
+          return $true
+        SetScript: |
+          $d = Join-Path $env:USERPROFILE 'dotfiles'
+
+          # Ensure target directories exist
+          New-Item -ItemType Directory -Force -Path (Join-Path $env:APPDATA     'nushell')                  | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config\komorebi')         | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config\whkd')             | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config')                  | Out-Null
+
+          $links = @(
+            @{ Dest = Join-Path $env:APPDATA     'nushell\config.nu';              Src = Join-Path $d 'home-manager\config\config.nu'   },
+            @{ Dest = Join-Path $env:APPDATA     'nushell\env.nu';                 Src = Join-Path $d 'home-manager\config\env.nu'      },
+            @{ Dest = Join-Path $env:APPDATA     'nushell\custom.nu';              Src = Join-Path $d 'home-manager\config\custom.nu'   },
+            @{ Dest = Join-Path $env:USERPROFILE '.gitconfig';                     Src = Join-Path $d 'windows\.gitconfig'              },
+            @{ Dest = Join-Path $env:USERPROFILE '.wezterm.lua';                   Src = Join-Path $d 'home-manager\config\.wezterm.lua'},
+            @{ Dest = Join-Path $env:USERPROFILE '.config\komorebi\komorebi.json'; Src = Join-Path $d 'windows\komorebi.json'           },
+            @{ Dest = Join-Path $env:USERPROFILE '.config\whkd\whkdrc';            Src = Join-Path $d 'windows\whkdrc'                 },
+            @{ Dest = Join-Path $env:USERPROFILE '.config\starship.toml';          Src = Join-Path $d 'home-manager\config\starship.toml'}
+          )
+
+          foreach ($link in $links) {
+            if (Test-Path $link.Dest) {
+              $item = Get-Item $link.Dest
+              if (-not $item.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) {
+                Remove-Item $link.Dest -Force
+              } else {
+                continue
+              }
+            }
+            & cmd.exe /c mklink $link.Dest $link.Src
+          }

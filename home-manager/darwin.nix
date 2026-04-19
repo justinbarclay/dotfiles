@@ -1,10 +1,10 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, user, ... }:
 {
   imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ];
 
   modules.darwin.postgres = {
     enable = false;
-    user = "justin";
+    user = user;
   };
 
   modules.darwin.pueue = {
@@ -27,10 +27,10 @@
   nixpkgs.config.allowUnfree = true;
 
   users.users = {
-    justin = {
-      name = "justin";
+    "${user}" = {
+      name = user;
       shell = pkgs.nushell;
-      home = "/Users/justin";
+      home = "/Users/${user}";
     };
   };
 
@@ -65,8 +65,8 @@
       experimental-features = nix-command flakes auto-allocate-uids
     '';
     settings = {
-      trusted-users = [ "root" "justin" "@admin" ];
-      extra-trusted-users = "justin";
+      trusted-users = [ "root" user "@admin" ];
+      extra-trusted-users = user;
     };
     optimise.automatic = false;
     gc.automatic = false;
@@ -243,7 +243,7 @@
 
   # Darwin System configuration
   system = {
-    primaryUser = "justin";
+    primaryUser = user;
     keyboard.enableKeyMapping = true;
     keyboard.remapCapsLockToControl = true;
     defaults = {

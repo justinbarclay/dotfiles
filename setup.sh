@@ -1,4 +1,8 @@
 #!/bin/sh
+# ARCHIVED: This script predates the Nix/home-manager setup and is no longer
+# used. It is kept for historical reference only.
+# The current bootstrap is windows/bootstrap.ps1 (Windows) or the nix-darwin /
+# NixOS-WSL instructions in README.md.
 script_dir=$(dirname $0 | xargs realpath)
 
 zsh () {

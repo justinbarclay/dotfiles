@@ -1,11 +1,11 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, user, ... }:
 with builtins;
 with lib; {
   config = {
     wsl = {
       enable = true;
       wslConf.automount.root = "/mnt";
-      defaultUser = "justin";
+      defaultUser = user;
       startMenuLaunchers = true;
     };
 
@@ -14,13 +14,13 @@ with lib; {
         experimental-features = nix-command flakes
       '';
       settings = {
-        trusted-users = [ "root" "justin" ];
+        trusted-users = [ "root" user ];
         download-buffer-size = 524288000;
         auto-optimise-store = true;
       };
     };
 
-    users.users.justin = {
+    users.users."${user}" = {
       isNormalUser = true;
       shell = pkgs.zsh;
       extraGroups = [ "wheel" "podman" ];
@@ -91,7 +91,7 @@ with lib; {
 
           (pkgs.writeScriptBin "rebuild-nix"
             ''
-              sudo nixos-rebuild --flake /home/justin/dotfiles/home-manager#"vider" switch --impure
+              sudo nixos-rebuild --flake ~/dotfiles/home-manager#"vider" switch --impure
             '')
         ];
 

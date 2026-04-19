@@ -1,4 +1,7 @@
 * Setting Up On A New System
+# ARCHIVED: This org-mode setup guide predates the Nix/home-manager workflow
+# and is kept only for historical reference. The current setup is documented in
+# README.md.  The Guix section below is similarly archived.
 ** Linux
 *** Arch
 **** Security

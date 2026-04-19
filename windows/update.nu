@@ -27,8 +27,8 @@ scoop update "*"
 # 3. Re-export manifests so the repo stays in sync
 # ---------------------------------------------------------------------------
 section "Re-exporting manifests"
-winget export --output ($dotfiles | path join "windows" "winget.json") --accept-source-agreements
-print "winget.json updated."
+winget export --output ($dotfiles | path join "windows" "packages.json") --accept-source-agreements
+print "packages.json updated."
 
 # Scoop export produces the same JSON shape we import from
 scoop export | save --force ($dotfiles | path join "windows" "scoop.json")

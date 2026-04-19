@@ -1,0 +1,65 @@
+#+TITLE: Windows Development Setup Runbook
+#+AUTHOR: Justin Barclay
+#+PROPERTY: header-args :powershell :results silent
+
+* Overview
+This runbook describes the process for provisioning a fresh Windows 11 development machine using WinGet DSC and the configurations stored in this repository.
+
+* Prerequisites
+- Windows 11 (Build 22000+)
+- WinGet 1.6 or later
+- Internet connection
+
+* Provisioning Steps
+
+** 1. Bootstrap the System
+Run the main DSC configuration. This will install all base packages (Git, WezTerm, Nushell), enable Developer Mode, create the 100GB Dev Drive, and harden the system.
+
+#+begin_src powershell
+winget configure -f windows\setup.winget --accept-configuration-agreements
+#+end_src
+
+/Note: A reboot may be required if WSL or BitLocker features were newly enabled./
+
+** 2. Initialize Elevated Tools (Sudo)
+Once ~setup.winget~ has run, the "Sudo for Windows" feature is enabled in inline mode. You can now use ~sudo~ for subsequent steps.
+
+** 3. Register Automated Drift Detection
+Run the following command to register a background task that checks if the system state deviates from the config at every login.
+
+#+begin_src powershell
+sudo powershell -File windows\install-drift-task.ps1
+#+end_src
+
+* SSH and 1Password Setup
+
+** 1. Enable 1Password SSH Agent
+For security, this must be done manually:
+1. Open *1Password*
+2. Settings > Developer
+3. Check *Use the SSH agent*
+
+** 2. Clone Emacs Configuration
+Once the 1Password SSH agent is active, clone your Emacs dotfiles. The ~GNU.Emacs~ package on Windows defaults to looking in ~%APPDATA%\.emacs.d~.
+
+#+begin_src powershell
+git clone git@github.com:justinbarclay/.emacs.d.git $env:APPDATA\.emacs.d
+#+end_src
+
+* Maintenance
+
+** Manual Drift Check
+To manually check if the machine is still in the "Golden State":
+#+begin_src powershell
+sudo winget configure test -f windows\setup.winget
+#+end_src
+
+** Applying Updates
+To pull the latest config and re-apply all settings/packages:
+#+begin_src powershell
+winget configure -f windows\setup.winget --accept-configuration-agreements
+#+end_src
+
+** Logs
+Automation logs are stored in:
+- ~$env:TEMP\winget-drift.log~

@@ -1,10 +1,9 @@
 <#
 .SYNOPSIS
-    Pre-bootstrap for a new Windows machine.
-    Installs Nushell via winget, then hands off to bootstrap.nu.
+    Bootstrap a new Windows dev machine using WinGet DSC.
 
 .DESCRIPTION
-    Run this script from a plain PowerShell prompt (no Nushell required).
+    Run this script from a plain PowerShell prompt.
     It is the only step you need to run manually on a fresh machine.
 
     Usage (from the repo root):
@@ -12,40 +11,20 @@
         .\windows\bootstrap.ps1
 
     The script will:
-      1. Verify winget is available.
-      2. Install Nushell if it is not already present.
-      3. Invoke windows\bootstrap.nu with the freshly installed nu.exe.
+      1. Verify winget is available (1.6+ required for DSC support).
+      2. Run the declarative configuration in windows\setup.winget, which
+         installs all packages, enables Windows features, and symlinks configs.
 #>
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
 function Write-Section([string]$Title) {
     Write-Host "`n== $Title ==" -ForegroundColor Cyan
 }
 
-function Find-Nu {
-    # 1. Already on PATH
-    $onPath = Get-Command nu -ErrorAction SilentlyContinue
-    if ($onPath) { return $onPath.Source }
-
-    # 2. Common winget install location for the current user
-    $candidate = Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\Nushell.Nushell*\nu.exe'
-    $found = Get-Item $candidate -ErrorAction SilentlyContinue | Select-Object -Last 1
-    if ($found) { return $found.FullName }
-
-    # 3. Scoop shim (in case the user ran scoop install nushell before this script)
-    $scoopShim = Join-Path $env:USERPROFILE 'scoop\shims\nu.exe'
-    if (Test-Path $scoopShim) { return $scoopShim }
-
-    return $null
-}
-
 # ---------------------------------------------------------------------------
-# 1. Verify winget is available
+# 1. Verify winget is available and supports DSC (1.6+)
 # ---------------------------------------------------------------------------
 Write-Section "Checking prerequisites"
 
@@ -59,68 +38,30 @@ Then re-run this script.
     exit 1
 }
 
-Write-Host "winget found." -ForegroundColor Green
-
-# ---------------------------------------------------------------------------
-# 2. Install Nushell (if missing)
-# ---------------------------------------------------------------------------
-Write-Section "Nushell"
-
-$nuExe = Find-Nu
-if ($nuExe) {
-    Write-Host "Nushell already installed at: $nuExe" -ForegroundColor Green
-} else {
-    Write-Host "Installing Nushell via winget..."
-    winget install --id Nushell.Nushell --accept-source-agreements --accept-package-agreements --silent
-    $wingetExitCode = $LASTEXITCODE
-    # 0x8A15002B: The package is already installed. Treat as success.
-    if ($wingetExitCode -ne 0 -and $wingetExitCode -ne -1978335189) {
-        Write-Error "winget install failed (exit $wingetExitCode). Check the output above."
-        exit 1
-    }
-
-    # Refresh PATH in this session so nu.exe is findable without reopening the shell
-    $machinePath = [System.Environment]::GetEnvironmentVariable('PATH', 'Machine')
-    $userPath    = [System.Environment]::GetEnvironmentVariable('PATH', 'User')
-    $env:PATH    = "$userPath;$machinePath"
-
-    $nuExe = Find-Nu
-    if (-not $nuExe) {
-        Write-Error @"
-Nushell was installed but nu.exe could not be located automatically.
-Open a new PowerShell window (so PATH is refreshed) and run:
-  nu windows\bootstrap.nu
-"@
-        exit 1
-    }
-    Write-Host "Nushell installed at: $nuExe" -ForegroundColor Green
+$wingetVersion = (winget --version).TrimStart('v')
+$minVersion    = [Version]'1.6.0'
+if ([Version]$wingetVersion -lt $minVersion) {
+    Write-Error "winget $wingetVersion is too old. Version 1.6+ is required for DSC support. Update via the Microsoft Store."
+    exit 1
 }
 
-# ---------------------------------------------------------------------------
-# 3. Install Scoop (if missing)
-# ---------------------------------------------------------------------------
-Write-Section "Scoop"
+Write-Host "winget $wingetVersion found." -ForegroundColor Green
 
-if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
-    Write-Host "Installing Scoop..."
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
-        Write-Error "Scoop installation failed."
-        exit 1
-    }
-} else {
-    Write-Host "Scoop already installed." -ForegroundColor Green
+# ---------------------------------------------------------------------------
+# 2. Apply the WinGet DSC configuration
+# ---------------------------------------------------------------------------
+Write-Section "Applying WinGet DSC configuration"
+
+$configFile = Join-Path $PSScriptRoot 'setup.winget'
+Write-Host "Configuration file: $configFile"
+Write-Host ""
+
+winget configure --file $configFile --accept-configuration-agreements
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "winget configure failed (exit $LASTEXITCODE). Review the output above."
+    exit $LASTEXITCODE
 }
 
-# ---------------------------------------------------------------------------
-# 4. Hand off to bootstrap.nu
-# ---------------------------------------------------------------------------
-Write-Section "Handing off to bootstrap.nu"
-
-$bootstrapNu  = Join-Path $PSScriptRoot 'bootstrap.nu'
-
-Write-Host "Running: $nuExe $bootstrapNu $args"
-& $nuExe $bootstrapNu @args
-
-exit $LASTEXITCODE
+Write-Section "Done"
+Write-Host "Bootstrap complete. Open a new WezTerm window to verify everything works." -ForegroundColor Green

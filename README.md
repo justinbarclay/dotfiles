@@ -8,7 +8,7 @@ Nix-based dotfiles for macOS (heimdall) and NixOS WSL (vider), managed with [hom
 |------|----|------|--------|
 | `heimdall` | macOS | aarch64-darwin | `darwinConfigurations.heimdall` |
 | `vider` | NixOS WSL | x86_64-linux | `nixosConfigurations.vider` |
-| *(Windows host)* | Windows 11 | x86_64 | `windows/bootstrap.nu` |
+| *(Windows host)* | Windows 11 | x86_64 | `windows/setup.winget` |
 
 ## Prerequisites
 
@@ -61,16 +61,20 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\windows\bootstrap.ps1
 ```
 
-`bootstrap.ps1` installs Nushell via winget and then calls `bootstrap.nu`, which:
-1. Installs [Scoop](https://scoop.sh) if missing
-2. Adds Scoop buckets and installs CLI tools from `windows/scoop.json`
-3. Installs remaining GUI apps via `winget import windows/winget.json`
-4. Symlinks config files (nushell, wezterm, git, komorebi, whkd, starship) to their Windows locations
+`bootstrap.ps1` verifies winget (1.6+ required) and then runs:
 
-```nu
-# Upgrade all packages and re-export manifests (after initial setup):
-nu windows/update.nu
+```powershell
+winget configure --file windows\setup.winget --accept-configuration-agreements
 ```
+
+`setup.winget` is a declarative WinGet DSC configuration that:
+1. Enables Developer Mode and configures Windows Explorer settings
+2. Enables WSL2 (`Microsoft-Windows-Subsystem-Linux` + `VirtualMachinePlatform`)
+3. Installs GUI apps via WinGet (1Password, Git, Nushell, WezTerm, VS Code, komorebi, whkd, Emacs, PowerToys, Podman)
+4. Installs Scoop and CLI tools (ripgrep, fd, jq, bat, eza, fzf, zoxide, starship, atuin, carapace, CaskaydiaMono-NF, coreutils)
+5. Symlinks config files (nushell, wezterm, git, komorebi, whkd, starship) to their Windows locations
+
+> **Note:** WSL2 optional features require a reboot; DSC will prompt automatically.
 
 ### Update everything (flake inputs + home-manager switch)
 
@@ -99,14 +103,21 @@ home-manager/
 ├── scripts/           # nix-update, rebuild-nix
 └── services/          # Darwin launchd services (redis, pueue, mbsync, postgres)
 windows/
-├── bootstrap.ps1      # Step 1: run from plain PowerShell — installs Nushell then calls bootstrap.nu
-├── bootstrap.nu       # Step 2: full first-time setup (Scoop, Winget, symlinks)
+├── bootstrap.ps1      # Run from plain PowerShell — calls winget configure
+├── setup.winget       # WinGet DSC configuration (packages, features, symlinks)
+├── test-sandbox.wsb   # Windows Sandbox configuration for isolated testing
+├── sandbox-bootstrap.ps1 # Helper script for Sandbox (installs winget + runs bootstrap)
+├── architecture.org   # System design, module boundaries, data flow
+├── runbook.org        # Provisioning and maintenance guide
+├── check-drift.ps1    # Drift detection script (non-destructive audit)
+├── install-drift-task.ps1 # Registers the drift check as a scheduled task
 ├── update.nu          # Upgrade all packages + re-export manifests
-├── winget.json        # Declarative Winget manifest (GUI apps, core tools)
-├── scoop.json         # Declarative Scoop manifest (CLI dev tools)
+├── packages.json      # WinGet package list (reference; re-exported by update.nu)
+├── scoop.json         # Scoop app list (reference; re-exported by update.nu)
 ├── .gitconfig         # Native Windows git config (correct SSH/signing paths)
 ├── komorebi.json      # Tiling WM config (mirrors AeroSpace on macOS)
-└── whkdrc             # Hotkey config for whkd (mirrors AeroSpace bindings)
+├── whkdrc             # Hotkey config for whkd (mirrors AeroSpace bindings)
+└── archive/           # Superseded files kept for historical reference
 ```
 
 ## SSH & Commit Signing Setup
@@ -139,10 +150,11 @@ The public key used for verification is stored in `config/.gitconfig-darwin` and
 
 ## CI
 
-GitHub Actions runs two jobs on every push and PR:
+GitHub Actions runs three jobs on every push and PR:
 
 1. **format** — `nixpkgs-fmt --check` on all `.nix` files
 2. **parse** — `nix-instantiate --parse` on all `.nix` files (catches syntax errors the formatter misses)
+3. **windows** — verifies the Windows bootstrap script and symlink creation on `windows-latest`
 
 > Full flake evaluation (`nix flake check`) is not run in CI because the private SSH inputs (`tidal-overlay`, `tidal-tools`) require deploy keys that are not available in the public CI environment.
 
@@ -153,3 +165,5 @@ GitHub Actions runs two jobs on every push and PR:
 | `guix/` | Archived — predates the Nix setup; kept for historical reference |
 | `setup.sh` | Archived — old zsh symlink bootstrap; superseded by `windows/bootstrap.ps1` and nix-darwin |
 | `setup.org` | Archived — old Arch/Guix notes; superseded by this README |
+| `windows/archive/bootstrap.nu` | Archived — replaced by `windows/setup.winget` DSC script resources |
+| `windows/archive/winget.json` | Archived — replaced by `windows/setup.winget` WinGetPackage resources |

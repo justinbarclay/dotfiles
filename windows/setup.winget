@@ -81,11 +81,28 @@ properties:
         State: Stopped
         StartupType: Disabled
 
+    - resource: PSDscResources/Script
+      id: openssh-client
+      directives:
+        description: Ensure the Windows OpenSSH Client capability is installed
+        allowPrerelease: false
+      settings:
+        GetScript: |
+          $cap = Get-WindowsCapability -Online -Name 'OpenSSH.Client*' -ErrorAction SilentlyContinue
+          return @{ Result = [string]($null -ne $cap -and $cap.State -eq 'Installed') }
+        TestScript: |
+          $cap = Get-WindowsCapability -Online -Name 'OpenSSH.Client*' -ErrorAction SilentlyContinue
+          return ($null -ne $cap -and $cap.State -eq 'Installed')
+        SetScript: |
+          Add-WindowsCapability -Online -Name 'OpenSSH.Client~~~~0.0.1.0'
+
     - resource: PSDscResources/Registry
       id: git-ssh-path
       directives:
         description: Ensure Git uses the native Windows OpenSSH client
         allowPrerelease: false
+      dependsOn:
+        - openssh-client
       settings:
         Key: HKCU:\Environment
         ValueName: GIT_SSH
@@ -464,7 +481,7 @@ properties:
         includeRecommended: false
         components:
           - Microsoft.VisualStudio.Workload.VCTools
-          - Microsoft.VisualStudio.Component.Windows11SDK.22621
+          - Microsoft.VisualStudio.Component.Windows11SDK.22621 # REVIEW: update pin when next SDK is required by rustc/MSVC
 
     - resource: Microsoft.WinGet.DSC/WinGetPackage
       id: rustup
@@ -522,16 +539,12 @@ properties:
       settings:
         GetScript: |
           if (-not (Get-Command ridk -ErrorAction SilentlyContinue)) { return @{ Result = 'false' } }
-          $gcc = Get-ChildItem 'C:\' -Filter 'Ruby*' -Directory -ErrorAction SilentlyContinue |
-                 ForEach-Object { Join-Path $_.FullName 'msys64\mingw64\bin\gcc.exe' } |
-                 Where-Object { Test-Path $_ } | Select-Object -First 1
-          return @{ Result = [string]($null -ne $gcc) }
+          $result = & ridk exec -- gcc --version 2>$null
+          return @{ Result = [string]($LASTEXITCODE -eq 0) }
         TestScript: |
           if (-not (Get-Command ridk -ErrorAction SilentlyContinue)) { return $false }
-          $gcc = Get-ChildItem 'C:\' -Filter 'Ruby*' -Directory -ErrorAction SilentlyContinue |
-                 ForEach-Object { Join-Path $_.FullName 'msys64\mingw64\bin\gcc.exe' } |
-                 Where-Object { Test-Path $_ } | Select-Object -First 1
-          return ($null -ne $gcc)
+          & ridk exec -- gcc --version 2>$null | Out-Null
+          return ($LASTEXITCODE -eq 0)
         SetScript: |
           ridk install 3
 
@@ -591,33 +604,22 @@ properties:
         - scoop-buckets
       settings:
         GetScript: |
+          $cfg = Get-Content (Join-Path $env:USERPROFILE 'dotfiles\windows\scoop.json') | ConvertFrom-Json
           $installed = scoop list 2>$null | Select-Object -ExpandProperty Name
           return @{ Result = ($installed -join ',') }
         TestScript: |
+          $cfg = Get-Content (Join-Path $env:USERPROFILE 'dotfiles\windows\scoop.json') | ConvertFrom-Json
+          $required = $cfg.apps | Select-Object -ExpandProperty Name
           $installed = scoop list 2>$null | Select-Object -ExpandProperty Name
-          $required = @('ripgrep','fd','jq','bat','eza','fzf','zoxide','starship','atuin','carapace','CaskaydiaMono-NF','sqlite','gnutls','hunspell','vale','coreutils')
           return ($required | Where-Object { $installed -notcontains $_ } | Measure-Object).Count -eq 0
         SetScript: |
-          $apps = @(
-            'main/ripgrep',
-            'main/fd',
-            'main/jq',
-            'main/bat',
-            'main/eza',
-            'main/fzf',
-            'main/zoxide',
-            'main/starship',
-            'main/atuin',
-            'main/carapace',
-            'nerd-fonts/CaskaydiaMono-NF',
-            'main/sqlite',
-            'main/gnutls',
-            'main/hunspell',
-            'main/vale',
-            'main/coreutils'
-          )
-          foreach ($app in $apps) {
-            scoop install $app
+          $cfg = Get-Content (Join-Path $env:USERPROFILE 'dotfiles\windows\scoop.json') | ConvertFrom-Json
+          $installed = scoop list 2>$null | Select-Object -ExpandProperty Name
+          foreach ($app in $cfg.apps) {
+            if ($installed -notcontains $app.Name) {
+              $ref = if ($app.Source -ne 'main') { "$($app.Source)/$($app.Name)" } else { $app.Name }
+              scoop install $ref
+            }
           }
 
     # -------------------------------------------------------------------------

@@ -28,11 +28,13 @@ scoop update "*"
 # ---------------------------------------------------------------------------
 section "Re-exporting manifests"
 winget export --output ($dotfiles | path join "windows" "packages.json") --accept-source-agreements
-print "packages.json updated."
+print "packages.json updated (informational snapshot — setup.winget is authoritative)."
 
-# Scoop export produces the same JSON shape we import from
-scoop export | save --force ($dotfiles | path join "windows" "scoop.json")
-print "scoop.json updated."
+# Export to scoop-export.json, NOT scoop.json.
+# scoop.json is the hand-authored source of truth read by the DSC bootstrap.
+# scoop-export.json is a raw snapshot for diffing installed state.
+scoop export | save --force ($dotfiles | path join "windows" "scoop-export.json")
+print "scoop-export.json updated (diff against scoop.json to spot unmanaged installs)."
 
 # ---------------------------------------------------------------------------
 # 4. Remind to commit

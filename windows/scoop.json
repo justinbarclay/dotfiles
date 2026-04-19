@@ -5,16 +5,21 @@
     { "Name": "nerd-fonts", "Source": "https://github.com/matthewjberger/scoop-nerd-fonts" }
   ],
   "apps": [
-    { "Name": "ripgrep",   "Source": "main"   },
-    { "Name": "fd",        "Source": "main"   },
-    { "Name": "jq",        "Source": "main"   },
-    { "Name": "bat",       "Source": "main"   },
-    { "Name": "eza",       "Source": "main"   },
-    { "Name": "fzf",       "Source": "main"   },
-    { "Name": "zoxide",    "Source": "main"   },
-    { "Name": "starship",  "Source": "main"   },
-    { "Name": "atuin",     "Source": "main"   },
-    { "Name": "carapace",  "Source": "main"   },
-    { "Name": "CaskaydiaMono-NF", "Source": "nerd-fonts" }
+    { "Name": "ripgrep",         "Source": "main"       },
+    { "Name": "fd",              "Source": "main"       },
+    { "Name": "jq",              "Source": "main"       },
+    { "Name": "bat",             "Source": "main"       },
+    { "Name": "eza",             "Source": "main"       },
+    { "Name": "fzf",             "Source": "main"       },
+    { "Name": "zoxide",          "Source": "main"       },
+    { "Name": "starship",        "Source": "main"       },
+    { "Name": "atuin",           "Source": "main"       },
+    { "Name": "carapace",        "Source": "main"       },
+    { "Name": "sqlite",          "Source": "main"       },
+    { "Name": "gnutls",          "Source": "main"       },
+    { "Name": "hunspell",        "Source": "main"       },
+    { "Name": "vale",            "Source": "main"       },
+    { "Name": "coreutils",       "Source": "main"       },
+    { "Name": "CaskaydiaMono-NF","Source": "nerd-fonts" }
   ]
 }

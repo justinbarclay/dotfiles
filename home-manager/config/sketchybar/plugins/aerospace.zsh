@@ -8,11 +8,10 @@ source "$CONFIG_DIR/colors.zsh"
 
 STATE=$(aerospace list-workspaces --focused)
 if [ "$1" = "$STATE" ]; then
-  sketchybar --set $NAME background.color=$ACCENT_COLOR label.shadow.drawing=on icon.shadow.drawing=on background.border_width=5 icon.color=$BAR_COLOR label.color=$BAR_COLOR
+  sketchybar --set $NAME background.color=$ACCENT_COLOR label.shadow.drawing=off icon.shadow.drawing=off background.border_width=5 icon.color=$BAR_COLOR label.color=$BAR_COLOR
 else
   sketchybar --set $NAME background.color=0x44FFFFFF label.shadow.drawing=off icon.shadow.drawing=off background.border_width=0 icon.color=$WHITE label.color=$WHITE
 fi
-
 sid=$1
 apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
 

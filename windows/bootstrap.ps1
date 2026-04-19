@@ -72,8 +72,10 @@ if ($nuExe) {
 } else {
     Write-Host "Installing Nushell via winget..."
     winget install --id Nushell.Nushell --accept-source-agreements --accept-package-agreements --silent
-    if ($LASTEXITCODE -ne 0) {
-        Write-Error "winget install failed (exit $LASTEXITCODE). Check the output above."
+    $wingetExitCode = $LASTEXITCODE
+    # 0x8A15002B: The package is already installed. Treat as success.
+    if ($wingetExitCode -ne 0 -and $wingetExitCode -ne -1978335189) {
+        Write-Error "winget install failed (exit $wingetExitCode). Check the output above."
         exit 1
     }
 
@@ -95,13 +97,30 @@ Open a new PowerShell window (so PATH is refreshed) and run:
 }
 
 # ---------------------------------------------------------------------------
-# 3. Hand off to bootstrap.nu
+# 3. Install Scoop (if missing)
+# ---------------------------------------------------------------------------
+Write-Section "Scoop"
+
+if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+    Write-Host "Installing Scoop..."
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+    if ($LASTEXITCODE -ne 0 -and $null -ne $LASTEXITCODE) {
+        Write-Error "Scoop installation failed."
+        exit 1
+    }
+} else {
+    Write-Host "Scoop already installed." -ForegroundColor Green
+}
+
+# ---------------------------------------------------------------------------
+# 4. Hand off to bootstrap.nu
 # ---------------------------------------------------------------------------
 Write-Section "Handing off to bootstrap.nu"
 
 $bootstrapNu  = Join-Path $PSScriptRoot 'bootstrap.nu'
 
-Write-Host "Running: $nuExe $bootstrapNu"
-& $nuExe $bootstrapNu
+Write-Host "Running: $nuExe $bootstrapNu $args"
+& $nuExe $bootstrapNu @args
 
 exit $LASTEXITCODE

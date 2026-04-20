@@ -763,6 +763,7 @@ $env.config = {
 # mkdir ($nu.data-dir | path join "vendor/autoload")
 # starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
+source ~/dotfiles/home-manager/config/custom.nu
 source ~/.config/starship/starship.nu
 source ~/.config/zoxide/init.nu
 source ~/.cache/carapace/init.nu

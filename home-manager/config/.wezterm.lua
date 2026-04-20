@@ -33,8 +33,7 @@ config.window_frame = {
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   -- Open new tabs/windows inside WSL by default instead of cmd/PowerShell
   config.default_prog = { 'nu', '-l' }
-  config.default_domain = 'WSL:NixOS'
-
+  config.default_ssh_auth_sock = "\\\\.\\pipe\\openssh-ssh-agent"
   -- Quick-launch menu so you can still reach PowerShell or a bare Nu session
   config.launch_menu = {
     { label = 'NixOS WSL (nu)',  domain = { DomainName = 'WSL:NixOS' },  args = { 'nu', '-l' } },

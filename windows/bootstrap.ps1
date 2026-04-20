@@ -19,6 +19,15 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+# Ensure script is running as Administrator
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "This script must be run as Administrator." -ForegroundColor Red
+    $args = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    Start-Process powershell.exe -Verb RunAs -ArgumentList $args
+    exit
+}
+
 function Write-Section([string]$Title) {
     Write-Host "`n== $Title ==" -ForegroundColor Cyan
 }
@@ -38,7 +47,7 @@ Then re-run this script.
     exit 1
 }
 
-$wingetVersion = (winget --version).TrimStart('v')
+$wingetVersion = (winget --version).TrimStart('v') -replace '[-+].*$', ''
 $minVersion    = [Version]'1.6.0'
 if ([Version]$wingetVersion -lt $minVersion) {
     Write-Error "winget $wingetVersion is too old. Version 1.6+ is required for DSC support. Update via the Microsoft Store."

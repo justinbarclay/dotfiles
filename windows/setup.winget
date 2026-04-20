@@ -30,30 +30,59 @@ properties:
     - resource: Microsoft.Windows.Developer/WindowsExplorer
       id: explorer-settings
       directives:
-        description: Show file extensions, hidden files, and End Task on taskbar right-click
+        description: Show file extensions, hidden files
         allowPrerelease: false
       settings:
         FileExtensions: Show
         HiddenFiles: Show
-        TaskbarEndTask: Show
+
+    - resource: PSDscResources/Registry
+      id: taskbar-end-task
+      directives:
+        description: Enable End Task on taskbar right-click
+        allowPrerelease: false
+        securityContext: elevated
+      settings:
+        Key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced
+        ValueName: TaskbarEndTask
+        ValueData: 1
+        ValueType: Dword
+        Ensure: Present
 
     - resource: Microsoft.Windows.Developer/Taskbar
       id: taskbar-settings
       directives:
         description: Left-align icons; hide Widgets, Search, and Task View buttons
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Alignment: Left
         WidgetsButton: Hide
         SearchBoxMode: Hide
         TaskViewButton: Hide
 
-    - resource: Microsoft.Windows.Developer/DarkMode
-      id: dark-mode
+    - resource: PSDscResources/Registry
+      id: dark-mode-system
       directives:
         description: Enable system-wide Dark Mode
         allowPrerelease: false
       settings:
+        Key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize
+        ValueName: SystemUsesLightTheme
+        ValueData: 0
+        ValueType: Dword
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: dark-mode-apps
+      directives:
+        description: Enable app Dark Mode
+        allowPrerelease: false
+      settings:
+        Key: HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize
+        ValueName: AppsUseLightTheme
+        ValueData: 0
+        ValueType: Dword
         Ensure: Present
 
     - resource: Microsoft.Windows.Developer/DevDrive
@@ -76,6 +105,7 @@ properties:
       directives:
         description: Disable built-in OpenSSH agent (required for 1Password SSH Agent)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Name: ssh-agent
         State: Stopped
@@ -86,6 +116,7 @@ properties:
       directives:
         description: Ensure the Windows OpenSSH Client capability is installed
         allowPrerelease: false
+        securityContext: elevated
       settings:
         GetScript: |
           $cap = Get-WindowsCapability -Online -Name 'OpenSSH.Client*' -ErrorAction SilentlyContinue
@@ -110,17 +141,20 @@ properties:
         ValueType: String
         Ensure: Present
 
-    - resource: PSDscResources/Registry
+    - resource: PSDscResources/Script
       id: home-env-var
       directives:
         description: Set HOME environment variable to match USERPROFILE
         allowPrerelease: false
       settings:
-        Key: HKCU:\Environment
-        ValueName: HOME
-        ValueData: "%USERPROFILE%"
-        ValueType: ExpandString
-        Ensure: Present
+        GetScript: |
+          $val = [Environment]::GetEnvironmentVariable('HOME', 'User')
+          return @{ Result = [string]($val -eq $env:USERPROFILE) }
+        TestScript: |
+          $val = [Environment]::GetEnvironmentVariable('HOME', 'User')
+          return ($val -eq $env:USERPROFILE)
+        SetScript: |
+          [Environment]::SetEnvironmentVariable('HOME', $env:USERPROFILE, 'User')
 
     # Long paths: removes the 260-character MAX_PATH limit.
     # Required by Node.js deep dependency trees, Rust crates, Python venvs, etc.
@@ -129,6 +163,7 @@ properties:
       directives:
         description: Enable Win32 long path support (>260 chars)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem
         ValueName: LongPathsEnabled
@@ -144,6 +179,7 @@ properties:
       directives:
         description: Enable sudo for Windows in inline mode (Win 11 24H2+ only)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Sudo
         ValueName: Enabled
@@ -171,6 +207,7 @@ properties:
       directives:
         description: Disable LLMNR to prevent local network spoofing
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\Software\Policies\Microsoft\Windows NT\DNSClient
         ValueName: EnableMulticast
@@ -183,6 +220,7 @@ properties:
       directives:
         description: Disable Windows Telemetry
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection
         ValueName: AllowTelemetry
@@ -195,6 +233,7 @@ properties:
       directives:
         description: Set PowerShell execution policy to RemoteSigned
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell
         ValueName: ExecutionPolicy
@@ -207,6 +246,7 @@ properties:
       directives:
         description: Enable Command Line Auditing for process creation events
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Key: HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
         ValueName: ProcessCreationIncludeCmdLine_Output
@@ -223,6 +263,7 @@ properties:
       directives:
         description: Enable Windows Subsystem for Linux
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Name: Microsoft-Windows-Subsystem-Linux
         Ensure: Present
@@ -232,6 +273,7 @@ properties:
       directives:
         description: Enable Virtual Machine Platform (WSL2 backend)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Name: VirtualMachinePlatform
         Ensure: Present
@@ -241,6 +283,7 @@ properties:
       directives:
         description: Ensure BitLocker Drive Encryption feature is installed
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Name: BitLocker
         Ensure: Present
@@ -250,6 +293,7 @@ properties:
       directives:
         description: Disable legacy SMB1 protocol (Security Risk)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Name: SMB1Protocol
         Ensure: Absent
@@ -283,6 +327,7 @@ properties:
       directives:
         description: Install Git for Windows
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Id: Git.Git
         Source: winget
@@ -352,6 +397,7 @@ properties:
       directives:
         description: Install fnm (Fast Node Manager) for managing Node.js versions
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Id: Schniz.fnm
         Source: winget
@@ -381,6 +427,7 @@ properties:
       directives:
         description: Install Google Gemini CLI globally via npm
         allowPrerelease: false
+        securityContext: elevated
       dependsOn:
         - fnm-lts
       settings:
@@ -402,6 +449,7 @@ properties:
       directives:
         description: Install Visual Studio 2022 Build Tools (provides MSVC linker for Rust)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Id: Microsoft.VisualStudio.2022.BuildTools
         Source: winget
@@ -413,6 +461,7 @@ properties:
       directives:
         description: Install C++ build tools workload and Windows 11 SDK
         allowPrerelease: false
+        securityContext: elevated
       dependsOn:
         - vs-build-tools
       settings:
@@ -463,6 +512,7 @@ properties:
       directives:
         description: Install Ruby 3.3 with DevKit (MSYS2 toolchain for native gems)
         allowPrerelease: false
+        securityContext: elevated
       settings:
         Id: RubyInstallerTeam.RubyWithDevKit.3.3
         Source: winget
@@ -505,7 +555,10 @@ properties:
           return $null -ne (Get-Command scoop -ErrorAction SilentlyContinue)
         SetScript: |
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-          Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+          $script = Invoke-RestMethod -Uri https://get.scoop.sh
+          # Suppress Write-Host issues in DSC redirection
+          $script = $script -replace 'Write-Host', 'Write-Output'
+          $script | Invoke-Expression
 
     - resource: PSDscResources/Script
       id: scoop-buckets

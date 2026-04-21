@@ -110,6 +110,10 @@ with lib; {
       postgresql = {
         enable = true;
         package = pkgs.postgresql_17;
+        extensions = ps: with ps; [ hypopg ];
+        settings = {
+          shared_preload_libraries = "pg_stat_statements,hypopg";
+        };
         enableTCPIP = true;
         authentication = pkgs.lib.mkOverride 17 ''
           local all all trust

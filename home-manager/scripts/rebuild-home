@@ -1,29 +1,30 @@
 #!/usr/bin/env nu
 
 def main [
-    --no-update (-n) # Disable nix flake update
+  --no-update (-n) # Disable nix flake update
 ] {
-    cd ~/.config/home-manager
+  cd ~/.config/home-manager
 
-    if not $no_update {
-        nix flake update
-    }
+  if not $no_update {
+    nix flake update
+  }
 
-    let os = (sys host | get long_os_version | split words | first)
+  let os = (sys host | get long_os_version | split words | first)
 
-    let username = match $os {
+
+  let username = match $os {
         "Linux" | "NixOs" => (op.exe read "op://Private/fastmail-smtp/username")
-        "Darwin" => (op read "op://Private/fastmail-smtp/username")
+        "macOS" => (op read "op://Private/fastmail-smtp/username")
         _ => {
-            print "Hi, stranger!"
-            ""
+          print "Hi, stranger!"
+          ""
         }
-    } | str trim
+  } | str trim
 
-    with-env {
+  with-env {
         NIXPKGS_ALLOW_BROKEN: "1",
         fastmailUsername: $username
-    } {
+  } {
         home-manager switch --impure
-    }
+  }
 }

@@ -159,6 +159,11 @@
     sketchybar = { enable = true; };
   };
 
+  launchd.user.agents.sketchybar.serviceConfig = {
+    StandardOutPath = "/Users/justin/.sketchybar.stdout.log";
+    StandardErrorPath = "/Users/justin/.sketchybar.stderr.log";
+  };
+
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341

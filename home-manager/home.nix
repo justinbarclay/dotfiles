@@ -1,4 +1,4 @@
-{ config, lib, pkgs, user, system, ... }:
+{ pkgs, user, system, ... }:
 let
   stdenv = pkgs.stdenv;
 in
@@ -57,7 +57,7 @@ in
       act
 
       #virtualisation
-      # podman
+      podman
 
       # Tools
       gnuplot

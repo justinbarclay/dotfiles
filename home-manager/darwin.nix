@@ -1,7 +1,14 @@
 { pkgs, lib, user, ... }:
 {
-  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ];
+  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ./services/sketchybar.nix ];
 
+  modules.darwin.sketchybar = {
+    enable = true;
+    cpu = false;
+    memory = false;
+    theme = "cappuccino";
+
+  };
   modules.darwin.postgres = {
     enable = false;
     user = user;
@@ -88,6 +95,11 @@
     aerospace = {
       enable = true;
       settings = {
+        exec-on-workspace-change = [
+          "/bin/bash"
+          "-c"
+          "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE"
+        ];
         gaps = {
           outer.left = 0;
           outer.right = 0;
@@ -173,6 +185,7 @@
       nixos-rebuild
       nushell
       aerospace
+      sketchybar
       ripgrep
       wezterm
       wget
@@ -227,6 +240,7 @@
 
   # Fonts
   fonts.packages = with pkgs; [
+    sketchybar-app-font
     nerd-fonts.caskaydia-mono
     nerd-fonts.hack
     yanone-kaffeesatz

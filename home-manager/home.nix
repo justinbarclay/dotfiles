@@ -53,7 +53,7 @@ in
       cowsay
       gnupg
       cachix
-      nil
+      nixd
       act
 
       #virtualisation

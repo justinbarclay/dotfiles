@@ -62,7 +62,6 @@ with lib; {
           ffmpeg
           ffmpegthumbnailer
           poppler
-          nil
 
           cloc
 

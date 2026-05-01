@@ -190,6 +190,7 @@
       zellij
       nodejs_25
       prettier
+      sketchybar
       (pkgs.writeScriptBin "rebuild-darwin"
         ''
           sudo darwin-rebuild switch --flake ~/dotfiles/home-manager

@@ -181,6 +181,12 @@ let
   };
 
   geminiConfig = {
+    experimental = {
+      modelSteering = true;
+    };
+    general = {
+      enableNotifications = true;
+    };
     mcpServers = sharedMcpServers;
     security = {
       auth = {

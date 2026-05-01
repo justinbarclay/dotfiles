@@ -56,7 +56,8 @@
           if lib.hasSuffix "darwin" system then
           # "87dff52c245cba0c5103cf89b964e508ed9bb720"
           # "52a095892ca74be27cd229accd59cc61df21d48a"
-            "ef37c2288f4e1f709f0317757527f52c8563651b"
+          #"ef37c2288f4e1f709f0317757527f52c8563651b"
+            "4d84d5c37f28595b34858e4ae9c76c11e7c257ab"
           else
             "f188652e2cbea570880d983968a152cd76b68315";
       });
@@ -91,10 +92,10 @@
                   # The new pdmp captures the corrected values, eliminating the EPERM.
                   if _prev.stdenv.isDarwin then
                     {
-                      emacs-git =
+                      emacs-igc =
                         let
-                          emacs = _final.emacs-git;
-                          base = _prev.emacs-git.overrideAttrs (old: {
+                          emacs = _final.emacs-igc;
+                          base = _prev.emacs-igc.overrideAttrs (old: {
                             nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ _prev.makeWrapper ];
                             postInstall = (old.postInstall or "") + ''
                               emacs_version=$(ls "$out/share/emacs" | grep -E '^[0-9]' | sort -V | tail -1)

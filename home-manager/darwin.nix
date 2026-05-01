@@ -116,11 +116,6 @@
         mode.service.binding = {
           cmd-ctrl-alt-comma = [ "reload-config" "mode main" ];
         };
-        exec-on-workspace-change = [
-          "/bin/bash"
-          "-c"
-          "/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE"
-        ];
         on-window-detected = [
           {
             "if" = {
@@ -156,12 +151,6 @@
       };
     };
     tailscale.enable = true;
-    sketchybar = { enable = true; };
-  };
-
-  launchd.user.agents.sketchybar.serviceConfig = {
-    StandardOutPath = "/Users/justin/.sketchybar.stdout.log";
-    StandardErrorPath = "/Users/justin/.sketchybar.stderr.log";
   };
 
   # Apps
@@ -190,7 +179,6 @@
       zellij
       nodejs_25
       prettier
-      sketchybar
       (pkgs.writeScriptBin "rebuild-darwin"
         ''
           sudo darwin-rebuild switch --flake ~/dotfiles/home-manager
@@ -241,7 +229,6 @@
   fonts.packages = with pkgs; [
     nerd-fonts.caskaydia-mono
     nerd-fonts.hack
-    sketchybar-app-font
     yanone-kaffeesatz
     powerline-fonts
     paratype-pt-mono

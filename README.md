@@ -98,7 +98,7 @@ home-manager/
 ├── gtk.nix            # GTK theme (Linux only, Tokyo Night)
 ├── nushell.nix        # Nushell + starship + atuin + zoxide + carapace
 ├── zsh.nix            # Zsh (disabled, nushell is primary)
-├── config/            # Raw config files (wezterm, nushell, starship, sketchybar)
+├── config/            # Raw config files (wezterm, nushell, starship)
 ├── packages/          # Custom Nix packages (pngpaste, pt-mono-nerd-font)
 ├── scripts/           # nix-update, rebuild-nix
 └── services/          # Darwin launchd services (redis, pueue, mbsync, postgres)
@@ -139,7 +139,6 @@ The public key used for verification is stored in `config/.gitconfig-darwin` and
 | [aerospace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager (macOS), 6 workspaces |
 | [komorebi](https://github.com/LGUG2Z/komorebi) | Tiling window manager (Windows), mirrors AeroSpace layout |
 | [whkd](https://github.com/LGUG2Z/whkd) | Hotkey daemon for komorebi (Windows) |
-| [sketchybar](https://github.com/FelixKratz/SketchyBar) | Status bar (macOS) |
 | [nushell](https://www.nushell.sh) | Primary shell |
 | [atuin](https://github.com/atuinsh/atuin) | Shell history sync |
 | [emacs-igc](https://github.com/emacs-mirror/emacs) | Editor with incremental GC |

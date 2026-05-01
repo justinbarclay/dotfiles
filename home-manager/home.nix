@@ -89,9 +89,6 @@ in
       executable = false;
       source = ./config/.wezterm.lua;
     };
-    file.".config/sketchybar" = {
-      source = ./config/sketchybar;
-    };
 
     stateVersion =
       "26.05"; # To figure this out you can comment out the line and see what version it expected.

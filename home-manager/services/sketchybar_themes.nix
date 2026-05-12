@@ -90,6 +90,24 @@
     item_bg = "0x663d484d";
     border = "0x44ffffff";
   };
+  ayu-dark-bordered = {
+    bg = "0xcc0b0e14";
+    fg = "0xffb3b1ad";
+    accent = "0xffe6b450";
+    blue = "0xff39bae6";
+    red = "0xfff07178";
+    item_bg = "0x66151a1e";
+    border = "0x44ffffff";
+  };
+  pink-cat-boo = {
+    bg = "0xcc202330";
+    fg = "0xfffff0f5";
+    accent = "0xffff4791";
+    blue = "0xffa2c2eb";
+    red = "0xfffa508c";
+    item_bg = "0x66472541";
+    border = "0x44ffffff";
+  };
 
   # Light Themes
   solarized-light = {
@@ -144,6 +162,15 @@
     blue = "0xff3a94c5";
     red = "0xffe67e80";
     item_bg = "0x66f3efd9";
+    border = "0x44000000";
+  };
+  ayu-light = {
+    bg = "0xccfafafa";
+    fg = "0xff5c6773";
+    accent = "0xffff9940";
+    blue = "0xff41a6d9";
+    red = "0xfff07178";
+    item_bg = "0x66f3f3f3";
     border = "0x44000000";
   };
 }

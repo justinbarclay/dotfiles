@@ -1,4 +1,4 @@
-{ pkgs, lib, user, ... }:
+{ pkgs, user, ... }:
 {
   imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ./services/sketchybar.nix ];
 
@@ -6,7 +6,7 @@
     enable = true;
     cpu = false;
     memory = false;
-    theme = "cappuccino";
+    theme = "pink-cat-boo";
 
   };
   modules.darwin.postgres = {

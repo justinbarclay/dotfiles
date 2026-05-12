@@ -203,7 +203,9 @@ in
       type = types.enum [ 
         "laserwave" "catppuccin" "nord" "tokyonight" 
         "gruvbox" "solarized" "dracula" "rose-pine" "onedark" "everforest" 
+        "ayu-dark-bordered" "pink-cat-boo"
         "solarized-light" "catppuccin-latte" "gruvbox-light" "nord-light" "github-light" "everforest-light"
+        "ayu-light"
       ];
       default = "laserwave";
     };

@@ -55,10 +55,6 @@ in
       cachix
       nixd
       act
-
-      #virtualisation
-      podman
-
       # Tools
       gnuplot
       graphviz

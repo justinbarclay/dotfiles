@@ -100,6 +100,8 @@ with lib; {
       };
     };
 
+    security.pki.certificateFiles = [ /home/justin/.local/share/mkcert/rootCA.pem ];
+
     virtualisation.podman = {
       enable = true;
       dockerCompat = true;

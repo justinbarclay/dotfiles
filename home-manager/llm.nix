@@ -203,9 +203,41 @@ let
       })
       sharedMcpServers;
   };
+
+  antigravityConfig = {
+    enableTelemetry = false;
+    enableNotifications = true;
+    enableTerminalSandbox = true;
+    trustedWorkspaces = [ ];
+    altScreenMode = "always";
+  };
+
+  antigravityMcpConfig = {
+    mcpServers = sharedMcpServers;
+  };
 in
 {
   home.packages = with pkgs; [
+    (pkgs.callPackage ./packages/antigravity-cli/package.nix { })
+    (pkgs.writeShellApplication {
+      name = "update-antigravity-cli";
+      runtimeInputs = [ curl jq ];
+      text = ''
+        set -euo pipefail
+        # Assuming dotfiles are in ~/dotfiles based on current environment
+        DOTFILES_DIR="${home}/dotfiles"
+        UPDATE_SCRIPT="$DOTFILES_DIR/home-manager/packages/antigravity-cli/update.sh"
+
+        if [ ! -f "$UPDATE_SCRIPT" ]; then
+          echo "Error: Could not find update.sh at $UPDATE_SCRIPT"
+          echo "Please ensure your dotfiles are located at $DOTFILES_DIR"
+          exit 1
+        fi
+
+        echo "Running antigravity-cli update script..."
+        "$UPDATE_SCRIPT"
+      '';
+    })
     gemini-cli
     github-copilot-cli
     gh
@@ -215,6 +247,13 @@ in
   home.file.".config/eca/config.json".text = builtins.toJSON ecaConfig;
 
   home.file.".gemini/settings.json".text = builtins.toJSON geminiConfig;
+
+  home.file.".gemini/antigravity-cli/settings.json" = {
+    force = true;
+    text = builtins.toJSON antigravityConfig;
+  };
+
+  home.file.".gemini/antigravity-cli/mcp_config.json".text = builtins.toJSON antigravityMcpConfig;
 
   home.file.".copilot/mcp-config.json".text = builtins.toJSON copilotConfig;
 
@@ -233,6 +272,14 @@ in
   };
 
   home.file."AGENTS.md" = {
+    source = ./config/AGENTS.md;
+  };
+
+  home.file.".gemini/GEMINI.md" = {
+    source = ./config/GEMINI.md;
+  };
+
+  home.file.".gemini/AGENTS.md" = {
     source = ./config/AGENTS.md;
   };
 }

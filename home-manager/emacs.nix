@@ -16,7 +16,7 @@ with lib; {
     {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacs-igc.override {
+        package = (if pkgs.stdenv.isDarwin then pkgs.emacs-git else pkgs.emacs-igc).override {
           withSQLite3 = true;
           withGTK3 = config.modules.emacs.with-gtk;
           withNativeCompilation = true;

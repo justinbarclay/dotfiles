@@ -141,7 +141,7 @@ The public key used for verification is stored in `config/.gitconfig-darwin` and
 | [whkd](https://github.com/LGUG2Z/whkd) | Hotkey daemon for komorebi (Windows) |
 | [nushell](https://www.nushell.sh) | Primary shell |
 | [atuin](https://github.com/atuinsh/atuin) | Shell history sync |
-| [emacs-igc](https://github.com/emacs-mirror/emacs) | Editor with incremental GC |
+| [emacs](https://github.com/emacs-mirror/emacs) | Editor (emacs-git on macOS, emacs-igc on WSL) |
 | [mu4e](https://djcbsoftware.nl/code/mu/mu4e.html) | Email in Emacs |
 | [mbsync](https://isync.sourceforge.io) | IMAP sync (Fastmail) |
 | [pueue](https://github.com/Nukesor/pueue) | Background task queue |

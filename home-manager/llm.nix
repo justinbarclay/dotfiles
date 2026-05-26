@@ -28,6 +28,19 @@ let
         DATABASE_URI = "\${POSTGRES_DATABASE_URI}";
       };
     };
+    chroma = {
+      command = "docker";
+      args = [
+        "run"
+        "-i"
+        "--rm"
+        "--network=host"
+        "ghcr.io/chroma-core/chroma-mcp:latest"
+        "--chroma-client-type" "http"
+        "--chroma-host" "localhost"
+        "--chroma-port" "8000"
+      ];
+    };
     # Example:
     # sqlite = {
     #   command = "${pkgs.nodejs}/bin/npx";

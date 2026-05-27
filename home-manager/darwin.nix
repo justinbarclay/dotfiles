@@ -182,7 +182,6 @@
       })
       # man-pages
       # man-pages-posix
-      nixos-rebuild
       nushell
       aerospace
       sketchybar
@@ -190,7 +189,7 @@
       wezterm
       wget
       zellij
-      nodejs_25
+      nodejs_26
       prettier
       (pkgs.writeScriptBin "rebuild-darwin"
         ''

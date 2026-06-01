@@ -264,6 +264,11 @@
         AppleKeyboardUIMode = 3;
         NSAutomaticWindowAnimationsEnabled = false;
       };
+      "CustomUserPreferences" = {
+        NSGlobalDomain = {
+          NSAutoFillHeuristicControllerEnabled = false;
+        };
+      };
       dock = {
         autohide = true;
         orientation = "bottom";

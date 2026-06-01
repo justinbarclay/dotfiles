@@ -233,6 +233,7 @@
 
   environment.darwinConfig = "$HOME/dotfiles/home-manager";
   environment.shells = [ pkgs.nushell pkgs.zsh pkgs.bashInteractive ];
+  environment.systemPath = [ "/opt/podman/bin" ];
 
   # https://github.com/nix-community/home-manager/issues/423
   programs.nix-index.enable = true;

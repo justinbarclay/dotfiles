@@ -13,7 +13,7 @@ let
       args = [ "stdio" ];
     };
     postgres = {
-      command = "docker";
+      command = "podman";
       args = [
         "run"
         "-i"
@@ -24,21 +24,24 @@ let
         "crystaldba/postgres-mcp"
         "--access-mode=restricted"
       ];
-      env = {
-        DATABASE_URI = "\${POSTGRES_DATABASE_URI}";
-      };
     };
     chroma = {
-      command = "docker";
+      command = "podman";
       args = [
         "run"
         "-i"
         "--rm"
         "--network=host"
         "ghcr.io/chroma-core/chroma-mcp:latest"
-        "--chroma-client-type" "http"
-        "--chroma-host" "localhost"
-        "--chroma-port" "8000"
+        "chroma-mcp"
+        "--client-type"
+        "http"
+        "--host"
+        "localhost"
+        "--port"
+        "8000"
+        "--ssl"
+        "false"
       ];
     };
     # Example:
@@ -220,7 +223,6 @@ let
   antigravityConfig = {
     enableTelemetry = false;
     enableNotifications = true;
-    enableTerminalSandbox = true;
     trustedWorkspaces = [ ];
     altScreenMode = "always";
   };

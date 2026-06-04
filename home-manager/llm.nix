@@ -223,6 +223,7 @@ let
   antigravityConfig = {
     enableTelemetry = false;
     enableNotifications = true;
+    enableTerminalSandbox = false;
     trustedWorkspaces = [ ];
     altScreenMode = "always";
   };

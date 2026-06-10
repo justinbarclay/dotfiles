@@ -1,19 +1,9 @@
 #!/usr/bin/env nu
 
-# Scan a directory for suspicious Ruby patterns
-def main [
-    dir: path = "."                    # The directory to scan (defaults to current directory)
-    --json                             # Output findings in JSON format
-    --watch-classes (-w): string = ""  # Comma-separated list of classes to watch for
-    --watch-severity (-s): string = "MEDIUM" # Severity to assign to watched classes (HIGH, MEDIUM, LOW)
-    --interactive (-i)                 # Prompt interactively for classes to watch
-    --describe                         # Describe the patterns we scan for and exit
-] {
-    let base_dir = ($dir | path expand)
-    
-    let patterns = [
+def base-patterns [] {
+    [
         { id: "eval", regex: "(?<![\\.\\'\"\\w])\\b(eval|class_eval|instance_eval|module_eval)\\b(?!\\s*[\\.:=\\'\"])", desc: "Dynamic code execution (eval)", severity: "HIGH" },
-        { id: "command_exec", regex: "(?<![\\'\\\":])\\\\b(system|exec|spawn)\\\\b(?![\\'\\\":])|IO\\.popen|Open3\\.popen3|%x[\\[({/\\|]|`\\s*[a-zA-Z0-9_/\\.-]+[^`]*`", desc: "Command execution", severity: "HIGH" },
+        { id: "command_exec", regex: "(?<![\\'\\\":])\\b(system|exec|spawn)\\b(?![\\'\\\":])|IO\\.popen|Open3\\.popen3|%x[\\[({/\\|]|`\\s*[a-zA-Z0-9_/\\.-]+[^`]*`", desc: "Command execution", severity: "HIGH" },
         { id: "obfuscation_b64", regex: "Base64\\.decode64|Zlib::Inflate|unpack\\(['\"]m", desc: "Obfuscation (Base64/Zlib)", severity: "HIGH" },
         { id: "obfuscation_hex", regex: "\\\\x[0-9a-fA-F]{2}", desc: "Hex encoded characters (potential obfuscation)", severity: "MEDIUM" },
         { id: "deserialization", regex: "Marshal\\.load|YAML\\.load\\b", desc: "Unsafe deserialization", severity: "HIGH" },
@@ -25,18 +15,45 @@ def main [
         { id: "io_redirection", regex: "(\\$stdout|\\$stderr|\\$stdin)\\b\\s*=\\s*|(\\$stdout|\\$stderr)\\.reopen\\b", desc: "Standard I/O redirection", severity: "MEDIUM" },
         { id: "env_read", regex: "\\bENV\\b", desc: "Accessing environment variables", severity: "LOW" }
     ]
+}
 
-    if $describe {
-        if $json {
-            print ($patterns | to json)
-        } else {
-            print "Ruby Malicious Pattern Scanner - Built-in Patterns:"
-            print ($patterns | table)
-        }
-        return
+def find-ruby-files [base_dir: path] {
+    glob $"($base_dir)/**/*.rb"
+    | append (glob $"($base_dir)/**/*.gemspec")
+    | append (glob $"($base_dir)/**/Gemfile")
+    | append (glob $"($base_dir)/**/Rakefile")
+    | uniq
+    | where {|p|
+        let s = ($p | into string)
+        ($s !~ '/\.git/') and ($s !~ '/vendor/') and ($s !~ '/node_modules/')
     }
+}
 
-    # Parse watch classes
+def scan-file [file: path, base_dir: path, patterns: list] {
+    try {
+        open --raw $file
+        | lines
+        | enumerate
+        | each {|line|
+            $patterns | where {|pat|
+                $line.item =~ $pat.regex
+            } | each {|pat|
+                {
+                    file: ($file | path relative-to $base_dir | into string),
+                    line: ($line.index + 1),
+                    severity: $pat.severity,
+                    issue: $pat.desc,
+                    code: ($line.item | str trim)
+                }
+            }
+        }
+        | flatten
+    } catch {
+        []
+    }
+}
+
+def parse-watch-classes [watch_classes: string, interactive: bool] {
     let classes_from_flag = (
         if ($watch_classes | is-empty) {
             []
@@ -44,7 +61,7 @@ def main [
             $watch_classes | split row "," | each { str trim } | where { $in != "" }
         }
     )
-    
+
     let classes_from_prompt = (
         if $interactive {
             let input_classes = (input "Enter class names to watch for (comma-separated): ")
@@ -57,8 +74,39 @@ def main [
             []
         }
     )
-    
-    let all_watched_classes = ($classes_from_flag | append $classes_from_prompt | uniq)
+
+    $classes_from_flag | append $classes_from_prompt | uniq
+}
+
+# Scan a directory for suspicious Ruby patterns
+def main [
+    dir: path = "."                    # The directory to scan (defaults to current directory)
+    --json                             # Output findings in JSON format
+    --watch-classes (-w): string = ""  # Comma-separated list of classes to watch for
+    --watch-severity (-s): string = "MEDIUM" # Severity to assign to watched classes (HIGH, MEDIUM, LOW)
+    --interactive (-i)                 # Prompt interactively for classes to watch
+    --describe                         # Describe the patterns we scan for and exit
+] {
+    let base_dir = ($dir | path expand)
+    let patterns = (base-patterns)
+
+    if $describe {
+        if $json {
+            print ($patterns | to json)
+        } else {
+            print "Ruby Malicious Pattern Scanner - Built-in Patterns:"
+            print ($patterns | table)
+        }
+        return
+    }
+
+    let valid_severities = ["HIGH", "MEDIUM", "LOW"]
+    if not ($watch_severity in $valid_severities) {
+        print $"Error: Invalid severity '($watch_severity)'. Must be one of: ($valid_severities | str join ', ')"
+        return
+    }
+
+    let all_watched_classes = (parse-watch-classes $watch_classes $interactive)
 
     let watch_patterns = (
         if not ($all_watched_classes | is-empty) {
@@ -74,7 +122,7 @@ def main [
             []
         }
     )
-    
+
     let patterns = ($patterns | append $watch_patterns)
 
     if not $json {
@@ -83,19 +131,8 @@ def main [
             print $"Watching for classes: ($all_watched_classes | str join ', ') with severity ($watch_severity)"
         }
     }
-    
-    # Recursively find ruby files, ignoring typical vendor/temp/git directories
-    let ruby_files = (
-        glob $"($base_dir)/**/*.rb"
-        | append (glob $"($base_dir)/**/*.gemspec")
-        | append (glob $"($dir)/**/Gemfile")
-        | append (glob $"($dir)/**/Rakefile")
-        | uniq
-        | where {|p| 
-            let s = ($p | into string)
-            ($s !~ '\.git') and ($s !~ '/vendor/') and ($s !~ '/node_modules/')
-        }
-    )
+
+    let ruby_files = (find-ruby-files $base_dir)
 
     if ($ruby_files | is-empty) {
         if $json {
@@ -110,35 +147,9 @@ def main [
         print $"Scanning ($ruby_files | length) files for suspicious patterns..."
     }
 
-    # Scan files line by line
     let results = ($ruby_files | each {|file|
-        if ($file | path exists) {
-            try {
-                let lines = (open --raw $file | lines)
-                $lines | enumerate | each {|line|
-                    let line_num = $line.index + 1
-                    let line_content = $line.item
-                    
-                    $patterns | where {|pat|
-                        $line_content =~ $pat.regex
-                    } | each {|pat|
-                        {
-                            file: ($file | path relative-to $base_dir | into string),
-                            line: $line_num,
-                            severity: $pat.severity,
-                            issue: $pat.desc,
-                            code: ($line_content | str trim)
-                        }
-                    }
-                }
-            } catch {|err|
-                # Return empty list if file can't be read (e.g. permission or binary)
-                []
-            }
-        } else {
-            []
-        }
-    } | flatten | flatten | flatten)
+        scan-file $file $base_dir $patterns
+    } | flatten)
 
     if ($results | is-empty) {
         if $json {
@@ -147,9 +158,8 @@ def main [
             print "Scan complete. No suspicious patterns found."
         }
     } else {
-        # Sort by severity (HIGH, then MEDIUM, then LOW)
         let sorted_results = (
-            $results 
+            $results
             | insert severity_weight {|row|
                 match $row.severity {
                     "HIGH" => 1,
@@ -161,7 +171,7 @@ def main [
             | sort-by severity_weight file line
             | reject severity_weight
         )
-        
+
         if $json {
             $sorted_results | to json
         } else {

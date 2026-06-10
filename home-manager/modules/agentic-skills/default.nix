@@ -17,11 +17,14 @@ let
 
   # Default agent installation directories relative to home directory
   agentTargets = {
-    antigravity = ".gemini/antigravity-cli/skills";
-    gemini      = ".gemini/skills";
+    antigravity = ".gemini/antigravity/skills";
     claude      = ".claude/skills";
-    cursor      = ".cursor/skills";
     codex       = ".agents/skills";
+    cursor      = ".cursor/skills";
+    gemini      = ".gemini/skills";
+    copilot     = ".copilot/skills";
+    opencode    = ".config/opencode/skills";
+    windsurf    = ".codeium/windsurf/skills";
   };
 
   # 1. Fetch repositories defined in the catalog using fetchFromGitHub.

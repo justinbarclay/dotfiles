@@ -3,6 +3,7 @@
 # Main command to update agentic skills catalog
 def main [
   --catalog-path: string = "~/dotfiles/home-manager/modules/agentic-skills/skills-catalog.json"
+  --dbs (-d): any = "all"
 ] {
   let catalog_expanded = ($catalog_path | path expand)
   let initial_catalog = if ($catalog_expanded | path exists) {
@@ -26,6 +27,32 @@ def main [
     { key: "pocock", owner: "mattpocock", repo: "skills", skillsPath: "skills" }
   ]
 
+  let all_db_keys = ["anthropics" "vercel" "openai" "addyosmani" "mindrally" "hypergiant" "cloudflare" "stripe" "pocock" "cursor"]
+
+  let parsed_dbs = if ($dbs | describe) =~ "list" {
+    $dbs
+  } else if ($dbs | describe) =~ "string" {
+    if $dbs == "all" {
+      ["all"]
+    } else {
+      $dbs | split row "," | each { str trim }
+    }
+  } else {
+    ["all"]
+  }
+
+  let keys_to_update = if ("all" in $parsed_dbs) {
+    $all_db_keys
+  } else {
+    $parsed_dbs
+  }
+
+  let invalid_keys = ($keys_to_update | where { $in not-in $all_db_keys })
+  if ($invalid_keys | length) > 0 {
+    print $"Error: Invalid database key(s): ($invalid_keys | str join ', '). Valid keys are: ($all_db_keys | str join ', ')"
+    return
+  }
+
   mut current_catalog = $initial_catalog
 
   # Ensure the "repos" key exists as a record
@@ -35,15 +62,27 @@ def main [
 
   mut fetched_repos = {}
 
-  for r in $standard_repos {
-    print $"Fetching repo: ($r.owner)/($r.repo)..."
-    let repo_data = (fetch-repo-skills $r.owner $r.repo $r.skillsPath)
-    $fetched_repos = ($fetched_repos | insert $r.key $repo_data)
+  for key in $all_db_keys {
+    if ($key in $keys_to_update) {
+      if $key == "cursor" {
+        print "Fetching Cursor team kit skills..."
+        let cursor_data = (fetch-cursor-skills)
+        $fetched_repos = ($fetched_repos | insert cursor $cursor_data)
+      } else {
+        let r = ($standard_repos | where key == $key | first)
+        print $"Fetching repo: ($r.owner)/($r.repo)..."
+        let repo_data = (fetch-repo-skills $r.owner $r.repo $r.skillsPath)
+        $fetched_repos = ($fetched_repos | insert $key $repo_data)
+      }
+    } else {
+      # Preserve from initial catalog if present
+      if ("repos" in ($initial_catalog | columns)) and ($key in ($initial_catalog.repos | columns)) {
+        let existing_data = ($initial_catalog.repos | get $key)
+        let restored_data = (restore-fetched-repo $key $existing_data)
+        $fetched_repos = ($fetched_repos | insert $key $restored_data)
+      }
+    }
   }
-
-  print "Fetching Cursor team kit skills..."
-  let cursor_data = (fetch-cursor-skills)
-  $fetched_repos = ($fetched_repos | insert cursor $cursor_data)
 
   # Gather a flat list of all skills across all fetched repositories
   mut all_skills_list = []
@@ -107,6 +146,30 @@ def main [
 
   $current_catalog | save -f $catalog_expanded
   print "Skills catalog successfully updated!"
+}
+
+# Helper to restore skills from catalog format to fetched format
+def restore-fetched-repo [repo_key: string, repo_data: any] {
+  if $repo_key == "cursor" {
+    return $repo_data
+  }
+  let restored_skills = (
+    if ($repo_data.skills | is-empty) {
+      {}
+    } else {
+      $repo_data.skills
+      | transpose resolved_name data
+      | each {|row|
+          let orig_name = ($row.data.path | path basename)
+          {
+            key: $orig_name,
+            val: ($row.data | upsert name $orig_name)
+          }
+        }
+      | reduce -f {} {|item, acc| $acc | upsert $item.key $item.val }
+    }
+  )
+  $repo_data | upsert skills $restored_skills
 }
 
 # Helper to fetch latest Cursor plugins commit, Nix hash, and parse its skills recursively

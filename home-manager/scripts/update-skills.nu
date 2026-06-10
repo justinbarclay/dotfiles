@@ -17,44 +17,85 @@ def main [
   let standard_repos = [
     { key: "anthropics", owner: "anthropics", repo: "skills", skillsPath: "skills" },
     { key: "vercel", owner: "vercel-labs", repo: "agent-skills", skillsPath: "skills" },
-    { key: "openai", owner: "openai", repo: "skills", skillsPath: "skills" }
+    { key: "openai", owner: "openai", repo: "skills", skillsPath: "skills" },
+    { key: "addyosmani", owner: "addyosmani", repo: "agent-skills", skillsPath: "skills" },
+    { key: "mindrally", owner: "Mindrally", repo: "skills", skillsPath: "skills" },
+    { key: "hypergiant", owner: "gohypergiant", repo: "agent-skills", skillsPath: "skills" },
+    { key: "cloudflare", owner: "cloudflare", repo: "skills", skillsPath: "skills" },
+    { key: "stripe", owner: "stripe", repo: "ai", skillsPath: "skills" },
+    { key: "pocock", owner: "mattpocock", repo: "skills", skillsPath: "skills" }
   ]
 
   mut current_catalog = $initial_catalog
-  mut seen_skills = {}
 
   # Ensure the "repos" key exists as a record
   if not ("repos" in ($current_catalog | columns)) {
     $current_catalog = ($current_catalog | insert repos {})
   }
 
+  mut fetched_repos = {}
+
   for r in $standard_repos {
     print $"Fetching repo: ($r.owner)/($r.repo)..."
     let repo_data = (fetch-repo-skills $r.owner $r.repo $r.skillsPath)
-    for skill_name in ($repo_data.skills | columns) {
-      if $skill_name in $seen_skills {
-        error make {
-            msg: $"Skill name collision detected! Skill '($skill_name)' exists in both ($seen_skills | get $skill_name) and ($r.key)."
-        }
-      }
-      $seen_skills = ($seen_skills | insert $skill_name $r.key)
-    }
-    let updated_repos = ($current_catalog.repos | upsert $r.key $repo_data)
-    $current_catalog = ($current_catalog | upsert repos $updated_repos)
+    $fetched_repos = ($fetched_repos | insert $r.key $repo_data)
   }
 
   print "Fetching Cursor team kit skills..."
   let cursor_data = (fetch-cursor-skills)
-  for skill_name in ($cursor_data.skills | columns) {
-    if $skill_name in $seen_skills {
-      error make {
-          msg: $"Skill name collision detected! Skill '($skill_name)' exists in both ($seen_skills | get $skill_name) and cursor."
-      }
+  $fetched_repos = ($fetched_repos | insert cursor $cursor_data)
+
+  # Gather a flat list of all skills across all fetched repositories
+  mut all_skills_list = []
+  for repo_key in ($fetched_repos | columns) {
+    let repo = ($fetched_repos | get $repo_key)
+    for skill_name in ($repo.skills | columns) {
+      let skill_data = ($repo.skills | get $skill_name)
+      $all_skills_list = ($all_skills_list | append {
+        repo_key: $repo_key,
+        skill_name: $skill_name,
+        original_name: $skill_name,
+        description: $skill_data.description,
+        path: $skill_data.path
+      })
     }
-    $seen_skills = ($seen_skills | insert $skill_name "cursor")
   }
-  let updated_repos = ($current_catalog.repos | upsert cursor $cursor_data)
-  $current_catalog = ($current_catalog | upsert repos $updated_repos)
+
+  # Group by skill_name to detect cross-repo name collisions
+  let grouped = ($all_skills_list | group-by skill_name)
+
+  mut resolved_skills = []
+  for s_name in ($grouped | columns) {
+    let list = ($grouped | get $s_name)
+    if ($list | length) > 1 {
+      # There is a collision! Prefix each with its repo key
+      for item in $list {
+        let prefixed = $"($item.repo_key)-($item.original_name)"
+        $resolved_skills = ($resolved_skills | append ($item | upsert skill_name $prefixed))
+      }
+    } else {
+      $resolved_skills = ($resolved_skills | append ($list | first))
+    }
+  }
+
+  # Rebuild the final repositories structure with conflict-resolved skill names
+  mut final_repos = {}
+  for repo_key in ($fetched_repos | columns) {
+    let orig_repo = ($fetched_repos | get $repo_key)
+    mut repo_skills = {}
+    let repo_items = ($resolved_skills | where repo_key == $repo_key)
+    for item in $repo_items {
+      $repo_skills = ($repo_skills | upsert $item.skill_name {
+        name: $item.skill_name,
+        description: $item.description,
+        path: $item.path
+      })
+    }
+    let updated_repo = ($orig_repo | upsert skills $repo_skills)
+    $final_repos = ($final_repos | insert $repo_key $updated_repo)
+  }
+
+  $current_catalog = ($current_catalog | upsert repos $final_repos)
 
   # Clean up any literal "repos.xxx" keys if they got written previously
   let cols = ($current_catalog | columns)
@@ -145,7 +186,7 @@ def fetch-cursor-skills [] {
   }
 }
 
-# Helper to fetch latest commit, calculate Nix hash, and parse skill definitions
+# Helper to fetch latest commit, calculate Nix hash, and parse skill definitions recursively
 def fetch-repo-skills [owner: string, repo: string, skillsPath: string] {
   # 1. Get the latest main commit SHA via the GitHub API
   let commits_url = $"https://api.github.com/repos/($owner)/($repo)/commits/main"
@@ -162,27 +203,28 @@ def fetch-repo-skills [owner: string, repo: string, skillsPath: string] {
   # 3. Read the skills directory directly from the Nix store path
   let local_skills_path = ($store_path | path join $skillsPath)
 
-  # Find all subdirectories
-  let skill_dirs = if ($local_skills_path | path exists) {
-    ls $local_skills_path | where type == "dir" | each { |it| $it.name | path basename }
+  # Find all SKILL.md files recursively
+  let skill_files = if ($local_skills_path | path exists) {
+    glob $"($local_skills_path)/**/SKILL.md"
   } else {
     []
   }
 
   mut skills = {}
 
-  for skill_name in $skill_dirs {
-    let skill_file = ($local_skills_path | path join $skill_name "SKILL.md")
-    if ($skill_file | path exists) {
-      let content = (open -r $skill_file)
-      let desc = (parse-skill-description $content)
+  for skill_file in $skill_files {
+    let skill_dir = ($skill_file | path dirname)
+    let skill_name = ($skill_dir | path basename)
+    let relative_path = ($skill_dir | path relative-to $store_path | into string)
 
-      $skills = ($skills | upsert $skill_name {
-        name: $skill_name,
-        description: $desc,
-        path: $"($skillsPath)/($skill_name)"
-      })
-    }
+    let content = (open -r $skill_file)
+    let desc = (parse-skill-description $content)
+
+    $skills = ($skills | upsert $skill_name {
+      name: $skill_name,
+      description: $desc,
+      path: $relative_path
+    })
   }
 
   {

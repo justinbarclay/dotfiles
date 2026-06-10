@@ -73,6 +73,7 @@ in
       # ollama
       tidal.packages.${system}.default
       (pkgs.writeScriptBin "rebuild-home" (builtins.readFile ./scripts/rebuild-home))
+      (pkgs.writeScriptBin "scan_ruby.nu" (builtins.readFile ./scripts/scan_ruby.nu))
     ];
 
     file.".npmrc" = {

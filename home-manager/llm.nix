@@ -233,32 +233,45 @@ let
   };
 in
 {
-  home.packages = with pkgs; [
-    (pkgs.callPackage ./packages/antigravity-cli/package.nix { })
-    (pkgs.writeShellApplication {
-      name = "update-antigravity-cli";
-      runtimeInputs = [ curl jq ];
-      text = ''
-        set -euo pipefail
-        # Assuming dotfiles are in ~/dotfiles based on current environment
-        DOTFILES_DIR="${home}/dotfiles"
-        UPDATE_SCRIPT="$DOTFILES_DIR/home-manager/packages/antigravity-cli/update.sh"
-
-        if [ ! -f "$UPDATE_SCRIPT" ]; then
-          echo "Error: Could not find update.sh at $UPDATE_SCRIPT"
-          echo "Please ensure your dotfiles are located at $DOTFILES_DIR"
-          exit 1
-        fi
-
-        echo "Running antigravity-cli update script..."
-        "$UPDATE_SCRIPT"
-      '';
-    })
-    gemini-cli
-    github-copilot-cli
-    gh
-    github-mcp-server
+  imports = [
+    ./modules/agentic-skills
   ];
+
+  modules.agentic-skills = {
+    enable = true;
+    skills = {
+      frontend-design.enable = true;
+      cursor-team-kit-thermo-nuclear-code-quality-review.enable = true;
+    };
+  };
+
+  home.packages = with pkgs;
+    [
+      (pkgs.callPackage ./packages/antigravity-cli/package.nix { })
+      (pkgs.writeShellApplication {
+        name = "update-antigravity-cli";
+        runtimeInputs = [ curl jq ];
+        text = ''
+          set -euo pipefail
+          # Assuming dotfiles are in ~/dotfiles based on current environment
+          DOTFILES_DIR="${home}/dotfiles"
+          UPDATE_SCRIPT="$DOTFILES_DIR/home-manager/packages/antigravity-cli/update.sh"
+
+          if [ ! -f "$UPDATE_SCRIPT" ]; then
+            echo "Error: Could not find update.sh at $UPDATE_SCRIPT"
+            echo "Please ensure your dotfiles are located at $DOTFILES_DIR"
+            exit 1
+          fi
+
+          echo "Running antigravity-cli update script..."
+          "$UPDATE_SCRIPT"
+        '';
+      })
+      gemini-cli
+      github-copilot-cli
+      gh
+      github-mcp-server
+    ];
 
   home.file.".config/eca/config.json".text = builtins.toJSON ecaConfig;
 

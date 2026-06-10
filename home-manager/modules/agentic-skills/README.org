@@ -1,0 +1,102 @@
+* Declarative Agent Skills Module
+
+This module declaratively manages rules and instructions ("skills") for AI coding agents across multiple directories.
+
+** Target Agent Directories
+- *Antigravity CLI*: =~/.gemini/antigravity-cli/skills=
+- *Gemini CLI*: =~/.gemini/skills=
+- *Claude Code*: =~/.claude/skills=
+- *Cursor*: =~/.cursor/skills=
+- *Codex*: =~/.agents/skills=
+
+-----
+
+* 1. System Architecture & Design Rationale
+
+#+begin_src mermaid
+graph TD
+    A[update-skills script] -->|Code Judo: prefetch & read store| D[(skills-catalog.json)]
+    D -->|Read at evaluation time| E[default.nix module]
+    E -->|fetchFromGitHub per repo| F[Nix Store Repos]
+    E -->|runCommand flat symlinks| G[Assembled Store Path]
+    G -->|home.file symlinks| H[Target Agent Directories]
+#+end_src
+
+** Why this structure exists:
+1. *Deterministic & Network-Isolated Builds*: Pinned hashes and commit SHAs are locked in =skills-catalog.json=. This guarantees builds are 100% offline-safe, reproducible, and decoupled from GitHub availability.
+2. *The "Code Judo" Move (Performance)*:
+   - /The Problem/: Under a naive updater design, querying 4 repositories with a dozen skills each would require 50+ raw content API/curl requests, triggering GitHub's rate limits for unauthenticated runs and causing slow, brittle updates.
+   - /The Remedy/: The update scripts use =nix-prefetch-url --unpack --print-path=. This fetches the full repository tarball once, unpacks it to =/nix/store=, and prints its location. The updater then scans the repository layout directly on disk inside =/nix/store=—eliminating rate-limiting issues and completing catalog generation in seconds.
+3. *Modular Layout Handlers*: Different scripts support different layouts (e.g. the standard =skills/<name>/SKILL.md= vs Cursor's nested =cursor-team-kit/skills/<name>/SKILL.md= structure in a monorepo).
+4. *Safety & Collisions*: Selected skills are referenced as flat attributes =<skillName>= and linked as =<repoKey>-<skillName>=. To prevent naming collisions, the update script throws an error if two repositories contain a skill with the same name.
+
+-----
+
+* 2. Nix Configuration
+
+** Import the Module
+Add the directory path to your imports block inside [[file:///home/justin/dotfiles/home-manager/home.nix][home.nix]]:
+#+begin_src nix
+imports = [
+  ./modules/agentic-skills
+];
+#+end_src
+
+** Configure Settings
+Enable the module and specify which skills should be installed:
+#+begin_src nix
+modules.agentic-skills = {
+  enable = true;
+  skills = {
+    frontend-design.enable = true;
+    cursor-team-kit-thermo-nuclear-code-quality-review.enable = true;
+    # Optional overrides:
+    # other-skill = {
+    #   enable = true;
+    #   rename = "custom-name";
+    #   agents = [ "cursor" ];
+    # };
+  };
+};
+#+end_src
+
+-----
+
+* 3. Options Reference
+
+| Option                                             | Type     | Default   | Description                                                        |
+|----------------------------------------------------+----------+-----------+--------------------------------------------------------------------|
+| =modules.agentic-skills.enable=                    | =bool=   | =false=   | Master toggle to enable skills symlinking.                         |
+| =modules.agentic-skills.skills.<skillName>.enable= | =bool=   | =false=   | Set true to enable a specific skill. Autocompletes via LSP.        |
+| =modules.agentic-skills.skills.<skillName>.rename= | =string= | =null=    | Custom name for the skill folder inside agent directories.         |
+| =modules.agentic-skills.skills.<skillName>.agents= | =list=   | =[]=      | Agents to link this skill to. If empty ([]), links to all active.  |
+| =modules.agentic-skills.agents.<name>.enable=      | =bool=   | =true=    | Installs symlinks to target agent =<name>=.                        |
+| =modules.agentic-skills.agents.<name>.path=        | =string= | *(varies)*| Target relative directory path for the agent.                      |
+
+-----
+
+* 4. Keeping Catalog Updated
+
+Use the =update-skills= wrapper command to fetch the latest revisions, update SRI hashes, and parse frontmatter descriptions:
+#+begin_src bash
+update-skills
+#+end_src
+/Note: This writes results directly back to/ [[file:///home/justin/dotfiles/home-manager/modules/agentic-skills/skills-catalog.json][skills-catalog.json]] /in this folder./
+
+-----
+
+* 5. Verification
+Verify options and config:
+#+begin_src bash
+# Check syntax / evaluation
+home-manager build --dry-run
+
+# Inspect currently enabled selections via Nix REPL
+nix repl
+#+end_src
+
+Inside the REPL:
+#+begin_src nix
+nix-repl> :lf .
+nix-repl> homeConfigurations."justin@nixos".config.modules.agentic-skills
+#+end_src

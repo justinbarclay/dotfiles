@@ -1,4 +1,4 @@
-{ pkgs, user, system, ... }:
+{ config, pkgs, user, system, ... }:
 let
   stdenv = pkgs.stdenv;
 in
@@ -12,6 +12,7 @@ in
     ./email.nix
     ./llm.nix
   ];
+
   modules.git = {
     is-darwin = stdenv.isDarwin;
     enable = true;
@@ -74,6 +75,10 @@ in
       tidal.packages.${system}.default
       (pkgs.writeScriptBin "rebuild-home" (builtins.readFile ./scripts/rebuild-home))
       (pkgs.writeScriptBin "scan-ruby" (builtins.readFile ./scripts/scan_ruby.nu))
+      (pkgs.writeScriptBin "update-skills" ''
+        #!/usr/bin/env bash
+        exec ${pkgs.nushell}/bin/nu ${config.home.homeDirectory}/dotfiles/home-manager/scripts/update-skills.nu "$@"
+      '')
     ];
 
     file.".npmrc" = {

@@ -97,8 +97,8 @@
     "vercel": {
       "owner": "vercel-labs",
       "repo": "agent-skills",
-      "rev": "4ec6f84b61cd3c931046c3e6e398f3ae7de372f7",
-      "hash": "sha256-E/NG+zuNYaZYM0FTV6ZFYQovcVEWCQEbe8PKuEu7rT8=",
+      "rev": "f8a72b9603728bb92a217a879b7e62e43ad76c81",
+      "hash": "sha256-LSFC0Zxc4Lgisu5/r6qBF1R0X36hePkVPfbvbx48YdY=",
       "skillsPath": "skills",
       "skills": {
         "react-native-skills": {
@@ -375,8 +375,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "5e262b20e0cd88dba39e558f42f5c0b6d766d4b4",
-      "hash": "sha256-feoI3fHea9WUzaf1hb382MymVNHy3+aFEUnjZxOL0rQ=",
+      "rev": "d187883b7d761265309cdcc0f202cc76b4b3fb06",
+      "hash": "sha256-UzR8TZiHLTUlCn7zrEWY6yGIMhMghQiqaGrZ10pnXsI=",
       "skillsPath": "skills",
       "skills": {
         "idea-refine": {
@@ -478,6 +478,11 @@
           "name": "shipping-and-launch",
           "description": "Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.",
           "path": "skills/shipping-and-launch"
+        },
+        "observability-and-instrumentation": {
+          "name": "observability-and-instrumentation",
+          "description": "Instruments code so production behavior is visible and diagnosable. Use when adding logging, metrics, tracing, or alerting. Use when shipping any feature that runs in production and you need evidence it works. Use when production issues are reported but you can't tell what happened from the available data.",
+          "path": "skills/observability-and-instrumentation"
         },
         "api-and-interface-design": {
           "name": "api-and-interface-design",
@@ -626,8 +631,8 @@
     "cloudflare": {
       "owner": "cloudflare",
       "repo": "skills",
-      "rev": "c5b7b06b073fa0b4abbd63964630f97d81da69c4",
-      "hash": "sha256-NIWwWj+HSXGJhUwrvgiLNjfx2BoJC7U9H3yUOVX7JQU=",
+      "rev": "12520fd63a1e958be217a93f48ce1f04bc9055f3",
+      "hash": "sha256-dkKTLFcAiQ86dgkD58VwS0Y4986hBC6XMOfpmfQpc5Y=",
       "skillsPath": "skills",
       "skills": {
         "wrangler": {
@@ -709,8 +714,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "e3d8b735ef92ec9554b07f11f408089d81289eed",
-      "hash": "sha256-QWzXya00MVBzc+Yn6AHlY9xsoBEsxZj2577dpuQK+j0=",
+      "rev": "694fa30311e02c2639942308513555e61ee84a6f",
+      "hash": "sha256-NGRKdnHSBKoR48zGotmJ3zGXnQ58ogudv8T4Va/2DSY=",
       "skillsPath": "skills",
       "skills": {
         "to-issues": {

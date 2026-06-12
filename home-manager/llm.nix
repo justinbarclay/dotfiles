@@ -241,7 +241,14 @@ in
     enable = true;
     skills = {
       frontend-design.enable = true;
-      cursor-team-kit-thermo-nuclear-code-quality-review.enable = true;
+      thermos-thermo-nuclear-code-quality-review.enable = true;
+      grill-me = {
+        enable = true;
+        agents = [
+          "gemini"
+          "copilot"
+        ];
+      };
     };
   };
 

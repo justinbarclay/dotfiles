@@ -77,7 +77,7 @@ in
       (pkgs.writeScriptBin "scan-ruby" (builtins.readFile ./scripts/scan_ruby.nu))
       (pkgs.writeScriptBin "update-skills" ''
         #!/usr/bin/env bash
-        exec ${pkgs.nushell}/bin/nu ${config.home.homeDirectory}/dotfiles/home-manager/scripts/update-skills.nu "$@"
+        exec ${pkgs.nushell}/bin/nu ${config.home.homeDirectory}/dotfiles/home-manager/modules/agentic-skills/update-skills.nu "$@"
       '')
     ];
 

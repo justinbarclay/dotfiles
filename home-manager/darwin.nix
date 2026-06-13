@@ -2,9 +2,9 @@
 {
   imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ./services/sketchybar.nix ./services/ollama.nix ];
 
-  modules.darwin.ollama = {
-    enable = true;
-  };
+  # modules.darwin.ollama = {
+  #   enable = true;
+  # };
   modules.darwin.sketchybar = {
     enable = true;
     cpu = false;

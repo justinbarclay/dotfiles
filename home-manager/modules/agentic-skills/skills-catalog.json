@@ -149,8 +149,8 @@
     "openai": {
       "owner": "openai",
       "repo": "skills",
-      "rev": "a8924c2a35cfa290458852c4fad17c9133054c2e",
-      "hash": "sha256-drA/ypVE+yK4W2Bj8IUtWaVLF390Pfy7YLcmdju5dow=",
+      "rev": "972cb867affac58fda9afa76bb1a19b399a278cf",
+      "hash": "sha256-Wji8HOAALxqemxNELTGWjflwcn1SvFk3Z6es2CVDuiA=",
       "skills": {
         "openai-pdf": {
           "name": "openai-pdf",
@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "d187883b7d761265309cdcc0f202cc76b4b3fb06",
-      "hash": "sha256-UzR8TZiHLTUlCn7zrEWY6yGIMhMghQiqaGrZ10pnXsI=",
+      "rev": "a5f0b176381e9fea24a61aefc243506686aa2435",
+      "hash": "sha256-QUlbYBKd+eJpDo7lP/poFbKwVZq2MMAavFcfCmiKAF4=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -512,8 +512,8 @@
     "hypergiant": {
       "owner": "gohypergiant",
       "repo": "agent-skills",
-      "rev": "7ed8ba3ad2ee8d0065460633e01f848c00f55f1c",
-      "hash": "sha256-yGJiCpS9UbR1KkeX0OBptBbzcU3uMRENjMoZfSOFx4M=",
+      "rev": "a2f0a7606034aba207152e70aefc8cc15625ee5d",
+      "hash": "sha256-rWx3wMrUHqYVM+0K3ljinXamX8nytq/cItEP6wn+kSA=",
       "skills": {
         "accelint-security-best-practices": {
           "name": "accelint-security-best-practices",
@@ -625,13 +625,18 @@
     "cloudflare": {
       "owner": "cloudflare",
       "repo": "skills",
-      "rev": "12520fd63a1e958be217a93f48ce1f04bc9055f3",
-      "hash": "sha256-dkKTLFcAiQ86dgkD58VwS0Y4986hBC6XMOfpmfQpc5Y=",
+      "rev": "ffcc622bf112eccc49c4b433faa5dd28e9ede2ea",
+      "hash": "sha256-Aw2mJ1m9xQVaZ8RBTRJtWoiSq4GCbkils04zNPUYP5g=",
       "skills": {
         "wrangler": {
           "name": "wrangler",
           "description": "Cloudflare Workers CLI for deploying, developing, and managing Workers, KV, R2, D1, Vectorize, Hyperdrive, Workers AI, Containers, Queues, Workflows, Pipelines, and Secrets Store. Load before running wrangler commands to ensure correct syntax and best practices. Biases towards retrieval from Cloudflare docs over pre-trained knowledge.",
           "path": "skills/wrangler"
+        },
+        "cloudflare-one-migrations": {
+          "name": "cloudflare-one-migrations",
+          "description": "Plans migrations from Zscaler ZIA/ZPA, Palo Alto, legacy VPN, SWG, or SASE stacks to Cloudflare One. Use for migration assessments, policy mapping, rollout plans, and parity/gap analysis.",
+          "path": "skills/cloudflare-one-migrations"
         },
         "web-perf": {
           "name": "web-perf",
@@ -647,6 +652,11 @@
           "name": "sandbox-sdk",
           "description": "Build sandboxed applications for secure code execution. Load when building AI code execution, code interpreters, CI/CD systems, interactive dev environments, or executing untrusted code. Covers Sandbox SDK lifecycle, commands, files, code interpreter, and preview URLs. Biases towards retrieval from Cloudflare docs over pre-trained knowledge.",
           "path": "skills/sandbox-sdk"
+        },
+        "cloudflare-one": {
+          "name": "cloudflare-one",
+          "description": "Guides Cloudflare One Zero Trust and SASE work across Access, Gateway, WARP, Tunnel, Cloudflare WAN, DLP, CASB, device posture, and identity. Use when designing, configuring, troubleshooting, or reviewing Cloudflare One deployments. Retrieval-first: use current Cloudflare docs/API schemas instead of embedded product docs.",
+          "path": "skills/cloudflare-one"
         },
         "workers-best-practices": {
           "name": "workers-best-practices",
@@ -678,8 +688,8 @@
     "stripe": {
       "owner": "stripe",
       "repo": "ai",
-      "rev": "2b60be10f6f838a739b0d4faa5eb3583cc7cec81",
-      "hash": "sha256-WfNMAR1iNCT2JaOsZCIVMJrX8ynAD9qmnXWSd4qtTTw=",
+      "rev": "d9527bfc2d0993f3d2a650501e53e4f68d179ca3",
+      "hash": "sha256-9AZMNfVVSUwAouJFKzpy4mO/CNLv9Ryer1Y34ZCxJbs=",
       "skills": {
         "stripe-best-practices": {
           "name": "stripe-best-practices",
@@ -706,57 +716,77 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "694fa30311e02c2639942308513555e61ee84a6f",
-      "hash": "sha256-NGRKdnHSBKoR48zGotmJ3zGXnQ58ogudv8T4Va/2DSY=",
+      "rev": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461",
+      "hash": "sha256-6T0KwZcUIIbd6kpkQXPCnnJPVY2mEjxYjed4FjKnRAw=",
       "skills": {
+        "resolving-merge-conflicts": {
+          "name": "resolving-merge-conflicts",
+          "description": "Use when you need to resolve an in-progress git merge/rebase conflict.",
+          "path": "skills/engineering/resolving-merge-conflicts"
+        },
+        "codebase-design": {
+          "name": "codebase-design",
+          "description": "Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.",
+          "path": "skills/engineering/codebase-design"
+        },
         "to-issues": {
           "name": "to-issues",
-          "description": "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.",
+          "description": "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.",
           "path": "skills/engineering/to-issues"
+        },
+        "diagnosing-bugs": {
+          "name": "diagnosing-bugs",
+          "description": "Diagnosis loop for hard bugs and performance regressions. Use when the user says \"diagnose\"/\"debug this\", or reports something broken/throwing/failing/slow.",
+          "path": "skills/engineering/diagnosing-bugs"
         },
         "setup-matt-pocock-skills": {
           "name": "setup-matt-pocock-skills",
-          "description": "Sets up an `## Agent skills` block in AGENTS.md/CLAUDE.md and `docs/agents/` so the engineering skills know this repo's issue tracker (GitHub or local markdown), triage label vocabulary, and domain doc layout. Run before first use of `to-issues`, `to-prd`, `triage`, `diagnose`, `tdd`, `improve-codebase-architecture`, or `zoom-out` — or if those skills appear to be missing context about the issue tracker, triage labels, or domain docs.",
+          "description": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.",
           "path": "skills/engineering/setup-matt-pocock-skills"
         },
-        "zoom-out": {
-          "name": "zoom-out",
-          "description": "Tell the agent to zoom out and give broader context or a higher-level perspective. Use when you're unfamiliar with a section of code or need to understand how it fits into the bigger picture.",
-          "path": "skills/engineering/zoom-out"
+        "implement": {
+          "name": "implement",
+          "description": "Implement a piece of work based on a PRD or set of issues.",
+          "path": "skills/engineering/implement"
         },
         "triage": {
           "name": "triage",
-          "description": "Triage issues through a state machine driven by triage roles. Use when user wants to create an issue, triage issues, review incoming bugs or feature requests, prepare issues for an AFK agent, or manage issue workflow.",
+          "description": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.",
           "path": "skills/engineering/triage"
         },
         "improve-codebase-architecture": {
           "name": "improve-codebase-architecture",
-          "description": "Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.",
+          "description": "Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.",
           "path": "skills/engineering/improve-codebase-architecture"
         },
         "pocock-tdd": {
           "name": "pocock-tdd",
-          "description": "Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions \"red-green-refactor\", wants integration tests, or asks for test-first development.",
+          "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
           "path": "skills/engineering/tdd"
+        },
+        "domain-modeling": {
+          "name": "domain-modeling",
+          "description": "Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.",
+          "path": "skills/engineering/domain-modeling"
         },
         "prototype": {
           "name": "prototype",
-          "description": "Build a throwaway prototype to flesh out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options, or says \"prototype this\", \"let me play with it\", \"try a few designs\".",
+          "description": "Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.",
           "path": "skills/engineering/prototype"
+        },
+        "ask-matt": {
+          "name": "ask-matt",
+          "description": "Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.",
+          "path": "skills/engineering/ask-matt"
         },
         "grill-with-docs": {
           "name": "grill-with-docs",
-          "description": "Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Use when user wants to stress-test a plan against their project's language and documented decisions.",
+          "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
           "path": "skills/engineering/grill-with-docs"
-        },
-        "diagnose": {
-          "name": "diagnose",
-          "description": "Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says \"diagnose this\" / \"debug this\", reports a bug, says something is broken/throwing/failing, or describes a performance regression.",
-          "path": "skills/engineering/diagnose"
         },
         "to-prd": {
           "name": "to-prd",
-          "description": "Turn the current conversation context into a PRD and publish it to the project issue tracker. Use when user wants to create a PRD from the current context.",
+          "description": "Turn the current conversation into a PRD and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.",
           "path": "skills/engineering/to-prd"
         },
         "scaffold-exercises": {
@@ -804,20 +834,20 @@
           "description": "Teach the user a new skill or concept, within this workspace.",
           "path": "skills/productivity/teach"
         },
-        "write-a-skill": {
-          "name": "write-a-skill",
-          "description": "Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.",
-          "path": "skills/productivity/write-a-skill"
+        "writing-great-skills": {
+          "name": "writing-great-skills",
+          "description": "Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.",
+          "path": "skills/productivity/writing-great-skills"
         },
         "grill-me": {
           "name": "grill-me",
-          "description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions \"grill me\".",
+          "description": "A relentless interview to sharpen a plan or design.",
           "path": "skills/productivity/grill-me"
         },
-        "caveman": {
-          "name": "caveman",
-          "description": "Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says \"caveman mode\", \"talk like caveman\", \"use caveman\", \"less tokens\", \"be brief\", or invokes /caveman.",
-          "path": "skills/productivity/caveman"
+        "grilling": {
+          "name": "grilling",
+          "description": "Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
+          "path": "skills/productivity/grilling"
         },
         "handoff": {
           "name": "handoff",
@@ -828,6 +858,11 @@
           "name": "writing-beats",
           "description": "Shape an article as a journey of beats, choose-your-own-adventure style. The user picks a starting beat from the raw material, you write only that beat, then offer options for where to pivot next, beat by beat, until the article reaches a natural end. Use when the user has raw material and wants to assemble it as a narrative rather than an argument.",
           "path": "skills/in-progress/writing-beats"
+        },
+        "decision-mapping": {
+          "name": "decision-mapping",
+          "description": "Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.",
+          "path": "skills/in-progress/decision-mapping"
         },
         "review": {
           "name": "review",
@@ -859,8 +894,8 @@
     "cursor": {
       "owner": "cursor",
       "repo": "plugins",
-      "rev": "74dd2291e8e37b12fd6dc49b2acbd655c6bdaf12",
-      "hash": "sha256-1iL3BOPbxdxhJZKYyPfMYG9Iwo/t8A2Mtw+rEAorkRE=",
+      "rev": "e46364b8be46000b7df0f260550cd712afbb8d36",
+      "hash": "sha256-TSYPS1mnRouf+mTRBZGA7e4rFVKJsuTdwljmFGh8/Tk=",
       "skills": {
         "cursor-tdd": {
           "name": "cursor-tdd",
@@ -1097,6 +1132,11 @@
           "description": "Use for \"how does X work\", code walkthroughs before changing something, and placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, onboarding mental models. Can critique architecture. Use why for motivation.",
           "path": "pstack/skills/how"
         },
+        "recall": {
+          "name": "recall",
+          "description": "Reconstruct your recent working context from your own chat history, live state, and the shared record (user reports, prior fixes, incidents), then hand back a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what have I been working on', 'where did I leave off', before starting or resuming work.",
+          "path": "pstack/skills/recall"
+        },
         "principle-minimize-reader-load": {
           "name": "principle-minimize-reader-load",
           "description": "Apply when reviewing or shaping code that's hard to trace. Count layers between question and answer, and hidden state in the reader's head; collapse one-caller wrappers and shrink mutable scope.",
@@ -1151,6 +1191,11 @@
           "name": "principle-guard-the-context-window",
           "description": "Apply when context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads.",
           "path": "pstack/skills/principle-guard-the-context-window"
+        },
+        "blast-radius": {
+          "name": "blast-radius",
+          "description": "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', or reviewing a small diff you don't trust.",
+          "path": "pstack/skills/blast-radius"
         },
         "setup-pstack": {
           "name": "setup-pstack",

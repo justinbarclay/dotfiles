@@ -70,6 +70,7 @@ with lib; {
           {
             ssh = "ssh.exe";
             ssh-add = "ssh-add.exe";
+            op = "op.exe";
             emacsBg = "pueue add -- emacs";
           }
         else
@@ -77,6 +78,7 @@ with lib; {
 
       extraEnv = ''
         $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS | append ${pkgs.tidal-dev-tools-full}/share/tidal-aws | append ${pkgs.tidal-dev-tools-full}/share/tidal-certs  )
+        $env.LOAD_LANGFUSE = 1
       '';
       extraConfig = ''
         use tidal-aws.nu

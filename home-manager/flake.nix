@@ -30,6 +30,9 @@
       url = "github:slotThe/emacs-lsp-booster-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tidalkms = {
+      url = "git+ssh://git@github.com/tidalmigrations/tidalkms";
+    };
   };
 
   outputs =
@@ -42,6 +45,7 @@
     , tidal-tools
     , emacs-lsp-booster
     , determinate
+    , tidalkms
     , ...
     }:
     let
@@ -68,6 +72,7 @@
                 })
               (emacs-overlay system)
               tidal-overlay.overlays.default
+              tidalkms.overlays.default
               emacs-lsp-booster.overlays.default
             ];
           };

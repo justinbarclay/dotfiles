@@ -68,11 +68,12 @@ in
       texliveFull
       mkcert
       typescript-language-server
-      typescript
 
       # eslint_d
       # ollama
       tidal.packages.${system}.default
+      tidalkms
+
       (pkgs.writeScriptBin "rebuild-home" (builtins.readFile ./scripts/rebuild-home))
       (pkgs.writeScriptBin "scan-ruby" (builtins.readFile ./scripts/scan_ruby.nu))
       (pkgs.writeScriptBin "update-skills" ''

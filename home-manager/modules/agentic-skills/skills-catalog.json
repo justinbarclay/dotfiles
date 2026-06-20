@@ -897,11 +897,6 @@
       "rev": "e46364b8be46000b7df0f260550cd712afbb8d36",
       "hash": "sha256-TSYPS1mnRouf+mTRBZGA7e4rFVKJsuTdwljmFGh8/Tk=",
       "skills": {
-        "cursor-tdd": {
-          "name": "cursor-tdd",
-          "description": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
-          "path": "pstack/skills/tdd"
-        },
         "create-learning-path": {
           "name": "create-learning-path",
           "description": "Build a personalized learning roadmap with milestones and practice checkpoints",
@@ -1156,6 +1151,11 @@
           "name": "typescript-best-practices",
           "description": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
           "path": "pstack/skills/typescript-best-practices"
+        },
+        "tdd": {
+          "name": "tdd",
+          "description": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
+          "path": "pstack/skills/tdd"
         },
         "principle-exhaust-the-design-space": {
           "name": "principle-exhaust-the-design-space",

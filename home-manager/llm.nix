@@ -247,6 +247,7 @@ in
         agents = [
           "gemini"
           "copilot"
+          "claude"
         ];
       };
     };
@@ -275,6 +276,7 @@ in
         '';
       })
       gemini-cli
+      claude-code
       github-copilot-cli
       gh
       github-mcp-server

@@ -149,8 +149,8 @@
     "openai": {
       "owner": "openai",
       "repo": "skills",
-      "rev": "972cb867affac58fda9afa76bb1a19b399a278cf",
-      "hash": "sha256-Wji8HOAALxqemxNELTGWjflwcn1SvFk3Z6es2CVDuiA=",
+      "rev": "49f948faa9258a0c61caceaf225e179651397431",
+      "hash": "sha256-t4oGnFg0YpxJaQiFpgTiwYhaFoZK6wPDiqvHoG0bXiU=",
       "skills": {
         "openai-pdf": {
           "name": "openai-pdf",
@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "a5f0b176381e9fea24a61aefc243506686aa2435",
-      "hash": "sha256-QUlbYBKd+eJpDo7lP/poFbKwVZq2MMAavFcfCmiKAF4=",
+      "rev": "e0d2e437477d0767ae8453d4754f6945001b4ed5",
+      "hash": "sha256-SakxD+Zn2AGM4wJaimwP7KRqibtYB0EZUtigbupU7OQ=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -625,8 +625,8 @@
     "cloudflare": {
       "owner": "cloudflare",
       "repo": "skills",
-      "rev": "ffcc622bf112eccc49c4b433faa5dd28e9ede2ea",
-      "hash": "sha256-Aw2mJ1m9xQVaZ8RBTRJtWoiSq4GCbkils04zNPUYP5g=",
+      "rev": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
+      "hash": "sha256-Ub6JaF9r4UzGRurJl73YVCx7fIl6RvG2pyNP+Y7NbQI=",
       "skills": {
         "wrangler": {
           "name": "wrangler",
@@ -688,8 +688,8 @@
     "stripe": {
       "owner": "stripe",
       "repo": "ai",
-      "rev": "d9527bfc2d0993f3d2a650501e53e4f68d179ca3",
-      "hash": "sha256-9AZMNfVVSUwAouJFKzpy4mO/CNLv9Ryer1Y34ZCxJbs=",
+      "rev": "23b54f12503eb18bb05eb9de9fbaeb301bec80b0",
+      "hash": "sha256-1YGNfb+9dk9wqTcSpZLKHJL+WwkbO4GhN/sCdlTNcdw=",
       "skills": {
         "stripe-best-practices": {
           "name": "stripe-best-practices",
@@ -716,8 +716,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461",
-      "hash": "sha256-6T0KwZcUIIbd6kpkQXPCnnJPVY2mEjxYjed4FjKnRAw=",
+      "rev": "8370e760d0251a3738e006aeacec6d1cb31dd208",
+      "hash": "sha256-+Crwt+cP8B6wiIsthpwFUBgRHeTSRoPm2YASZEQE/9k=",
       "skills": {
         "resolving-merge-conflicts": {
           "name": "resolving-merge-conflicts",
@@ -864,6 +864,11 @@
           "description": "Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.",
           "path": "skills/in-progress/decision-mapping"
         },
+        "loop-me": {
+          "name": "loop-me",
+          "description": "Grill me about specs for the workflows I want to build, within this workspace.",
+          "path": "skills/in-progress/loop-me"
+        },
         "review": {
           "name": "review",
           "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".",
@@ -894,9 +899,14 @@
     "cursor": {
       "owner": "cursor",
       "repo": "plugins",
-      "rev": "e46364b8be46000b7df0f260550cd712afbb8d36",
-      "hash": "sha256-TSYPS1mnRouf+mTRBZGA7e4rFVKJsuTdwljmFGh8/Tk=",
+      "rev": "0452e08a314c03621ec5ac1324f1ad1dd824f1a4",
+      "hash": "sha256-taCilWcMc/25t79uZJt0DZZe4tX4XjOvlNJicx53PF8=",
       "skills": {
+        "cursor-tdd": {
+          "name": "cursor-tdd",
+          "description": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
+          "path": "pstack/skills/tdd"
+        },
         "create-learning-path": {
           "name": "create-learning-path",
           "description": "Build a personalized learning roadmap with milestones and practice checkpoints",
@@ -1151,11 +1161,6 @@
           "name": "typescript-best-practices",
           "description": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
           "path": "pstack/skills/typescript-best-practices"
-        },
-        "tdd": {
-          "name": "tdd",
-          "description": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
-          "path": "pstack/skills/tdd"
         },
         "principle-exhaust-the-design-space": {
           "name": "principle-exhaust-the-design-space",

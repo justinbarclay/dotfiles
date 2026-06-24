@@ -9,6 +9,12 @@ with lib; {
       startMenuLaunchers = true;
     };
 
+    # Keep /tmp tidy: wipe it whenever the WSL distro restarts, and have
+    # systemd-tmpfiles-clean.timer age out anything older than 7 days so it
+    # stays clean even though WSL is rarely shut down.
+    boot.tmp.cleanOnBoot = true;
+    systemd.tmpfiles.rules = [ "e /tmp - - - 7d" ];
+
     nix = {
       extraOptions = ''
         experimental-features = nix-command flakes

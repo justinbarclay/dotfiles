@@ -1471,11 +1471,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781718419,
-        "narHash": "sha256-Er7HxaEFUzeC2zrpf2TGA0WcYBtM6ZBl8H7eCs0i+9U=",
+        "lastModified": 1782342955,
+        "narHash": "sha256-YKalFd+UR0JorvYTpj5RsIHuYV8tec2tJHiiinXcN4k=",
         "ref": "refs/heads/main",
-        "rev": "7cbbd3266fc494b74a9c7763d502d5380fe919f9",
-        "revCount": 56,
+        "rev": "b2fd69157a8d5f5ebc3b9a80cb5c0690b5524abc",
+        "revCount": 57,
         "type": "git",
         "url": "ssh://git@github.com/tidalmigrations/aws-sso"
       },

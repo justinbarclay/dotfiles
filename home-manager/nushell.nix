@@ -70,7 +70,6 @@ with lib; {
           {
             ssh = "ssh.exe";
             ssh-add = "ssh-add.exe";
-            op = "op.exe";
             emacsBg = "pueue add -- emacs";
           }
         else

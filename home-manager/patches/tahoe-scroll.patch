@@ -1,0 +1,34 @@
+Disable macOS 26 (Tahoe) event-processing features at runtime.
+
+Upstream nsterm.m guards this fix with a compile-time SDK check
+(MAC_OS_X_VERSION_MAX_ALLOWED >= 260000).  That is false when Emacs is
+built against an older SDK (as nixpkgs does), so the block is compiled
+out and GUI scrolling / input lag returns on macOS 26.  Replace the SDK
+guard with a runtime NSProcessInfo version check, mirroring the
+emacs-mac / emacs-plus community patch.  Because registerDefaults: runs
+inside the Emacs process before AppKit initializes, this works
+regardless of which on-disk NSUserDefaults domain the build resolves to.
+
+--- a/src/nsterm.m
++++ b/src/nsterm.m
+@@ -5982,15 +5982,16 @@ ns_term_init (Lisp_Object display_name)
+   ns_pending_service_names = [[NSMutableArray alloc] init];
+   ns_pending_service_args = [[NSMutableArray alloc] init];
+
+-#if defined (NS_IMPL_COCOA) && MAC_OS_X_VERSION_MAX_ALLOWED >= 260000
++#ifdef NS_IMPL_COCOA
+   /* Disable problematic event processing on macOS 26 (Tahoe) to avoid
+      scrolling lag and input handling issues.  These are undocumented
+      options as of macOS 26.0.  */
+-  [NSUserDefaults.standardUserDefaults
+-      registerDefaults:@{@"NSEventConcurrentProcessingEnabled" : @"NO",
+-        @"NSApplicationUpdateCycleEnabled" : @"NO"}];
++  if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 26)
++    [NSUserDefaults.standardUserDefaults
++        registerDefaults:@{@"NSEventConcurrentProcessingEnabled" : @"NO",
++          @"NSApplicationUpdateCycleEnabled" : @"NO"}];
+ #endif
+
+   /* Start app and create the main menu, window, view.
+      Needs to be here because ns_initialize_display_info () uses AppKit classes.
+      The view will then ask the NSApp to stop and return to Emacs.  */

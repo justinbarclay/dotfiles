@@ -3,8 +3,8 @@
     "anthropics": {
       "owner": "anthropics",
       "repo": "skills",
-      "rev": "57546260929473d4e0d1c1bb75297be2fdfa1949",
-      "hash": "sha256-1D9otXxDvmKASBu/vtAEWv6kE+U+jG4OxZpRLZbGEF0=",
+      "rev": "9d2f1ae187231d8199c64b5b762e1bdf2244733d",
+      "hash": "sha256-U7Nt1xrFOSOEm4vuWmy4pVsEyvv+Hj4sv8yXOofmwAw=",
       "skills": {
         "frontend-design": {
           "name": "frontend-design",
@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "e0d2e437477d0767ae8453d4754f6945001b4ed5",
-      "hash": "sha256-SakxD+Zn2AGM4wJaimwP7KRqibtYB0EZUtigbupU7OQ=",
+      "rev": "aba7c4e9695c363e65cb59effe926c7f1d1abe3d",
+      "hash": "sha256-XbqsWplSWbdUIvmz2pWtzgyF/G3q5CFHDATTZeCPCi4=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -512,8 +512,8 @@
     "hypergiant": {
       "owner": "gohypergiant",
       "repo": "agent-skills",
-      "rev": "a2f0a7606034aba207152e70aefc8cc15625ee5d",
-      "hash": "sha256-rWx3wMrUHqYVM+0K3ljinXamX8nytq/cItEP6wn+kSA=",
+      "rev": "0f0650feced25febf05f6a974ce1b3ae50e4d3f1",
+      "hash": "sha256-oAWaui62RWIvYzjouYKpOHCmA1EiXp0wMLNvjNVzM0A=",
       "skills": {
         "accelint-security-best-practices": {
           "name": "accelint-security-best-practices",
@@ -688,8 +688,8 @@
     "stripe": {
       "owner": "stripe",
       "repo": "ai",
-      "rev": "23b54f12503eb18bb05eb9de9fbaeb301bec80b0",
-      "hash": "sha256-1YGNfb+9dk9wqTcSpZLKHJL+WwkbO4GhN/sCdlTNcdw=",
+      "rev": "b2157ec24d37736756cb077f0681f366f5aed591",
+      "hash": "sha256-qM4KBT6NP6U2GSur46tPb+gRNpv7TdbnY1LGv+CqBh8=",
       "skills": {
         "stripe-best-practices": {
           "name": "stripe-best-practices",
@@ -716,8 +716,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "8370e760d0251a3738e006aeacec6d1cb31dd208",
-      "hash": "sha256-+Crwt+cP8B6wiIsthpwFUBgRHeTSRoPm2YASZEQE/9k=",
+      "rev": "1445797da5ee4e4054233878c0029e9276f9986a",
+      "hash": "sha256-nUB0PceQpM64mke/8b7fVUQ+WwN0y5OGXBZZqMkTQAg=",
       "skills": {
         "resolving-merge-conflicts": {
           "name": "resolving-merge-conflicts",
@@ -749,6 +749,11 @@
           "description": "Implement a piece of work based on a PRD or set of issues.",
           "path": "skills/engineering/implement"
         },
+        "code-review": {
+          "name": "code-review",
+          "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".",
+          "path": "skills/engineering/code-review"
+        },
         "triage": {
           "name": "triage",
           "description": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.",
@@ -764,6 +769,11 @@
           "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
           "path": "skills/engineering/tdd"
         },
+        "research": {
+          "name": "research",
+          "description": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.",
+          "path": "skills/engineering/research"
+        },
         "domain-modeling": {
           "name": "domain-modeling",
           "description": "Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.",
@@ -771,12 +781,12 @@
         },
         "prototype": {
           "name": "prototype",
-          "description": "Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.",
+          "description": "Build a throwaway prototype to answer a design question. Use when the user wants to sanity-check whether a state model or logic feels right, or explore what a UI should look like.",
           "path": "skills/engineering/prototype"
         },
         "ask-matt": {
           "name": "ask-matt",
-          "description": "Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.",
+          "description": "Ask which skill or flow fits your situation. A router over the skills in this repo.",
           "path": "skills/engineering/ask-matt"
         },
         "grill-with-docs": {
@@ -856,32 +866,37 @@
         },
         "writing-beats": {
           "name": "writing-beats",
-          "description": "Shape an article as a journey of beats, choose-your-own-adventure style. The user picks a starting beat from the raw material, you write only that beat, then offer options for where to pivot next, beat by beat, until the article reaches a natural end. Use when the user has raw material and wants to assemble it as a narrative rather than an argument.",
+          "description": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it.",
           "path": "skills/in-progress/writing-beats"
         },
-        "decision-mapping": {
-          "name": "decision-mapping",
-          "description": "Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.",
-          "path": "skills/in-progress/decision-mapping"
+        "claude-handoff": {
+          "name": "claude-handoff",
+          "description": "Hand the current conversation off to a fresh background agent that picks up the work immediately.",
+          "path": "skills/in-progress/claude-handoff"
+        },
+        "wayfinder": {
+          "name": "wayfinder",
+          "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the goal is clear.",
+          "path": "skills/in-progress/wayfinder"
         },
         "loop-me": {
           "name": "loop-me",
           "description": "Grill me about specs for the workflows I want to build, within this workspace.",
           "path": "skills/in-progress/loop-me"
         },
-        "review": {
-          "name": "review",
-          "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".",
-          "path": "skills/in-progress/review"
-        },
         "writing-shape": {
           "name": "writing-shape",
-          "description": "Take a markdown file of raw material and shape it into an article through a conversational session — drafting candidate openings, growing the piece paragraph by paragraph, arguing about format (lists, tables, callouts, quotes) at each step. Use when the user has a pile of notes, fragments, or a rough draft and wants help turning it into something publishable.",
+          "description": "Writing, exploit — shape raw material into an article, paragraph by paragraph.",
           "path": "skills/in-progress/writing-shape"
+        },
+        "wizard": {
+          "name": "wizard",
+          "description": "Generate an interactive bash wizard that walks a human through a manual procedure — third-party setup, a one-off migration, an A→B state transition — opening URLs, capturing values, confirming each step, and writing .env files and GitHub Actions secrets.",
+          "path": "skills/in-progress/wizard"
         },
         "writing-fragments": {
           "name": "writing-fragments",
-          "description": "Grilling session that mines the user for fragments — heterogeneous nuggets of writing (claims, vignettes, sharp sentences, half-thoughts) — and appends them to a single document as raw material for a future article. Use when the user wants to develop ideas before imposing structure, or mentions \"fragments\", \"ideate\", or \"raw material\" for writing.",
+          "description": "Writing, explore — mine raw fragments, no structure yet.",
           "path": "skills/in-progress/writing-fragments"
         },
         "edit-article": {

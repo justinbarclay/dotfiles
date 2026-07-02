@@ -212,7 +212,10 @@
     onActivation.upgrade = true;
 
     taps = [
-      "mediosz/tap"
+      {
+        name = "mediosz/tap";
+        trusted = true;
+      }
     ];
     brews = [
       "rubyfmt"

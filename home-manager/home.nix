@@ -38,10 +38,8 @@ in
     home-manager.enable = true;
   };
 
-  nix.gc = {
-    automatic = true;
-    persistent = true;
-  };
+  # Store GC is owned by the system config (Determinate's background collector),
+  # so the user config no longer runs its own nix-collect-garbage agent.
 
   home = {
     username = "${user}";
@@ -61,6 +59,9 @@ in
       graphviz
       zip
       bottom
+      difftastic
+      tealdeer
+      hyperfine
       nodejs_24
       pandoc
       multimarkdown

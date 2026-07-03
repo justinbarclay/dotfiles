@@ -33,6 +33,12 @@
     tidalkms = {
       url = "git+ssh://git@github.com/tidalmigrations/tidalkms";
     };
+    emacs-overlay = {
+      # Pinned to a known-good rev; emacs-overlay master occasionally breaks.
+      # Bump deliberately with: nix flake update emacs-overlay
+      url = "github:nix-community/emacs-overlay/6cbac845556ceffec3d6a13df74b7ee51aa29b37";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -46,17 +52,13 @@
     , emacs-lsp-booster
     , determinate
     , tidalkms
+    , emacs-overlay
     , ...
     }:
     let
       user = "justin";
       lib = nixpkgs.lib;
 
-      emacs-overlay = system: import (fetchGit {
-        url = "https://github.com/nix-community/emacs-overlay.git";
-        ref = "master";
-        rev = "6cbac845556ceffec3d6a13df74b7ee51aa29b37";
-      });
       mkHomeConfig = system: home-manager.lib.homeManagerConfiguration
         {
           pkgs = import nixpkgs {
@@ -70,7 +72,7 @@
                   tidal = tidal-tools;
                   direnv = (import nixpkgs-stable { inherit system; }).direnv;
                 })
-              (emacs-overlay system)
+              emacs-overlay.overlays.default
               tidal-overlay.overlays.default
               tidalkms.overlays.default
               emacs-lsp-booster.overlays.default

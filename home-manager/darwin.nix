@@ -48,6 +48,15 @@
 
   determinateNix = {
     enable = true;
+    # Determinate owns store GC (resource-aware background collector).
+    determinateNixd.garbageCollector.strategy = "automatic";
+    # Pull prebuilt binaries (e.g. emacs-overlay) instead of building from source.
+    customSettings = {
+      extra-substituters = [ "https://nix-community.cachix.org" ];
+      extra-trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
     nixosVmBasedLinuxBuilder = {
       enable = true;
     };
@@ -266,6 +275,7 @@
         InitialKeyRepeat = 15;
         AppleKeyboardUIMode = 3;
         NSAutomaticWindowAnimationsEnabled = false;
+        AppleShowScrollBars = "WhenScrolling";
       };
       "CustomUserPreferences" = {
         NSGlobalDomain = {
@@ -274,10 +284,19 @@
       };
       dock = {
         autohide = true;
+        autohide-delay = 0.0;
+        autohide-time-modifier = 0.0;
         orientation = "bottom";
         show-recents = false;
         launchanim = true;
         mru-spaces = false;
+      };
+      screencapture = {
+        type = "png";
+        disable-shadow = true;
+      };
+      WindowManager = {
+        EnableStandardClickToShowDesktop = false;
       };
       smb.NetBIOSName = "heimdall";
       finder = {
@@ -287,6 +306,7 @@
         FXPreferredViewStyle = "Nlsv";
         QuitMenuItem = true;
         ShowPathbar = true;
+        CreateDesktop = false;
       };
       trackpad = {
         TrackpadRightClick = true;

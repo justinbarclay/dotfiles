@@ -23,6 +23,18 @@ with lib; {
         trusted-users = [ "root" user ];
         download-buffer-size = 524288000;
         auto-optimise-store = true;
+        # Pull prebuilt binaries (e.g. emacs-overlay) instead of building from source.
+        extra-substituters = [ "https://nix-community.cachix.org" ];
+        extra-trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
+      };
+      # Store GC is owned by the system config here (mirrors Determinate on
+      # darwin); the shared home.nix no longer runs its own GC agent.
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 30d";
       };
     };
 

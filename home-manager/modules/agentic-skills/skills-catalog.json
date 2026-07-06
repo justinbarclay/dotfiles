@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "aba7c4e9695c363e65cb59effe926c7f1d1abe3d",
-      "hash": "sha256-XbqsWplSWbdUIvmz2pWtzgyF/G3q5CFHDATTZeCPCi4=",
+      "rev": "37808955677b63b14cbac5aa7b40d4408ee8a9b3",
+      "hash": "sha256-qzw2QY/KkU+NrCgh7EVj61xKfcgq5glzYftGBulWSzo=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -392,7 +392,7 @@
         },
         "git-workflow-and-versioning": {
           "name": "git-workflow-and-versioning",
-          "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams.",
+          "description": "Structures git workflow practices. Use when making any code change. Use when committing, branching, resolving conflicts, or when you need to organize work across multiple parallel streams. Use when cutting a release, choosing a semantic version bump, tagging, or writing a changelog.",
           "path": "skills/git-workflow-and-versioning"
         },
         "planning-and-task-breakdown": {
@@ -447,7 +447,7 @@
         },
         "frontend-ui-engineering": {
           "name": "frontend-ui-engineering",
-          "description": "Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.",
+          "description": "Builds production-quality, accessible, responsive user-facing UIs. Use when building or modifying interfaces and pages, creating components, implementing layouts, meeting WCAG accessibility requirements, managing state, or when the output needs to look and feel production-quality rather than AI-generated.",
           "path": "skills/frontend-ui-engineering"
         },
         "security-and-hardening": {
@@ -467,7 +467,7 @@
         },
         "performance-optimization": {
           "name": "performance-optimization",
-          "description": "Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.",
+          "description": "Optimizes application performance across frontend, backend, queries, and databases. Use when performance requirements exist, when you suspect performance regressions, when Core Web Vitals or load times need improvement, when N+1 query patterns need fixing, or when profiling reveals bottlenecks.",
           "path": "skills/performance-optimization"
         },
         "debugging-and-error-recovery": {
@@ -512,8 +512,8 @@
     "hypergiant": {
       "owner": "gohypergiant",
       "repo": "agent-skills",
-      "rev": "0f0650feced25febf05f6a974ce1b3ae50e4d3f1",
-      "hash": "sha256-oAWaui62RWIvYzjouYKpOHCmA1EiXp0wMLNvjNVzM0A=",
+      "rev": "76c42336747441e9cfb3a71b71c713914123cb20",
+      "hash": "sha256-N11UVeeYTfhXMKi50UqDXBwrLL4IrsncQoWU+yJXYww=",
       "skills": {
         "accelint-security-best-practices": {
           "name": "accelint-security-best-practices",
@@ -688,8 +688,8 @@
     "stripe": {
       "owner": "stripe",
       "repo": "ai",
-      "rev": "b2157ec24d37736756cb077f0681f366f5aed591",
-      "hash": "sha256-qM4KBT6NP6U2GSur46tPb+gRNpv7TdbnY1LGv+CqBh8=",
+      "rev": "dc8faf805e6d351be7991f9e4c3d5dc1a1cfdcda",
+      "hash": "sha256-oCewcKIv0iQ8uGEKpS3tiIH0QM10LCm7jCQJRilEWxw=",
       "skills": {
         "stripe-best-practices": {
           "name": "stripe-best-practices",
@@ -716,8 +716,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "1445797da5ee4e4054233878c0029e9276f9986a",
-      "hash": "sha256-nUB0PceQpM64mke/8b7fVUQ+WwN0y5OGXBZZqMkTQAg=",
+      "rev": "d574778f94cf620fcc8ce741584093bc650a61d3",
+      "hash": "sha256-XqF709Y9GMKINzZITlbCTyatG9AxRZh0qn2vcv1Z8yo=",
       "skills": {
         "resolving-merge-conflicts": {
           "name": "resolving-merge-conflicts",
@@ -729,10 +729,15 @@
           "description": "Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.",
           "path": "skills/engineering/codebase-design"
         },
-        "to-issues": {
-          "name": "to-issues",
-          "description": "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.",
-          "path": "skills/engineering/to-issues"
+        "to-spec": {
+          "name": "to-spec",
+          "description": "Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.",
+          "path": "skills/engineering/to-spec"
+        },
+        "to-tickets": {
+          "name": "to-tickets",
+          "description": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in a local file, or native blocking links on a real tracker.",
+          "path": "skills/engineering/to-tickets"
         },
         "diagnosing-bugs": {
           "name": "diagnosing-bugs",
@@ -746,7 +751,7 @@
         },
         "implement": {
           "name": "implement",
-          "description": "Implement a piece of work based on a PRD or set of issues.",
+          "description": "Implement a piece of work based on a spec or set of tickets.",
           "path": "skills/engineering/implement"
         },
         "code-review": {
@@ -768,6 +773,11 @@
           "name": "pocock-tdd",
           "description": "Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions \"red-green-refactor\", or wants integration tests.",
           "path": "skills/engineering/tdd"
+        },
+        "wayfinder": {
+          "name": "wayfinder",
+          "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
+          "path": "skills/engineering/wayfinder"
         },
         "research": {
           "name": "research",
@@ -793,11 +803,6 @@
           "name": "grill-with-docs",
           "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
           "path": "skills/engineering/grill-with-docs"
-        },
-        "to-prd": {
-          "name": "to-prd",
-          "description": "Turn the current conversation into a PRD and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.",
-          "path": "skills/engineering/to-prd"
         },
         "scaffold-exercises": {
           "name": "scaffold-exercises",
@@ -856,7 +861,7 @@
         },
         "grilling": {
           "name": "grilling",
-          "description": "Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
+          "description": "Grill the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
           "path": "skills/productivity/grilling"
         },
         "handoff": {
@@ -873,11 +878,6 @@
           "name": "claude-handoff",
           "description": "Hand the current conversation off to a fresh background agent that picks up the work immediately.",
           "path": "skills/in-progress/claude-handoff"
-        },
-        "wayfinder": {
-          "name": "wayfinder",
-          "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the goal is clear.",
-          "path": "skills/in-progress/wayfinder"
         },
         "loop-me": {
           "name": "loop-me",
@@ -914,8 +914,8 @@
     "cursor": {
       "owner": "cursor",
       "repo": "plugins",
-      "rev": "0452e08a314c03621ec5ac1324f1ad1dd824f1a4",
-      "hash": "sha256-taCilWcMc/25t79uZJt0DZZe4tX4XjOvlNJicx53PF8=",
+      "rev": "0dda29e839d15464a137af9935665a5a47ee09b8",
+      "hash": "sha256-EFa2kM1e2jPvvNSXBHkOFS6+akG6gROtJCuD9SVvEHo=",
       "skills": {
         "cursor-tdd": {
           "name": "cursor-tdd",

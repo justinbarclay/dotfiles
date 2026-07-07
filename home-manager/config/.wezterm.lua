@@ -15,18 +15,22 @@ config.audible_bell = 'Disabled'
 config.automatically_reload_config = true
 config.tab_bar_at_bottom = true
 config.window_decorations = 'RESIZE'
-config.window_frame = {
-  -- The font used in the tab bar.
-  -- Roboto Bold is the default; this font is bundled
-  -- with wezterm.
-  -- Whatever font is selected here, it will have the
-  -- main font setting appended to it to pick up any
-  -- fallback fonts you may have used there.
-  font = wezterm.font { family = 'Menlo' },
+config.scrollback_lines = 10000
+config.use_fancy_tab_bar = true
+config.show_new_tab_button_in_tab_bar = false
+config.show_close_tab_button_in_tabs = false
 
-  -- The size of the font in the tab bar.
-  -- Default to 10.0 on Windows but 12.0 on other systems
+config.window_frame = {
+  font = wezterm.font { family = 'Menlo' },
   font_size = default_font_size,
+  inactive_titlebar_bg = 'none',
+  active_titlebar_bg = 'none',
+}
+
+config.colors = {
+  tab_bar = {
+    inactive_tab_edge = 'none',
+  },
 }
 
 -- Windows-specific configuration
@@ -118,6 +122,128 @@ config.color_schemes = {
   },
 }
 config.color_scheme = 'Kusanagi'
+
+-- Helper function to get clean process name
+local function get_process_name(pane)
+  local name = pane.foreground_process_name
+  if not name or name == "" then
+    return ""
+  end
+  -- Extract last segment of process path
+  name = name:gsub("(.*)/", "")
+  name = name:gsub("(.*)\\", "") -- handle Windows paths
+  name = name:gsub("%.exe$", "")
+  return name
+end
+
+-- Helper function to get clean directory path
+local function get_current_dir(pane)
+  local uri = pane.current_working_dir
+  if not uri then
+    return ""
+  end
+  local path = uri.path
+  if not path then
+    return ""
+  end
+
+  -- Replace home directory with ~
+  local home = os.getenv("HOME") or os.getenv("USERPROFILE")
+  if home then
+    -- escape special characters in home path for pattern matching
+    local pattern = "^" .. home:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1")
+    path = path:gsub(pattern, "~")
+  end
+  return path
+end
+
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
+
+wezterm.on('format-tab-title', function(tab, tabs, panes, config_obj, hover, max_width)
+  local background = '#1a3a50' -- inactive_tab bg (dark slate-blue)
+  local foreground = '#68b8cc' -- inactive_tab fg (light cyan-blue)
+  local edge_background = 'none'
+  local edge_foreground = background
+
+  if tab.is_active then
+    background = '#00e5ff' -- active_tab bg (neon cyan)
+    foreground = '#050810' -- active_tab fg (deep black-blue)
+    edge_foreground = background
+  elseif hover then
+    background = '#2d5a70' -- inactive_tab_hover bg (teal-deep)
+    foreground = '#00e5ff' -- inactive_tab_hover fg (neon cyan)
+    edge_foreground = background
+  end
+
+  local pane = tab.active_pane
+  local process = get_process_name(pane)
+  local dir = get_current_dir(pane)
+
+  -- Keep directory short: just show the last segment or full path if short
+  local dir_name = dir
+  if dir_name ~= "~" and dir_name ~= "/" then
+    dir_name = dir_name:gsub("(.*)/", "")
+    dir_name = dir_name:gsub("(.*)\\", "")
+  end
+
+  local title_str = ""
+  if process ~= "" then
+    title_str = string.format("%s (%s)", dir_name, process)
+  else
+    title_str = dir_name
+  end
+
+  local title = "   " .. wezterm.truncate_right(title_str, max_width - 1) .. "   "
+
+  return {
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_LEFT_ARROW },
+    { Background = { Color = background } },
+    { Foreground = { Color = foreground } },
+    { Text = title },
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_RIGHT_ARROW },
+  }
+end)
+
+wezterm.on('update-status', function(window, pane)
+  local workspace = window:active_workspace()
+  local cells = {}
+
+  -- Include workspace
+  table.insert(cells, { text = " " .. workspace .. " ", fg = "#00cc77" })
+
+  -- Include current mode / key table if any
+  local key_table = window:active_key_table()
+  if key_table then
+    table.insert(cells, { text = " KEY: " .. key_table .. " ", fg = "#ffaa00" })
+  end
+
+  -- Include current time
+  local time = wezterm.strftime('%H:%M')
+  table.insert(cells, { text = " " .. time .. " ", fg = "#cc55ff" })
+
+  local status_items = {}
+  local bg = 'none'
+  local separator_fg = '#2d5a70'
+
+  for i, cell in ipairs(cells) do
+    if i > 1 then
+      table.insert(status_items, { Background = { Color = bg } })
+      table.insert(status_items, { Foreground = { Color = separator_fg } })
+      table.insert(status_items, { Text = "│" })
+    end
+
+    table.insert(status_items, { Background = { Color = bg } })
+    table.insert(status_items, { Foreground = { Color = cell.fg } })
+    table.insert(status_items, { Text = cell.text })
+  end
+
+  window:set_right_status(wezterm.format(status_items))
+end)
 
 -- and finally, return the configuration to wezterm
 return config

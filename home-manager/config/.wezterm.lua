@@ -245,5 +245,51 @@ wezterm.on('update-status', function(window, pane)
   window:set_right_status(wezterm.format(status_items))
 end)
 
+config.keys = {
+  -- CMD-b (Switch to workspace)
+  {
+    key = 'b',
+    mods = 'CMD',
+    action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' },
+  },
+  -- CMD-Shift-b (List all tabs)
+  {
+    key = 'b',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.ShowLauncherArgs { flags = 'TABS' },
+  },
+  -- CMD-k (Kill current tab)
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.CloseCurrentTab { confirm = true },
+  },
+}
+
+config.key_tables = {
+  copy_mode = {
+    -- Navigation
+    { key = 'p', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveUp' },
+    { key = 'n', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveDown' },
+    { key = 'b', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveLeft' },
+    { key = 'f', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveRight' },
+    { key = 'a', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveToStartOfLine' },
+    { key = 'e', mods = 'CTRL', action = wezterm.action.CopyMode 'MoveToEndOfLineContent' },
+    { key = 'v', mods = 'CTRL', action = wezterm.action.CopyMode 'PageDown' },
+    { key = 'v', mods = 'ALT',  action = wezterm.action.CopyMode 'PageUp' },
+
+    -- Selection and Copying
+    { key = 'Space', mods = 'CTRL', action = wezterm.action.CopyMode { SetSelectionMode = 'Cell' } },
+    { key = 'w',     mods = 'ALT',  action = wezterm.action.Multiple {
+      wezterm.action.CopyTo 'ClipboardAndPrimarySelection',
+      wezterm.action.CopyMode 'Close',
+    }},
+
+    -- Exit
+    { key = 'g', mods = 'CTRL', action = wezterm.action.CopyMode 'Close' },
+    { key = 'Escape',           action = wezterm.action.CopyMode 'Close' },
+  }
+}
+
 -- and finally, return the configuration to wezterm
 return config

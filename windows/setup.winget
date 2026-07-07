@@ -378,13 +378,21 @@ properties:
         allowPrerelease: false
       settings:
         GetScript: |
-          # We don't have a perfect way to 'get' the state of an entire file,
-          # so we just return a placeholder.
-          return @{ Result = "Checked" }
+          $manifest = Join-Path $env:USERPROFILE 'dotfiles\windows\packages.json'
+          $ids = (Get-Content $manifest -Raw | ConvertFrom-Json).Sources.Packages.PackageIdentifier
+          $missing = $ids | Where-Object {
+            winget list --id $_ --exact --accept-source-agreements 2>$null | Out-Null
+            $LASTEXITCODE -ne 0
+          }
+          return @{ Result = ($missing -join ',') }
         TestScript: |
-          # For simplicity in this hybrid model, we run the import to ensure state.
-          # winget import is idempotent and will skip already installed packages.
-          return $false
+          $manifest = Join-Path $env:USERPROFILE 'dotfiles\windows\packages.json'
+          $ids = (Get-Content $manifest -Raw | ConvertFrom-Json).Sources.Packages.PackageIdentifier
+          foreach ($id in $ids) {
+            winget list --id $id --exact --accept-source-agreements 2>$null | Out-Null
+            if ($LASTEXITCODE -ne 0) { return $false }
+          }
+          return $true
         SetScript: |
           $manifest = Join-Path $env:USERPROFILE 'dotfiles\windows\packages.json'
           winget import --import-file $manifest --accept-package-agreements --accept-source-agreements

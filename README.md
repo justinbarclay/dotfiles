@@ -117,6 +117,8 @@ windows/
 ├── packages.json      # WinGet package list (reference; re-exported by update.nu)
 ├── scoop.json         # Scoop app list (reference; re-exported by update.nu)
 ├── .gitconfig         # Native Windows git config (correct SSH/signing paths)
+├── gitignore-global   # Global git excludes, symlinked to ~/.gitignore (mirrors git.nix)
+├── allowed-signers    # SSH signer allowlist for commit verification, symlinked to ~/.allowed-signers (mirrors git.nix)
 ├── .wslconfig         # Global WSL2 VM settings (memory reclaim, sparse VHD)
 ├── atuin-config.toml  # Atuin settings for Windows (mirrors nushell.nix)
 ├── Microsoft.PowerShell_profile.ps1 # $PROFILE for PowerShell 5.1/7 — PATH + starship/zoxide/atuin init

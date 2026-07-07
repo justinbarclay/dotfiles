@@ -1,0 +1,12 @@
+# Global git excludes for the native Windows host, symlinked to %USERPROFILE%\.gitignore
+# by links.json. Mirrors the home.file.".gitignore" content in home-manager/git.nix so
+# both platforms exclude the same patterns from every repo.
+#
+# Named "gitignore-global" rather than ".gitignore" so git itself doesn't treat this
+# tracked file as ignore rules for the windows/ directory in this repo.
+**/**/shell.nix
+**/**/.envrc
+**/**/.direnv/
+**/**/.projectile-cache.eld
+**/**/.projectile.cache
+.aider*

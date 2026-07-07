@@ -5,6 +5,8 @@
     { "dest": "$APPDATA\\nushell\\env.nu", "src": "home-manager\\config\\env.nu" },
     { "dest": "$APPDATA\\nushell\\custom.nu", "src": "home-manager\\config\\custom.nu" },
     { "dest": "$USERPROFILE\\.gitconfig", "src": "windows\\.gitconfig" },
+    { "dest": "$USERPROFILE\\.gitignore", "src": "windows\\gitignore-global" },
+    { "dest": "$USERPROFILE\\.allowed-signers", "src": "windows\\allowed-signers" },
     { "dest": "$USERPROFILE\\.wezterm.lua", "src": "home-manager\\config\\.wezterm.lua" },
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.json", "src": "windows\\komorebi.json" },
     { "dest": "$USERPROFILE\\.config\\whkd\\whkdrc", "src": "windows\\whkdrc" },

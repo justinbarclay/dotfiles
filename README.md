@@ -105,6 +105,8 @@ home-manager/
 windows/
 ├── bootstrap.ps1      # Run from plain PowerShell — calls winget configure
 ├── setup.winget       # WinGet DSC configuration (packages, features, symlinks)
+├── links.json         # Single source of truth for symlink dest/src pairs
+├── links.ps1          # Shared Get/Test/Install helpers for links.json, dot-sourced by setup.winget, check-drift.ps1, bootstrap.ps1, and CI
 ├── test-sandbox.wsb   # Windows Sandbox configuration for isolated testing
 ├── sandbox-bootstrap.ps1 # Helper script for Sandbox (installs winget + runs bootstrap)
 ├── architecture.org   # System design, module boundaries, data flow

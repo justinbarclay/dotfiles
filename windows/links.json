@@ -1,0 +1,13 @@
+{
+  "$comment": "Single source of truth for Windows config symlinks. Dest supports $USERPROFILE, $APPDATA, and $LOCALAPPDATA tokens, expanded by windows/links.ps1. Src is relative to the repo root. Consumed by setup.winget (symlinks resource), check-drift.ps1, bootstrap.ps1 (-SymlinksOnly), and ci.yml.",
+  "links": [
+    { "dest": "$APPDATA\\nushell\\config.nu", "src": "home-manager\\config\\config.nu" },
+    { "dest": "$APPDATA\\nushell\\env.nu", "src": "home-manager\\config\\env.nu" },
+    { "dest": "$APPDATA\\nushell\\custom.nu", "src": "home-manager\\config\\custom.nu" },
+    { "dest": "$USERPROFILE\\.gitconfig", "src": "windows\\.gitconfig" },
+    { "dest": "$USERPROFILE\\.wezterm.lua", "src": "home-manager\\config\\.wezterm.lua" },
+    { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.json", "src": "windows\\komorebi.json" },
+    { "dest": "$USERPROFILE\\.config\\whkd\\whkdrc", "src": "windows\\whkdrc" },
+    { "dest": "$USERPROFILE\\.config\\starship.toml", "src": "home-manager\\config\\starship.toml" }
+  ]
+}

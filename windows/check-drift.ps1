@@ -73,32 +73,8 @@ if ($LASTEXITCODE -ne 0) {
 # Verifies each symlink exists AND points to the expected source file.
 # winget configure test only checks presence (ReparsePoint attribute).
 # ---------------------------------------------------------------------------
-$links = @(
-    @{ Dest = Join-Path $env:APPDATA     'nushell\config.nu';              Src = Join-Path $dotfiles 'home-manager\config\config.nu'    },
-    @{ Dest = Join-Path $env:APPDATA     'nushell\env.nu';                 Src = Join-Path $dotfiles 'home-manager\config\env.nu'       },
-    @{ Dest = Join-Path $env:APPDATA     'nushell\custom.nu';              Src = Join-Path $dotfiles 'home-manager\config\custom.nu'    },
-    @{ Dest = Join-Path $env:USERPROFILE '.gitconfig';                     Src = Join-Path $dotfiles 'windows\.gitconfig'               },
-    @{ Dest = Join-Path $env:USERPROFILE '.wezterm.lua';                   Src = Join-Path $dotfiles 'home-manager\config\.wezterm.lua' },
-    @{ Dest = Join-Path $env:USERPROFILE '.config\komorebi\komorebi.json'; Src = Join-Path $dotfiles 'windows\komorebi.json'            },
-    @{ Dest = Join-Path $env:USERPROFILE '.config\whkd\whkdrc';            Src = Join-Path $dotfiles 'windows\whkdrc'                  },
-    @{ Dest = Join-Path $env:USERPROFILE '.config\starship.toml';          Src = Join-Path $dotfiles 'home-manager\config\starship.toml'}
-)
-
-$symlinkDrift = @()
-foreach ($link in $links) {
-    if (-not (Test-Path $link.Dest -ErrorAction SilentlyContinue)) {
-        $symlinkDrift += "MISSING:      $($link.Dest)"
-        continue
-    }
-    $item = Get-Item $link.Dest -Force
-    if (-not $item.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) {
-        $symlinkDrift += "NOT_SYMLINK:  $($link.Dest)"
-        continue
-    }
-    if ($item.Target -ne $link.Src) {
-        $symlinkDrift += "WRONG_TARGET: $($link.Dest) -> $($item.Target) (expected: $($link.Src))"
-    }
-}
+. (Join-Path $PSScriptRoot 'links.ps1')
+$symlinkDrift = Test-DotfilesLinks -DotfilesRoot $dotfiles -Detailed
 
 if ($symlinkDrift.Count -gt 0) {
     $msg = "[$timestamp] SYMLINK DRIFT DETECTED:`n$($symlinkDrift -join "`n")"

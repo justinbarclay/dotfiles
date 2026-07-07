@@ -378,13 +378,13 @@ properties:
         allowPrerelease: false
       settings:
         GetScript: |
-          # We don't have a perfect way to 'get' the state of an entire file, 
+          # We don't have a perfect way to 'get' the state of an entire file,
           # so we just return a placeholder.
           return @{ Result = "Checked" }
         TestScript: |
           # For simplicity in this hybrid model, we run the import to ensure state.
           # winget import is idempotent and will skip already installed packages.
-          return $false 
+          return $false
         SetScript: |
           $manifest = Join-Path $env:USERPROFILE 'dotfiles\windows\packages.json'
           winget import --import-file $manifest --accept-package-agreements --accept-source-agreements
@@ -634,63 +634,11 @@ properties:
         - whkd
       settings:
         GetScript: |
-          $dotfiles = Join-Path $env:USERPROFILE 'dotfiles'
-          $links = @(
-            @{ Dest = Join-Path $env:APPDATA      'nushell\config.nu' },
-            @{ Dest = Join-Path $env:APPDATA      'nushell\env.nu' },
-            @{ Dest = Join-Path $env:APPDATA      'nushell\custom.nu' },
-            @{ Dest = Join-Path $env:USERPROFILE  '.gitconfig' },
-            @{ Dest = Join-Path $env:USERPROFILE  '.wezterm.lua' },
-            @{ Dest = Join-Path $env:USERPROFILE  '.config\komorebi\komorebi.json' },
-            @{ Dest = Join-Path $env:USERPROFILE  '.config\whkd\whkdrc' },
-            @{ Dest = Join-Path $env:USERPROFILE  '.config\starship.toml' }
-          )
-          $missing = ($links | Where-Object { -not (Test-Path $_.Dest) }).Count
-          return @{ Result = [string]($missing -eq 0) }
+          . (Join-Path $env:USERPROFILE 'dotfiles\windows\links.ps1')
+          return @{ Result = [string](Test-DotfilesLinks) }
         TestScript: |
-          $links = @(
-            (Join-Path $env:APPDATA     'nushell\config.nu'),
-            (Join-Path $env:APPDATA     'nushell\env.nu'),
-            (Join-Path $env:APPDATA     'nushell\custom.nu'),
-            (Join-Path $env:USERPROFILE '.gitconfig'),
-            (Join-Path $env:USERPROFILE '.wezterm.lua'),
-            (Join-Path $env:USERPROFILE '.config\komorebi\komorebi.json'),
-            (Join-Path $env:USERPROFILE '.config\whkd\whkdrc'),
-            (Join-Path $env:USERPROFILE '.config\starship.toml')
-          )
-          foreach ($link in $links) {
-            if (-not (Test-Path $link)) { return $false }
-            if (-not (Get-Item $link).Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) { return $false }
-          }
-          return $true
+          . (Join-Path $env:USERPROFILE 'dotfiles\windows\links.ps1')
+          return (Test-DotfilesLinks)
         SetScript: |
-          $d = Join-Path $env:USERPROFILE 'dotfiles'
-
-          # Ensure target directories exist
-          New-Item -ItemType Directory -Force -Path (Join-Path $env:APPDATA     'nushell')                  | Out-Null
-          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config\komorebi')         | Out-Null
-          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config\whkd')             | Out-Null
-          New-Item -ItemType Directory -Force -Path (Join-Path $env:USERPROFILE '.config')                  | Out-Null
-
-          $links = @(
-            @{ Dest = Join-Path $env:APPDATA     'nushell\config.nu';              Src = Join-Path $d 'home-manager\config\config.nu'   },
-            @{ Dest = Join-Path $env:APPDATA     'nushell\env.nu';                 Src = Join-Path $d 'home-manager\config\env.nu'      },
-            @{ Dest = Join-Path $env:APPDATA     'nushell\custom.nu';              Src = Join-Path $d 'home-manager\config\custom.nu'   },
-            @{ Dest = Join-Path $env:USERPROFILE '.gitconfig';                     Src = Join-Path $d 'windows\.gitconfig'              },
-            @{ Dest = Join-Path $env:USERPROFILE '.wezterm.lua';                   Src = Join-Path $d 'home-manager\config\.wezterm.lua'},
-            @{ Dest = Join-Path $env:USERPROFILE '.config\komorebi\komorebi.json'; Src = Join-Path $d 'windows\komorebi.json'           },
-            @{ Dest = Join-Path $env:USERPROFILE '.config\whkd\whkdrc';            Src = Join-Path $d 'windows\whkdrc'                 },
-            @{ Dest = Join-Path $env:USERPROFILE '.config\starship.toml';          Src = Join-Path $d 'home-manager\config\starship.toml'}
-          )
-
-          foreach ($link in $links) {
-            if (Test-Path $link.Dest) {
-              $item = Get-Item $link.Dest
-              if (-not $item.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) {
-                Remove-Item $link.Dest -Force
-              } else {
-                continue
-              }
-            }
-            & cmd.exe /c mklink $link.Dest $link.Src
-          }
+          . (Join-Path $env:USERPROFILE 'dotfiles\windows\links.ps1')
+          Install-DotfilesLinks

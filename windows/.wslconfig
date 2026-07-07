@@ -1,0 +1,10 @@
+# Global WSL2 VM settings, symlinked to %USERPROFILE%\.wslconfig by links.json.
+# Kept intentionally minimal: memory/processor caps are hardware-specific and
+# are not set here so a new machine doesn't inherit limits tuned for another one.
+#
+# networkingMode=mirrored is deliberately NOT set here: env.nu resolves
+# $env.WINDOWS_HOST by reading the WSL default-route gateway, which only
+# exists in NAT networking mode. Mirrored mode would break that lookup.
+[wsl2]
+autoMemoryReclaim=gradual
+sparseVhd=true

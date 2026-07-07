@@ -119,6 +119,7 @@ windows/
 ├── .gitconfig         # Native Windows git config (correct SSH/signing paths)
 ├── .wslconfig         # Global WSL2 VM settings (memory reclaim, sparse VHD)
 ├── atuin-config.toml  # Atuin settings for Windows (mirrors nushell.nix)
+├── Microsoft.PowerShell_profile.ps1 # $PROFILE for PowerShell 5.1/7 — PATH + starship/zoxide/atuin init
 ├── komorebi.json      # Tiling WM config (mirrors AeroSpace on macOS)
 ├── whkdrc             # Hotkey config for whkd (mirrors AeroSpace bindings)
 └── archive/           # Superseded files kept for historical reference

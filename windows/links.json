@@ -10,6 +10,8 @@
     { "dest": "$USERPROFILE\\.config\\whkd\\whkdrc", "src": "windows\\whkdrc" },
     { "dest": "$USERPROFILE\\.config\\starship.toml", "src": "home-manager\\config\\starship.toml" },
     { "dest": "$USERPROFILE\\.wslconfig", "src": "windows\\.wslconfig" },
-    { "dest": "$USERPROFILE\\.config\\atuin\\config.toml", "src": "windows\\atuin-config.toml" }
+    { "dest": "$USERPROFILE\\.config\\atuin\\config.toml", "src": "windows\\atuin-config.toml" },
+    { "dest": "$USERPROFILE\\Documents\\WindowsPowerShell\\Microsoft.PowerShell_profile.ps1", "src": "windows\\Microsoft.PowerShell_profile.ps1" },
+    { "dest": "$USERPROFILE\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1", "src": "windows\\Microsoft.PowerShell_profile.ps1" }
   ]
 }

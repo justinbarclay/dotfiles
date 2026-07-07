@@ -103,7 +103,7 @@ home-manager/
 ├── scripts/           # nix-update, rebuild-nix
 └── services/          # Darwin launchd services (redis, pueue, mbsync, postgres)
 windows/
-├── bootstrap.ps1      # Run from plain PowerShell — calls winget configure
+├── bootstrap.ps1      # Run from plain PowerShell — calls winget configure (-SymlinksOnly skips winget entirely)
 ├── setup.winget       # WinGet DSC configuration (packages, features, symlinks)
 ├── links.json         # Single source of truth for symlink dest/src pairs
 ├── links.ps1          # Shared Get/Test/Install helpers for links.json, dot-sourced by setup.winget, check-drift.ps1, bootstrap.ps1, and CI

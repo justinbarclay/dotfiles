@@ -14,10 +14,31 @@
       1. Verify winget is available (1.6+ required for DSC support).
       2. Run the declarative configuration in windows\setup.winget, which
          installs all packages, enables Windows features, and symlinks configs.
+
+.PARAMETER SymlinksOnly
+    Skip winget entirely and just create/repair the symlinks declared in
+    windows\links.json. Does not require Administrator. Used by CI to verify
+    symlink creation quickly without re-running the full package install.
 #>
+
+param(
+    [switch]$SymlinksOnly
+)
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+
+function Write-Section([string]$Title) {
+    Write-Host "`n== $Title ==" -ForegroundColor Cyan
+}
+
+if ($SymlinksOnly) {
+    Write-Section "Creating symlinks only (-SymlinksOnly)"
+    . (Join-Path $PSScriptRoot 'links.ps1')
+    Install-DotfilesLinks
+    Write-Host "Symlinks created." -ForegroundColor Green
+    exit 0
+}
 
 # Ensure script is running as Administrator
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -26,10 +47,6 @@ if (-not $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Adm
     $args = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
     Start-Process powershell.exe -Verb RunAs -ArgumentList $args
     exit
-}
-
-function Write-Section([string]$Title) {
-    Write-Host "`n== $Title ==" -ForegroundColor Cyan
 }
 
 # ---------------------------------------------------------------------------

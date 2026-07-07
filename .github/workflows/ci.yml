@@ -62,38 +62,21 @@ jobs:
           New-Item -ItemType SymbolicLink -Path "$HOME\dotfiles" -Target $env:GITHUB_WORKSPACE
 
 
-      - name: Run bootstrap (Dry Run)
+      - name: Run bootstrap (symlinks only)
         shell: pwsh
         run: |
-          .\windows\bootstrap.ps1 --dry-run
-
-      - name: Run bootstrap (Wet Run - Symlinks only)
-        shell: pwsh
-        run: |
-          # We run the wet run to verify symlink creation.
-          # We skip the heavy winget/scoop installs in CI if they are already there
-          # or if they are too slow, but bootstrap.nu will check if apps are installed.
-          .\windows\bootstrap.ps1
-
+          # CI only exercises symlink creation, not the full winget/scoop package
+          # install (too slow, and not the thing this job is meant to guard).
+          .\windows\bootstrap.ps1 -SymlinksOnly
 
       - name: Verify Symlinks
         shell: pwsh
         run: |
-          $links = @(
-            "$HOME\.gitconfig",
-            "$HOME\.wezterm.lua",
-            "$env:APPDATA\nushell\config.nu"
-          )
-          foreach ($link in $links) {
-            if (-not (Test-Path $link)) {
-              Write-Error "Missing symlink: $link"
-              exit 1
-            }
-            $item = Get-Item $link
-            if (-not $item.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) {
-              Write-Error "Not a symlink: $link"
-              exit 1
-            }
-            Write-Host "Verified: $link"
+          . .\windows\links.ps1
+          $issues = Test-DotfilesLinks -Detailed
+          if ($issues.Count -gt 0) {
+            $issues | ForEach-Object { Write-Error $_ }
+            exit 1
           }
+          Write-Host "All symlinks verified."
 

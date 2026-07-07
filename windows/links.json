@@ -9,6 +9,7 @@
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.json", "src": "windows\\komorebi.json" },
     { "dest": "$USERPROFILE\\.config\\whkd\\whkdrc", "src": "windows\\whkdrc" },
     { "dest": "$USERPROFILE\\.config\\starship.toml", "src": "home-manager\\config\\starship.toml" },
-    { "dest": "$USERPROFILE\\.wslconfig", "src": "windows\\.wslconfig" }
+    { "dest": "$USERPROFILE\\.wslconfig", "src": "windows\\.wslconfig" },
+    { "dest": "$USERPROFILE\\.config\\atuin\\config.toml", "src": "windows\\atuin-config.toml" }
   ]
 }

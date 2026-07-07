@@ -640,6 +640,7 @@ properties:
         - wezterm
         - komorebi
         - whkd
+        - scoop-apps
       settings:
         GetScript: |
           . (Join-Path $env:USERPROFILE 'dotfiles\windows\links.ps1')

@@ -767,3 +767,4 @@ source ~/dotfiles/home-manager/config/custom.nu
 source ~/.config/starship/starship.nu
 source ~/.config/zoxide/init.nu
 source ~/.cache/carapace/init.nu
+source ~/.config/atuin/init.nu

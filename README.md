@@ -118,6 +118,7 @@ windows/
 ├── scoop.json         # Scoop app list (reference; re-exported by update.nu)
 ├── .gitconfig         # Native Windows git config (correct SSH/signing paths)
 ├── .wslconfig         # Global WSL2 VM settings (memory reclaim, sparse VHD)
+├── atuin-config.toml  # Atuin settings for Windows (mirrors nushell.nix)
 ├── komorebi.json      # Tiling WM config (mirrors AeroSpace on macOS)
 ├── whkdrc             # Hotkey config for whkd (mirrors AeroSpace bindings)
 └── archive/           # Superseded files kept for historical reference

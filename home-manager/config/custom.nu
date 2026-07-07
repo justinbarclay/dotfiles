@@ -39,27 +39,19 @@ def wez-spawn [
 ] {
   let is_windows = ((sys host | get name) == "Windows")
   let pane = if $is_windows {
-    (^wezterm.exe cli spawn --domain-name "WSL:NixOS" --cwd $cwd)
+    (^wezterm cli spawn --domain-name "WSL:nixos" --cwd $cwd)
   } else {
     (^wezterm cli spawn --cwd $cwd)
   }
   if not ($title | is-empty) {
-    if $is_windows {
-      ^wezterm.exe cli set-tab-title --pane-id $pane $title
-    } else {
-      ^wezterm cli set-tab-title --pane-id $pane $title
-    }
+    ^wezterm cli set-tab-title --pane-id $pane $title
   }
   $pane
 }
 
 # Send a command to a pane and press Enter
 def wez-send [pane: string, command: string] {
-  if ((sys host | get name) == "Windows") {
-    ^wezterm.exe cli send-text --pane-id $pane --no-paste $"($command)\r\n"
-  } else {
-    ^wezterm cli send-text --pane-id $pane --no-paste $"($command)\n"
-  }
+  ^wezterm cli send-text --pane-id $pane --no-paste $"($command)\n"
 }
 
 # ---------------------------------------------------------------------------

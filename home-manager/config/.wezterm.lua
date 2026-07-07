@@ -58,8 +58,66 @@ end
 config.font_size = default_font_size;
 
 config.front_end = 'WebGpu';
--- For example, changing the color scheme:
-config.color_scheme = 'Laserwave (Gogh)'
+-- Kusanagi theme ported from https://github.com/LionyxML/kusanagi-theme
+config.color_schemes = {
+  ['Kusanagi'] = {
+    foreground    = '#68b8cc',
+    background    = '#050810',
+    cursor_bg     = '#00e5ff',
+    cursor_fg     = '#050810',
+    cursor_border = '#00e5ff',
+    selection_fg  = '#050810',
+    selection_bg  = '#0d2840',
+    scrollbar_thumb = '#2d5a70',
+    split         = '#2d5a70',
+
+    ansi = {
+      '#080c16', -- black      (bg-deep)
+      '#ff0044', -- red        (hot-pink / errors)
+      '#00cc77', -- green      (neon-green / strings)
+      '#ffaa00', -- yellow     (amber / warnings)
+      '#00b8cc', -- blue       (cyan-deep)
+      '#cc55ff', -- magenta    (purple / keywords)
+      '#00e5ff', -- cyan       (neon-cyan / builtins)
+      '#68b8cc', -- white      (fg-main)
+    },
+    brights = {
+      '#1a3a50', -- bright black   (teal-faint)
+      '#ff4466', -- bright red     (pink-soft)
+      '#00cc77', -- bright green   (neon-green)
+      '#ffaa00', -- bright yellow  (amber)
+      '#00c5dd', -- bright blue    (cyan-soft)
+      '#cc55ff', -- bright magenta (purple)
+      '#00e5ff', -- bright cyan    (neon-cyan)
+      '#8ecede', -- bright white   (teal-soft)
+    },
+
+    tab_bar = {
+      background = '#080c16',
+      active_tab = {
+        bg_color = '#080c16',
+        fg_color = '#68b8cc',
+      },
+      inactive_tab = {
+        bg_color = '#0a1628',
+        fg_color = '#2d5a70',
+      },
+      inactive_tab_hover = {
+        bg_color = '#0d2030',
+        fg_color = '#00c5dd',
+      },
+      new_tab = {
+        bg_color = '#080c16',
+        fg_color = '#2d5a70',
+      },
+      new_tab_hover = {
+        bg_color = '#0d2030',
+        fg_color = '#00e5ff',
+      },
+    },
+  },
+}
+config.color_scheme = 'Kusanagi'
 
 -- and finally, return the configuration to wezterm
 return config

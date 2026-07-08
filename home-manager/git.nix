@@ -30,6 +30,7 @@ with lib; {
         **/**/.projectile-cache.eld
         **/**/.projectile.cache
         .aider*
+        **/.claude/settings.local.json
       '';
     };
 

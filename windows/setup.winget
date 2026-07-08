@@ -156,6 +156,10 @@ properties:
         State: Stopped
         StartupType: Disabled
 
+    # Get/Add-WindowsCapability's DISM COM interop throws "Class not registered" when the
+    # hosting pwsh is the MSIX/Store build (winget-cli#4264, PowerShell#13866/#26685/#27358).
+    # Shelling out to Windows PowerShell 5.1 (powershell.exe) avoids the broken interop —
+    # it isn't affected regardless of which pwsh build winget configure hosts resources in.
     - resource: PSDscResources/Script
       id: openssh-client
       directives:
@@ -164,13 +168,19 @@ properties:
         securityContext: elevated
       settings:
         GetScript: |
-          $cap = Get-WindowsCapability -Online -Name 'OpenSSH.Client*' -ErrorAction SilentlyContinue
-          return @{ Result = [string]($null -ne $cap -and $cap.State -eq 'Installed') }
+          $installed = powershell.exe -NoProfile -NonInteractive -Command '
+            $cap = Get-WindowsCapability -Online -Name "OpenSSH.Client*" -ErrorAction SilentlyContinue
+            [string]($null -ne $cap -and $cap.State -eq "Installed")
+          '
+          return @{ Result = $installed.Trim() }
         TestScript: |
-          $cap = Get-WindowsCapability -Online -Name 'OpenSSH.Client*' -ErrorAction SilentlyContinue
-          return ($null -ne $cap -and $cap.State -eq 'Installed')
+          $installed = powershell.exe -NoProfile -NonInteractive -Command '
+            $cap = Get-WindowsCapability -Online -Name "OpenSSH.Client*" -ErrorAction SilentlyContinue
+            [string]($null -ne $cap -and $cap.State -eq "Installed")
+          '
+          return ($installed.Trim() -eq "True")
         SetScript: |
-          Add-WindowsCapability -Online -Name 'OpenSSH.Client~~~~0.0.1.0'
+          powershell.exe -NoProfile -NonInteractive -Command 'Add-WindowsCapability -Online -Name "OpenSSH.Client~~~~0.0.1.0"' | Out-Null
 
     - resource: PSDscResources/Registry
       id: git-ssh-path
@@ -302,46 +312,92 @@ properties:
     # -------------------------------------------------------------------------
     # Windows Optional Features
     # NOTE: These require a reboot. DSC will prompt automatically.
+    #
+    # Implemented as Script resources (not PSDscResources/WindowsOptionalFeature) because
+    # DISM's COM interop throws "Class not registered" when the hosting pwsh is the
+    # MSIX/Store build (winget-cli#4264, PowerShell#13866/#26685/#27358). Shelling out to
+    # Windows PowerShell 5.1 (powershell.exe) avoids the broken interop regardless of which
+    # pwsh build winget configure hosts resources in.
     # -------------------------------------------------------------------------
-    - resource: PSDscResources/WindowsOptionalFeature
+    - resource: PSDscResources/Script
       id: wsl
       directives:
         description: Enable Windows Subsystem for Linux
         allowPrerelease: false
         securityContext: elevated
       settings:
-        Name: Microsoft-Windows-Subsystem-Linux
-        Ensure: Present
+        GetScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux").State
+          '
+          return @{ Result = $state.Trim() }
+        TestScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux").State
+          '
+          return ($state.Trim() -eq "Enabled")
+        SetScript: |
+          powershell.exe -NoProfile -NonInteractive -Command 'Enable-WindowsOptionalFeature -Online -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart | Out-Null'
 
-    - resource: PSDscResources/WindowsOptionalFeature
+    - resource: PSDscResources/Script
       id: virtual-machine-platform
       directives:
         description: Enable Virtual Machine Platform (WSL2 backend)
         allowPrerelease: false
         securityContext: elevated
       settings:
-        Name: VirtualMachinePlatform
-        Ensure: Present
+        GetScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform").State
+          '
+          return @{ Result = $state.Trim() }
+        TestScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform").State
+          '
+          return ($state.Trim() -eq "Enabled")
+        SetScript: |
+          powershell.exe -NoProfile -NonInteractive -Command 'Enable-WindowsOptionalFeature -Online -FeatureName "VirtualMachinePlatform" -NoRestart | Out-Null'
 
-    - resource: PSDscResources/WindowsOptionalFeature
+    - resource: PSDscResources/Script
       id: bitlocker
       directives:
         description: Ensure BitLocker Drive Encryption feature is installed
         allowPrerelease: false
         securityContext: elevated
       settings:
-        Name: BitLocker
-        Ensure: Present
+        GetScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "BitLocker").State
+          '
+          return @{ Result = $state.Trim() }
+        TestScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "BitLocker").State
+          '
+          return ($state.Trim() -eq "Enabled")
+        SetScript: |
+          powershell.exe -NoProfile -NonInteractive -Command 'Enable-WindowsOptionalFeature -Online -FeatureName "BitLocker" -NoRestart | Out-Null'
 
-    - resource: PSDscResources/WindowsOptionalFeature
+    - resource: PSDscResources/Script
       id: disable-smb1
       directives:
         description: Disable legacy SMB1 protocol (Security Risk)
         allowPrerelease: false
         securityContext: elevated
       settings:
-        Name: SMB1Protocol
-        Ensure: Absent
+        GetScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol").State
+          '
+          return @{ Result = $state.Trim() }
+        TestScript: |
+          $state = powershell.exe -NoProfile -NonInteractive -Command '
+            (Get-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol").State
+          '
+          return ($state.Trim() -eq "Disabled")
+        SetScript: |
+          powershell.exe -NoProfile -NonInteractive -Command 'Disable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart | Out-Null'
 
     # -------------------------------------------------------------------------
     # Bloatware removal

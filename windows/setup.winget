@@ -654,6 +654,12 @@ properties:
     # Scoop package manager + CLI tools
     # Scoop is not a native DSC resource, so we use Script resources.
     # -------------------------------------------------------------------------
+    # get.scoop.sh's installer calls Write-InstallInfo, whose -ForegroundColor parameter
+    # defaults to $host.UI.RawUI.ForegroundColor. winget configure's DSC host doesn't
+    # implement RawUI (it's null there), so binding that default throws "Cannot convert
+    # null to type System.ConsoleColor" — same root cause as the DISM COM-interop bug
+    # above (broken PSHost, not the script). Shell out to powershell.exe for a real
+    # console host where RawUI resolves normally.
     - resource: PSDscResources/Script
       id: scoop-install
       directives:
@@ -666,11 +672,10 @@ properties:
         TestScript: |
           return $null -ne (Get-Command scoop -ErrorAction SilentlyContinue)
         SetScript: |
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-          $script = Invoke-RestMethod -Uri https://get.scoop.sh
-          # Suppress Write-Host issues in DSC redirection
-          $script = $script -replace 'Write-Host', 'Write-Output'
-          $script | Invoke-Expression
+          powershell.exe -NoProfile -NonInteractive -Command '
+            Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+            Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+          '
 
     - resource: PSDscResources/Script
       id: scoop-buckets

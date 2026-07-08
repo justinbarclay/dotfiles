@@ -226,6 +226,9 @@ let
     enableTerminalSandbox = false;
     trustedWorkspaces = [ ];
     altScreenMode = "always";
+    statusLine = {
+      enabled = true;
+    };
   };
 
   antigravityMcpConfig = {

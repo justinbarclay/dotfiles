@@ -69,3 +69,14 @@ def good_morning [] {
   wez-send $tidal_wave "tidal-aws mmp"
   let mmp = (wez-spawn ($project_base | path join "application-inventory") --title "MMP ♦️")
 }
+
+# ---------------------------------------------------------------------------
+# update-windows — upgrade Windows packages and re-export manifests
+# Windows analog of rebuild-darwin / rebuild-nix.
+# ---------------------------------------------------------------------------
+def update-windows [] {
+  if (sys host | get name) != "Windows" {
+    error make {msg: "update-windows only runs on Windows"}
+  }
+  nu ([$env.USERPROFILE "dotfiles" "windows" "update.nu"] | path join)
+}

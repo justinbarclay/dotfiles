@@ -84,6 +84,14 @@ nix-update
 
 > **Note:** `nix-update` currently uses `--impure` to read `fastmailUsername` from 1Password at eval time. This can be eliminated by hardcoding the email address in `home.nix` since it is not a secret — the password is already fetched at runtime via `passwordCommand`.
 
+### Update everything (Windows)
+
+```nu
+update-windows
+```
+
+Upgrades winget and Scoop packages, then re-exports `windows/packages.json` and `windows/scoop-export.json` so the repo reflects what's actually installed. Review the diff and commit if it looks right — this does not commit automatically. Runs `windows/update.nu` under the hood; use `nu windows/update.nu` directly if the `update-windows` shell function isn't on `PATH` yet.
+
 ## Structure
 
 ```

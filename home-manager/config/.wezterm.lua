@@ -157,6 +157,21 @@ local function get_current_dir(pane)
   return path
 end
 
+-- Helper function to check if a process is a shell
+local function is_shell(process_name)
+  local shells = {
+    nu = true,
+    zsh = true,
+    bash = true,
+    fish = true,
+    sh = true,
+    cmd = true,
+    powershell = true,
+    pwsh = true,
+  }
+  return shells[process_name:lower()] == true
+end
+
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
@@ -188,7 +203,7 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config_obj, hover, max
   end
 
   local title_str = ""
-  if process ~= "" then
+  if process ~= "" and not is_shell(process) then
     title_str = string.format("%s (%s)", dir_name, process)
   else
     title_str = dir_name
@@ -216,6 +231,11 @@ wezterm.on('update-status', function(window, pane)
   -- Include workspace
   table.insert(cells, { text = " " .. workspace .. " ", fg = "#00cc77" })
 
+  -- Include leader status if active
+  if window:leader_active() then
+    table.insert(cells, { text = " LDR ", fg = "#050810", bg = "#ffaa00" })
+  end
+
   -- Include current mode / key table if any
   local key_table = window:active_key_table()
   if key_table then
@@ -231,13 +251,14 @@ wezterm.on('update-status', function(window, pane)
   local separator_fg = '#2d5a70'
 
   for i, cell in ipairs(cells) do
+    local cell_bg = cell.bg or bg
     if i > 1 then
-      table.insert(status_items, { Background = { Color = bg } })
+      table.insert(status_items, { Background = { Color = cell_bg } })
       table.insert(status_items, { Foreground = { Color = separator_fg } })
       table.insert(status_items, { Text = "│" })
     end
 
-    table.insert(status_items, { Background = { Color = bg } })
+    table.insert(status_items, { Background = { Color = cell_bg } })
     table.insert(status_items, { Foreground = { Color = cell.fg } })
     table.insert(status_items, { Text = cell.text })
   end
@@ -245,24 +266,42 @@ wezterm.on('update-status', function(window, pane)
   window:set_right_status(wezterm.format(status_items))
 end)
 
+config.leader = { key = 'q', mods = 'CTRL', timeout_milliseconds = 2000 }
+
 config.keys = {
-  -- CMD-b (Switch to workspace)
+  -- Leader + b (Switch to workspace)
   {
     key = 'b',
-    mods = 'CMD',
+    mods = 'LEADER',
     action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' },
   },
-  -- CMD-Shift-b (List all tabs)
+  -- Leader + Ctrl-b (List all tabs)
   {
     key = 'b',
-    mods = 'CMD|SHIFT',
+    mods = 'LEADER|CTRL',
     action = wezterm.action.ShowLauncherArgs { flags = 'TABS' },
   },
-  -- CMD-k (Kill current tab)
+  -- Leader + k (Kill current tab)
   {
     key = 'k',
-    mods = 'CMD',
+    mods = 'LEADER',
     action = wezterm.action.CloseCurrentTab { confirm = true },
+  },
+  -- Leader + Shift-R (Rename current workspace)
+  {
+    key = 'R',
+    mods = 'LEADER|SHIFT',
+    action = wezterm.action.PromptInputLine {
+      description = 'Rename current workspace:',
+      action = wezterm.action_callback(function(window, pane, line)
+        if line then
+          wezterm.mux.rename_workspace(
+            wezterm.mux.get_active_workspace(),
+            line
+          )
+        end
+      end),
+    },
   },
 }
 

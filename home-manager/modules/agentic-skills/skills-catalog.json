@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "37808955677b63b14cbac5aa7b40d4408ee8a9b3",
-      "hash": "sha256-qzw2QY/KkU+NrCgh7EVj61xKfcgq5glzYftGBulWSzo=",
+      "rev": "6bcfeb9dae52b11eaad23511acc165109746dbc3",
+      "hash": "sha256-itNF7dCUftmhkylpV8imRRMRAnimAnSuo4UCNRm6Nh4=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -512,8 +512,8 @@
     "hypergiant": {
       "owner": "gohypergiant",
       "repo": "agent-skills",
-      "rev": "76c42336747441e9cfb3a71b71c713914123cb20",
-      "hash": "sha256-N11UVeeYTfhXMKi50UqDXBwrLL4IrsncQoWU+yJXYww=",
+      "rev": "5004d0d97d7fcaf01a34a1efd15689c34e69b6e3",
+      "hash": "sha256-EnIxiT5uoSfImlmNNW7hg6G6jy7sDbMpaq8ekAaKqFo=",
       "skills": {
         "accelint-security-best-practices": {
           "name": "accelint-security-best-practices",
@@ -584,6 +584,11 @@
           "name": "accelint-readme-writer",
           "description": "Use when creating or editing a README.md file in any project or package. Recursively parses codebase from README location, suggests changes based on missing or changed functionality, and generates thorough, human-sounding documentation with copy-pasteable code blocks and practical examples.",
           "path": "skills/accelint-readme-writer"
+        },
+        "accelint-qrspi-archive": {
+          "name": "accelint-qrspi-archive",
+          "description": "Archive an OpenSpec change end-to-end. This skill invokes `/opsx:archive` or `/opsx:bulk-archive` itself to perform the native merge, then immediately follows up with the cross-capability linking and running indices OpenSpec doesn't build on its own — linking every capability a change touched via a shared `related:` frontmatter list, keeping `openspec/specs/INDEX.md` current, and appending a row to `openspec/changes/archive/INDEX.md`. Use this skill whenever the user wants to archive a change, says \"archive this change\", \"bulk archive these changes\", \"run opsx:archive\", \"run opsx:bulk-archive\", \"update the specs index\", \"cross-link the specs\", or wants the archived-change changelog kept current. This skill is purely additive on the linking side — it never prunes a `related:` entry and never changes a change's `Status` column after the initial write; that pruning/synthesis work belongs to `accelint-archive-synthesis`.",
+          "path": "skills/accelint-qrspi-archive"
         },
         "accelint-ts-performance": {
           "name": "accelint-ts-performance",
@@ -716,8 +721,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "d574778f94cf620fcc8ce741584093bc650a61d3",
-      "hash": "sha256-XqF709Y9GMKINzZITlbCTyatG9AxRZh0qn2vcv1Z8yo=",
+      "rev": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "hash": "sha256-gFPkjrujFAoNXYa0ariPKTj/xBoiCTLUo3X20qrTzRE=",
       "skills": {
         "resolving-merge-conflicts": {
           "name": "resolving-merge-conflicts",
@@ -736,7 +741,7 @@
         },
         "to-tickets": {
           "name": "to-tickets",
-          "description": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in a local file, or native blocking links on a real tracker.",
+          "description": "Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in one file per ticket locally, or native blocking links on a real tracker.",
           "path": "skills/engineering/to-tickets"
         },
         "diagnosing-bugs": {
@@ -888,6 +893,11 @@
           "name": "writing-shape",
           "description": "Writing, exploit — shape raw material into an article, paragraph by paragraph.",
           "path": "skills/in-progress/writing-shape"
+        },
+        "setup-ts-deep-modules": {
+          "name": "setup-ts-deep-modules",
+          "description": "Wire dependency-cruiser into a TypeScript repo so each package is a deep module — implementation hidden in subfolders, reachable only through its entry-point files. User-invoked.",
+          "path": "skills/in-progress/setup-ts-deep-modules"
         },
         "wizard": {
           "name": "wizard",

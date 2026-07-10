@@ -13,6 +13,7 @@
         { "PackageIdentifier": "GNU.Emacs" },
         { "PackageIdentifier": "LGUG2Z.komorebi" },
         { "PackageIdentifier": "LGUG2Z.whkd" },
+        { "PackageIdentifier": "Microsoft.PowerShell" },
         { "PackageIdentifier": "Microsoft.PowerToys" },
         { "PackageIdentifier": "Microsoft.VisualStudioCode" },
         { "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition" },

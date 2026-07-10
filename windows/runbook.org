@@ -62,4 +62,4 @@ winget configure -f windows\setup.winget --accept-configuration-agreements
 
 ** Logs
 Automation logs are stored in:
-- ~$env:TEMP\winget-drift.log~
+- ~$env:LOCALAPPDATA\dotfiles\winget-drift.log~

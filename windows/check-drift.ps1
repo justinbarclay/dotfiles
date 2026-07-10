@@ -12,6 +12,30 @@ if (-not (Test-Path $logDir)) {
 }
 
 # ---------------------------------------------------------------------------
+# Log rotation: drop entries older than 30 days before appending anything new.
+# Each entry starts with a "[yyyy-MM-dd HH:mm:ss]" prefix; continuation lines
+# (e.g. multi-line DRIFT DETECTED output) belong to the entry above them.
+# ---------------------------------------------------------------------------
+if (Test-Path $logFile) {
+    $cutoff = (Get-Date).AddDays(-30)
+    $kept = [System.Collections.Generic.List[string]]::new()
+    $currentEntry = $null
+    $currentDate = $null
+    foreach ($line in Get-Content $logFile) {
+        if ($line -match '^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]') {
+            if ($currentEntry -and $currentDate -ge $cutoff) { $kept.AddRange($currentEntry) }
+            $currentDate = [datetime]::ParseExact($Matches[1], 'yyyy-MM-dd HH:mm:ss', $null)
+            $currentEntry = [System.Collections.Generic.List[string]]::new()
+            $currentEntry.Add($line)
+        } elseif ($null -ne $currentEntry) {
+            $currentEntry.Add($line)
+        }
+    }
+    if ($currentEntry -and $currentDate -ge $cutoff) { $kept.AddRange($currentEntry) }
+    Set-Content -Path $logFile -Value $kept -Encoding utf8
+}
+
+# ---------------------------------------------------------------------------
 # Toast notification helper
 # Uses WinRT directly — no external modules needed.
 # AppId must be a registered Start menu entry; PowerShell's own GUID is always present.

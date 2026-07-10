@@ -27,8 +27,9 @@ scoop update "*"
 # 3. Re-export manifests so the repo stays in sync
 # ---------------------------------------------------------------------------
 section "Re-exporting manifests"
-winget export --output ($dotfiles | path join "windows" "packages.json") --accept-source-agreements
-print "packages.json updated (informational snapshot — setup.winget is authoritative)."
+winget export --output ($dotfiles | path join "windows" "packages-export.json") --accept-source-agreements
+print "packages-export.json updated (diff against packages.json to spot unmanaged installs)."
+print "packages.json is hand-curated by the winget-import resource in setup.winget — not overwritten here."
 
 # Export to scoop-export.json, NOT scoop.json.
 # scoop.json is the hand-authored source of truth read by the DSC bootstrap.

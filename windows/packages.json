@@ -1,29 +1,193 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-04-19T00:00:00.000Z",
+  "CreationDate": "2026-07-10T10:00:18.111-00:00",
   "Sources": [
     {
       "Packages": [
-        { "PackageIdentifier": "7zip.7zip" },
-        { "PackageIdentifier": "AgileBits.1Password" },
-        { "PackageIdentifier": "AgileBits.1Password.CLI" },
-        { "PackageIdentifier": "Git.Git" },
-        { "PackageIdentifier": "GitHub.Copilot" },
-        { "PackageIdentifier": "GitHub.cli" },
-        { "PackageIdentifier": "GNU.Emacs" },
-        { "PackageIdentifier": "LGUG2Z.komorebi" },
-        { "PackageIdentifier": "LGUG2Z.whkd" },
-        { "PackageIdentifier": "Microsoft.PowerShell" },
-        { "PackageIdentifier": "Microsoft.PowerToys" },
-        { "PackageIdentifier": "Microsoft.VisualStudioCode" },
-        { "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition" },
-        { "PackageIdentifier": "Nushell.Nushell" },
-        { "PackageIdentifier": "RedHat.Podman" },
-        { "PackageIdentifier": "Tailscale.Tailscale" },
-        { "PackageIdentifier": "RubyInstallerTeam.RubyWithDevKit.3.3" },
-        { "PackageIdentifier": "Schniz.fnm" },
-        { "PackageIdentifier": "Discord.Discord" },
-        { "PackageIdentifier": "wez.wezterm" }
+        {
+          "PackageIdentifier": "MullvadVPN.MullvadVPN"
+        },
+        {
+          "PackageIdentifier": "NexusMods.Vortex"
+        },
+        {
+          "PackageIdentifier": "7zip.7zip"
+        },
+        {
+          "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Git"
+        },
+        {
+          "PackageIdentifier": "LizardByte.Sunshine"
+        },
+        {
+          "PackageIdentifier": "GNU.Emacs"
+        },
+        {
+          "PackageIdentifier": "LGUG2Z.komorebi"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS"
+        },
+        {
+          "PackageIdentifier": "Clement.bottom"
+        },
+        {
+          "PackageIdentifier": "calibre.calibre"
+        },
+        {
+          "PackageIdentifier": "RedHat.Podman"
+        },
+        {
+          "InitialOverrideArguments": "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621 --addProductLang En-us",
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
+        },
+        {
+          "PackageIdentifier": "Starship.Starship"
+        },
+        {
+          "PackageIdentifier": "LGUG2Z.whkd"
+        },
+        {
+          "PackageIdentifier": "Zellij.Zellij"
+        },
+        {
+          "PackageIdentifier": "GitHub.cli"
+        },
+        {
+          "PackageIdentifier": "wez.wezterm"
+        },
+        {
+          "PackageIdentifier": "MongoDB.Compass.Community"
+        },
+        {
+          "PackageIdentifier": "Nushell.Nushell"
+        },
+        {
+          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.BuildTools"
+        },
+        {
+          "PackageIdentifier": "Valve.Steam"
+        },
+        {
+          "PackageIdentifier": "Ubisoft.Connect"
+        },
+        {
+          "PackageIdentifier": "Tailscale.Tailscale"
+        },
+        {
+          "PackageIdentifier": "Rem0o.FanControl"
+        },
+        {
+          "PackageIdentifier": "OpenWhisperSystems.Signal"
+        },
+        {
+          "PackageIdentifier": "AgileBits.1Password.CLI"
+        },
+        {
+          "PackageIdentifier": "Amazon.Kindle"
+        },
+        {
+          "PackageIdentifier": "Anthropic.ClaudeCode"
+        },
+        {
+          "PackageIdentifier": "Atuinsh.Atuin"
+        },
+        {
+          "PackageIdentifier": "BurntSushi.ripgrep.MSVC"
+        },
+        {
+          "PackageIdentifier": "Discord.Discord"
+        },
+        {
+          "PackageIdentifier": "FiloSottile.mkcert"
+        },
+        {
+          "PackageIdentifier": "GitHub.Copilot"
+        },
+        {
+          "PackageIdentifier": "Google.AntigravityCLI"
+        },
+        {
+          "PackageIdentifier": "RubyInstallerTeam.RubyWithDevKit.3.3"
+        },
+        {
+          "PackageIdentifier": "Rustlang.Rustup"
+        },
+        {
+          "PackageIdentifier": "SQLite.SQLite"
+        },
+        {
+          "PackageIdentifier": "Schniz.fnm"
+        },
+        {
+          "PackageIdentifier": "TIDALMusicAS.TIDAL"
+        },
+        {
+          "PackageIdentifier": "WeMod.WeMod"
+        },
+        {
+          "PackageIdentifier": "ajeetdsouza.zoxide"
+        },
+        {
+          "PackageIdentifier": "code52.Carnac"
+        },
+        {
+          "PackageIdentifier": "junegunn.fzf"
+        },
+        {
+          "PackageIdentifier": "PostgreSQL.pgAdmin"
+        },
+        {
+          "PackageIdentifier": "rsteube.Carapace"
+        },
+        {
+          "PackageIdentifier": "sharkdp.bat"
+        },
+        {
+          "PackageIdentifier": "SlackTechnologies.Slack"
+        },
+        {
+          "PackageIdentifier": "ZedIndustries.Zed"
+        },
+        {
+          "PackageIdentifier": "Ollama.Ollama"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
+        },
+        {
+          "PackageIdentifier": "MSYS2.MSYS2"
+        },
+        {
+          "PackageIdentifier": "Amazon.Kiro"
+        },
+        {
+          "PackageIdentifier": "ModernFlyouts.ModernFlyouts"
+        },
+        {
+          "PackageIdentifier": "AgileBits.1Password"
+        },
+        {
+          "PackageIdentifier": "OffSec.KaliLinux"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsTerminal"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WSL"
+        }
       ],
       "SourceDetails": {
         "Argument": "https://cdn.winget.microsoft.com/cache",
@@ -31,7 +195,20 @@
         "Name": "winget",
         "Type": "Microsoft.PreIndexed.Package"
       }
+    },
+    {
+      "Packages": [
+        {
+          "PackageIdentifier": "XP8CBJ40XLBWKX"
+        }
+      ],
+      "SourceDetails": {
+        "Argument": "https://storeedgefd.dsx.mp.microsoft.com/v9.0",
+        "Identifier": "StoreEdgeFD",
+        "Name": "msstore",
+        "Type": "Microsoft.Rest"
+      }
     }
   ],
-  "WinGetVersion": "1.9.25200"
+  "WinGetVersion": "1.30.50-preview"
 }

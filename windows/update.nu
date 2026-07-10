@@ -24,23 +24,74 @@ scoop update
 scoop update "*"
 
 # ---------------------------------------------------------------------------
-# 3. Re-export manifests so the repo stays in sync
+# 3. Filter and Export Winget packages to packages.json
 # ---------------------------------------------------------------------------
-section "Re-exporting manifests"
-winget export --output ($dotfiles | path join "windows" "packages-export.json") --accept-source-agreements
-print "packages-export.json updated (diff against packages.json to spot unmanaged installs)."
-print "packages.json is hand-curated by the winget-import resource in setup.winget — not overwritten here."
+section "Exporting and filtering Winget packages"
 
-# Export to scoop-export.json, NOT scoop.json.
-# scoop.json is the hand-authored source of truth read by the DSC bootstrap.
-# scoop-export.json is a raw snapshot for diffing installed state.
-scoop export | save --force ($dotfiles | path join "windows" "scoop-export.json")
-print "scoop-export.json updated (diff against scoop.json to spot unmanaged installs)."
+# Export all winget packages to a temporary file
+let temp_export = ($env.TEMP | path join "winget-export-temp.json")
+winget export --output $temp_export --accept-source-agreements
+
+# Load the exported packages
+let data = (open $temp_export)
+
+# Define denylist for system packages, runtime libraries, and hardware drivers
+let denylist = [
+  "^Microsoft\\.VCRedist"
+  "^Microsoft\\.DotNet"
+  "^Microsoft\\.UI\\.Xaml"
+  "^Microsoft\\.VCLibs"
+  "^Microsoft\\.WindowsAppRuntime"
+  "^Microsoft\\.DirectX"
+  "^Microsoft\\.GameInput"
+  "^Microsoft\\.msmpi"
+  "^Microsoft\\.AppInstaller"
+  "^Microsoft\\.Edge"
+  "^Microsoft\\.Teams"
+  "^Nvidia\\."
+  "^ViGEm\\."
+  "^MOTU\\."
+  "^Bose\\."
+  "^Dell\\."
+  "^PlayStation\\."
+  "^Logitech\\."
+]
+
+# Filter packages
+let new_sources = ($data.Sources | each {|source|
+  let filtered = ($source.Packages | where {|pkg|
+    let id = $pkg.PackageIdentifier
+    $denylist | all {|pattern| ($id !~ $pattern) }
+  })
+  $source | update Packages $filtered
+})
+
+let filtered_data = ($data | update Sources $new_sources)
+
+# Save directly to packages.json
+$filtered_data | to json | save --force ($dotfiles | path join "windows" "packages.json")
+rm $temp_export
+
+print "packages.json updated with filtered Winget packages."
 
 # ---------------------------------------------------------------------------
-# 4. Remind to commit
+# 4. Export Scoop packages cleanly to scoop.json
+# ---------------------------------------------------------------------------
+section "Exporting Scoop packages"
+
+let scoop_raw = (scoop export | from json)
+let clean_buckets = ($scoop_raw.buckets | each {|b| { Name: $b.Name, Source: ($b.Source | str replace -r '\.git$' '') } })
+let clean_apps = ($scoop_raw.apps | each {|a| { Name: $a.Name, Source: $a.Source } })
+let clean_scoop = { buckets: $clean_buckets, apps: $clean_apps }
+
+$clean_scoop | to json | save --force ($dotfiles | path join "windows" "scoop.json")
+
+print "scoop.json updated with current Scoop packages."
+
+# ---------------------------------------------------------------------------
+# 5. Remind to commit
 # ---------------------------------------------------------------------------
 section "Done"
-print "Packages upgraded and manifests re-exported."
-print "Review the diff and commit if the changes look right:"
+print "Packages upgraded and manifests updated."
+print "Review the changes and commit:"
 print "  git -C $dotfiles diff windows/"

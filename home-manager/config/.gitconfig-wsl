@@ -16,6 +16,7 @@
   editor = emacs
   excludesfile = ~/.gitignore
   sshCommand = /mnt/c/Windows/System32/OpenSSH/ssh.exe
+  preloadindex = true
 [init]
   defaultBranch = main
 [pull]
@@ -36,3 +37,6 @@
   dft = difftool
   cleanup-main = "!git checkout -q main && git for-each-ref refs/heads/ \"--format=%(refname:short)\" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse \"$branch^{tree}\") -p $mergeBase -m _)) == \"-\"* ]] && git branch -D $branch; done"
   cleanup-master = "!git checkout -q master && git for-each-ref refs/heads/ \"--format=%(refname:short)\" | while read branch; do mergeBase=$(git merge-base master $branch) && [[ $(git cherry master $(git commit-tree $(git rev-parse \"$branch^{tree}\") -p $mergeBase -m _)) == \"-\"* ]] && git branch -D $branch; done"
+
+[gc]
+  auto = 256

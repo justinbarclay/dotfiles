@@ -99,6 +99,51 @@ properties:
         Location: 'C:\DevDrives\Primary.vhdx'
         DiskType: Dynamic
 
+    # Route package manager caches onto the Dev Drive (ReFS + Defender Performance
+    # Mode) instead of the default C: locations, so toolchain installs/builds get
+    # the same many-small-file performance benefit the Dev Drive exists for.
+    - resource: PSDscResources/Registry
+      id: cache-path-cargo
+      directives:
+        description: Point CARGO_HOME at the Dev Drive
+        allowPrerelease: false
+      dependsOn:
+        - primary-dev-drive
+      settings:
+        Key: HKCU:\Environment
+        ValueName: CARGO_HOME
+        ValueData: D:\packages\cargo
+        ValueType: String
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: cache-path-rustup
+      directives:
+        description: Point RUSTUP_HOME at the Dev Drive
+        allowPrerelease: false
+      dependsOn:
+        - primary-dev-drive
+      settings:
+        Key: HKCU:\Environment
+        ValueName: RUSTUP_HOME
+        ValueData: D:\packages\rustup
+        ValueType: String
+        Ensure: Present
+
+    - resource: PSDscResources/Registry
+      id: cache-path-npm
+      directives:
+        description: Point the npm cache at the Dev Drive
+        allowPrerelease: false
+      dependsOn:
+        - primary-dev-drive
+      settings:
+        Key: HKCU:\Environment
+        ValueName: npm_config_cache
+        ValueData: D:\packages\npm
+        ValueType: String
+        Ensure: Present
+
     # Disable the default Windows SSH agent so 1Password can take over the pipe.
     - resource: PSDscResources/Service
       id: disable-windows-ssh-agent
@@ -438,6 +483,7 @@ properties:
         securityContext: elevated
       dependsOn:
         - fnm-lts
+        - cache-path-npm
       settings:
         GetScript: |
           $installed = npm list -g --depth=0 2>$null
@@ -499,6 +545,8 @@ properties:
       dependsOn:
         - rustup
         - vs-cpp-workload
+        - cache-path-cargo
+        - cache-path-rustup
       settings:
         GetScript: |
           if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) { return @{ Result = 'false' } }

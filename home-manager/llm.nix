@@ -253,6 +253,14 @@ in
           "claude"
         ];
       };
+      grilling = {
+        enable = true;
+        agents = [
+          "gemini"
+          "copilot"
+          "claude"
+        ];
+      };
     };
   };
 

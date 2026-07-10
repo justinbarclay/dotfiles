@@ -286,7 +286,6 @@ in
           "$UPDATE_SCRIPT"
         '';
       })
-      gemini-cli
       claude-code
       github-copilot-cli
       gh

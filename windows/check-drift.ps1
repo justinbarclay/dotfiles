@@ -108,7 +108,23 @@ if ($symlinkDrift.Count -gt 0) {
 }
 
 # ---------------------------------------------------------------------------
-# 3. Fire a single toast summarising all drift, if any was found.
+# 3. BitLocker encryption check (detect-only — this never toggles encryption;
+# turning it on unattended risks locking you out without a saved recovery key).
+# ---------------------------------------------------------------------------
+try {
+    $bitlockerVolume = Get-BitLockerVolume -MountPoint 'C:' -ErrorAction Stop
+    if ($bitlockerVolume.ProtectionStatus -ne 'On') {
+        $msg = "[$timestamp] BITLOCKER DRIFT DETECTED: C: protection status is '$($bitlockerVolume.ProtectionStatus)', expected 'On'."
+        Write-Warning $msg
+        $msg | Out-File -FilePath $logFile -Append -Encoding utf8
+        $driftIssues += "BitLocker is not protecting C:."
+    }
+} catch {
+    Write-Warning "BitLocker check failed: $_"
+}
+
+# ---------------------------------------------------------------------------
+# 4. Fire a single toast summarising all drift, if any was found.
 # ---------------------------------------------------------------------------
 if ($driftIssues.Count -gt 0) {
     Send-DriftToast -Title '⚠️ Dotfiles Drift Detected' -Body ($driftIssues -join ' | ')

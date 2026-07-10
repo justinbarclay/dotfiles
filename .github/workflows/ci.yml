@@ -62,6 +62,26 @@ jobs:
           New-Item -ItemType SymbolicLink -Path "$HOME\dotfiles" -Target $env:GITHUB_WORKSPACE
 
 
+      - name: Validate DSC configuration
+        shell: pwsh
+        run: |
+          winget configure validate --file windows\setup.winget --accept-configuration-agreements
+
+      - name: Lint PowerShell scripts
+        shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -Repository PSGallery
+          # Error-only for now: style/Warning-level rules haven't been applied
+          # retroactively to the existing scripts, so start with correctness bugs.
+          $results = Get-ChildItem -Path windows -Filter *.ps1 -Recurse `
+            | Invoke-ScriptAnalyzer -Severity Error
+          if ($results) {
+            $results | Format-Table -AutoSize
+            Write-Error "PSScriptAnalyzer found $($results.Count) error-severity issue(s)."
+            exit 1
+          }
+          Write-Host "No PSScriptAnalyzer errors found."
+
       - name: Run bootstrap (symlinks only)
         shell: pwsh
         run: |

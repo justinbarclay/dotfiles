@@ -3,7 +3,8 @@
 # Main command to update agentic skills catalog
 def main [
   --catalog-path: string = "modules/agentic-skills/skills-catalog.json"
-  --dbs (-d): any = "all"
+  --repos (-r): any = "all"
+  --interactive (-i)
 ] {
   let script_dir = ($env.CURRENT_FILE | path dirname)
   let catalog_expanded = if ($catalog_path | str starts-with "/") or ($catalog_path | str starts-with "~") {
@@ -31,32 +32,41 @@ def main [
     { key: "cloudflare", owner: "cloudflare", repo: "skills", skills_path: "skills" },
     { key: "stripe", owner: "stripe", repo: "ai", skills_path: "skills" },
     { key: "pocock", owner: "mattpocock", repo: "skills", skills_path: "skills" },
-    { key: "cursor", owner: "cursor", repo: "plugins", skills_path: "" }
+    { key: "cursor", owner: "cursor", repo: "plugins", skills_path: "" },
+    { key: "lucianghinda", owner: "lucianghinda", repo: "superpowers-ruby", skills_path: "skills" },
+    { key: "palkan", owner: "palkan", repo: "skills", skills_path: "skills", branch: "master" }
   ]
 
-  let all_db_keys = ($repo_configs | get key)
+  let all_repo_keys = ($repo_configs | get key)
 
-  let parsed_dbs = if ($dbs | describe) =~ "list" {
-    $dbs
-  } else if ($dbs | describe) =~ "string" {
-    if $dbs == "all" {
+  let parsed_repos = if ($repos | describe) =~ "list" {
+    $repos
+  } else if ($repos | describe) =~ "string" {
+    if $repos == "all" {
       ["all"]
     } else {
-      $dbs | split row "," | each { str trim }
+      $repos | split row "," | each { str trim }
     }
   } else {
     ["all"]
   }
 
-  let keys_to_update = if ("all" in $parsed_dbs) {
-    $all_db_keys
+  let keys_to_update = if $interactive {
+    let selected = ($all_repo_keys | input list -m "Select repositories to update:")
+    if ($selected | is-empty) {
+      print "No repositories selected. Exiting."
+      return
+    }
+    $selected
+  } else if ("all" in $parsed_repos) {
+    $all_repo_keys
   } else {
-    $parsed_dbs
+    $parsed_repos
   }
 
-  let invalid_keys = ($keys_to_update | where { $in not-in $all_db_keys })
+  let invalid_keys = ($keys_to_update | where { $in not-in $all_repo_keys })
   if ($invalid_keys | length) > 0 {
-    print $"Error: Invalid database key(s): ($invalid_keys | str join ', '). Valid keys are: ($all_db_keys | str join ', ')"
+    print $"Error: Invalid repository key\(s\): ($invalid_keys | str join ', '). Valid keys are: ($all_repo_keys | str join ', ')"
     return
   }
 
@@ -143,9 +153,10 @@ def fetch-repo-skills [config: record] {
   let owner = $config.owner
   let repo = $config.repo
   let skills_path = $config.skills_path
+  let branch = ($config | get -o branch | default "main")
 
-  # 1. Get the latest main commit SHA via the GitHub API
-  let commits_url = $"https://api.github.com/repos/($owner)/($repo)/commits/main"
+  # 1. Get the latest commit SHA via the GitHub API
+  let commits_url = $"https://api.github.com/repos/($owner)/($repo)/commits/($branch)"
   let rev = (http get -H ["Accept" "application/vnd.github.v3+json"] $commits_url | get sha)
 
   # 2. Compute Nix SRI hash and store path via nix-prefetch-url
@@ -200,7 +211,7 @@ def fetch-repo-skills [config: record] {
   })
 
   # Clean up the store path immediately
-  try { nix-store --delete $store_path } catch {}
+  try { nix-store --delete $store_path o+e>| ignore } catch {}
 
   {
     owner: $owner,

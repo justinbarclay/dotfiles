@@ -377,8 +377,8 @@
     "addyosmani": {
       "owner": "addyosmani",
       "repo": "agent-skills",
-      "rev": "6bcfeb9dae52b11eaad23511acc165109746dbc3",
-      "hash": "sha256-itNF7dCUftmhkylpV8imRRMRAnimAnSuo4UCNRm6Nh4=",
+      "rev": "98967c45a42b88d6b8fb3a88b7ff6273920763d6",
+      "hash": "sha256-grgLGC9w6OW2XBVwQfy+NGK8uFrCEV2QYlzgM7Bu7mo=",
       "skills": {
         "idea-refine": {
           "name": "idea-refine",
@@ -425,8 +425,8 @@
           "description": "Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.",
           "path": "skills/doubt-driven-development"
         },
-        "test-driven-development": {
-          "name": "test-driven-development",
+        "addyosmani-test-driven-development": {
+          "name": "addyosmani-test-driven-development",
           "description": "Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.",
           "path": "skills/test-driven-development"
         },
@@ -512,8 +512,8 @@
     "hypergiant": {
       "owner": "gohypergiant",
       "repo": "agent-skills",
-      "rev": "5004d0d97d7fcaf01a34a1efd15689c34e69b6e3",
-      "hash": "sha256-EnIxiT5uoSfImlmNNW7hg6G6jy7sDbMpaq8ekAaKqFo=",
+      "rev": "6c580d26047baae8e6f8bf7602ef163514b9b39f",
+      "hash": "sha256-eT884XH6bSjJUz2Jtri82ilISlWW4yNDfDXvBPzLZpk=",
       "skills": {
         "accelint-security-best-practices": {
           "name": "accelint-security-best-practices",
@@ -630,8 +630,8 @@
     "cloudflare": {
       "owner": "cloudflare",
       "repo": "skills",
-      "rev": "27ce0c0e159225caa7ed30ebefd4107aa6c52497",
-      "hash": "sha256-Ub6JaF9r4UzGRurJl73YVCx7fIl6RvG2pyNP+Y7NbQI=",
+      "rev": "70215303d44a81a0db3219428f4825b604fc6061",
+      "hash": "sha256-3aVvQoM/n7MOkYg0j+yfP+6Pkqf8oB8ycVS2M2umuNU=",
       "skills": {
         "wrangler": {
           "name": "wrangler",
@@ -680,7 +680,7 @@
         },
         "turnstile-spin": {
           "name": "turnstile-spin",
-          "description": "Set up Cloudflare Turnstile end-to-end in a project — scan the codebase, create the widget via the Cloudflare API, deploy the managed siteverify Worker, write the frontend snippets, validate, and persist the skill. Load this when a user asks to add Turnstile, set up CAPTCHA, protect a form from bots, or fix a Turnstile integration. Mirrors developers.cloudflare.com/turnstile/spin.",
+          "description": "Set up Cloudflare Turnstile end-to-end in a project. Scan the codebase, create the widget via the Cloudflare API, embed it on the right forms, wire canonical server-side siteverify in the customer's existing backend, validate, and persist the skill. Load this when a user asks to add Turnstile, set up CAPTCHA, protect a form from bots, or fix a Turnstile integration. Mirrors developers.cloudflare.com/turnstile/spin.",
           "path": "skills/turnstile-spin"
         },
         "cloudflare-email-service": {
@@ -693,8 +693,8 @@
     "stripe": {
       "owner": "stripe",
       "repo": "ai",
-      "rev": "dc8faf805e6d351be7991f9e4c3d5dc1a1cfdcda",
-      "hash": "sha256-oCewcKIv0iQ8uGEKpS3tiIH0QM10LCm7jCQJRilEWxw=",
+      "rev": "f915ccf3cc13faae9b18ce2e734156e181db20da",
+      "hash": "sha256-7n4/EODnB9nx8RMLm69MQiVboaLnO3A40KPgv7/P3RE=",
       "skills": {
         "stripe-best-practices": {
           "name": "stripe-best-practices",
@@ -721,8 +721,8 @@
     "pocock": {
       "owner": "mattpocock",
       "repo": "skills",
-      "rev": "391a2701dd948f94f56a39f7533f8eea9a859c87",
-      "hash": "sha256-gFPkjrujFAoNXYa0ariPKTj/xBoiCTLUo3X20qrTzRE=",
+      "rev": "66898f60e8c744e269f8ce06c2b2b99ce7660d5f",
+      "hash": "sha256-snwD/txU2uwMGr1KBoVew9YL8kjZjMyt8STrCRIvjrk=",
       "skills": {
         "resolving-merge-conflicts": {
           "name": "resolving-merge-conflicts",
@@ -781,7 +781,7 @@
         },
         "wayfinder": {
           "name": "wayfinder",
-          "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of investigation tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
+          "description": "Plan a huge chunk of work — more than one agent session can hold — as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
           "path": "skills/engineering/wayfinder"
         },
         "research": {
@@ -849,8 +849,8 @@
           "description": "Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.",
           "path": "skills/deprecated/request-refactor-plan"
         },
-        "teach": {
-          "name": "teach",
+        "pocock-teach": {
+          "name": "pocock-teach",
           "description": "Teach the user a new skill or concept, within this workspace.",
           "path": "skills/productivity/teach"
         },
@@ -866,11 +866,11 @@
         },
         "grilling": {
           "name": "grilling",
-          "description": "Grill the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
+          "description": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
           "path": "skills/productivity/grilling"
         },
-        "handoff": {
-          "name": "handoff",
+        "pocock-handoff": {
+          "name": "pocock-handoff",
           "description": "Compact the current conversation into a handoff document for another agent to pick up.",
           "path": "skills/productivity/handoff"
         },
@@ -924,13 +924,18 @@
     "cursor": {
       "owner": "cursor",
       "repo": "plugins",
-      "rev": "0dda29e839d15464a137af9935665a5a47ee09b8",
-      "hash": "sha256-EFa2kM1e2jPvvNSXBHkOFS6+akG6gROtJCuD9SVvEHo=",
+      "rev": "3fe2823ce17c1656c222d4b7c59d3f82fbf20143",
+      "hash": "sha256-G+WYJvFPLLAmgnPM9tVL/7a/3xctw1shSFpcW4+fQqs=",
       "skills": {
         "cursor-tdd": {
           "name": "cursor-tdd",
           "description": "Use only when the user explicitly asks for TDD, a failing test, or a regression test, OR when the bug has an obvious cheap local test target. Skip when the test path is unclear, expensive, integration-heavy, or not requested.",
           "path": "pstack/skills/tdd"
+        },
+        "cursor-teach": {
+          "name": "cursor-teach",
+          "description": "Explain a body of work plainly so a person actually understands it. Runs the `how` and `why` skills and weaves what they find into one clear explanation. Use for 'teach me this', 'help me really understand X', 'explain this change or subsystem to me'.",
+          "path": "pstack/skills/teach"
         },
         "create-learning-path": {
           "name": "create-learning-path",
@@ -1177,6 +1182,11 @@
           "description": "Use for \"automate me\", \"create/update/refresh my -mode skill\", \"turn/capture my preferences or working style into a skill\", or wanting agents to follow how the user works. Drafts or revises a personal -mode skill via create-skill + unslop, optionally pulling fresh evidence from recent transcripts.",
           "path": "pstack/skills/automate-me"
         },
+        "maintain-verification-skill": {
+          "name": "maintain-verification-skill",
+          "description": "Periodic pass that keeps a project's verification skill and feature map honest: parallel source readers per feature, one live session driving every feature, at most one PR of proven corrections. Use for /maintain-verification-skill or \"audit the verify skill\".",
+          "path": "pstack/skills/maintain-verification-skill"
+        },
         "reflect": {
           "name": "reflect",
           "description": "Spawn three parallel review subagents over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.",
@@ -1186,6 +1196,11 @@
           "name": "typescript-best-practices",
           "description": "TypeScript best practices. Use when reading or editing any .ts or .tsx file.",
           "path": "pstack/skills/typescript-best-practices"
+        },
+        "create-verification-skill": {
+          "name": "create-verification-skill",
+          "description": "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior.",
+          "path": "pstack/skills/create-verification-skill"
         },
         "principle-exhaust-the-design-space": {
           "name": "principle-exhaust-the-design-space",
@@ -1211,6 +1226,11 @@
           "name": "unslop",
           "description": "Cut AI tells from any writing. Must always apply.",
           "path": "pstack/skills/unslop"
+        },
+        "principle-model-the-domain": {
+          "name": "principle-model-the-domain",
+          "description": "Apply when writing stateful logic, or when code branches a lot or repeats a shape assumption across files. Encode the domain in a structure instead of scattered conditionals.",
+          "path": "pstack/skills/principle-model-the-domain"
         },
         "principle-redesign-from-first-principles": {
           "name": "principle-redesign-from-first-principles",
@@ -1278,6 +1298,191 @@
           "path": "pstack/skills/principle-separate-before-serializing-shared-state"
         }
       }
+    },
+    "lucianghinda": {
+      "owner": "lucianghinda",
+      "repo": "superpowers-ruby",
+      "rev": "712d734c0354dfb7e80389eead867a21bc0dab5d",
+      "hash": "sha256-/C6WeWPSUOCD1vDqtEdiuXJbHbDk9tlIo2v5vWEs4oc=",
+      "skills": {
+        "ruby": {
+          "name": "ruby",
+          "description": "Use when writing, reviewing, or debugging pure Ruby code — idiomatic patterns, modern 3.x+ features (pattern matching, Data.define, endless methods), error handling conventions (raise vs fail, result objects), memoization, and performance idioms. For Rails use rails-guides. For testing use minitest. For code style use sandi-metz-rules.",
+          "path": "skills/ruby"
+        },
+        "requesting-code-review": {
+          "name": "requesting-code-review",
+          "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
+          "path": "skills/requesting-code-review"
+        },
+        "hwc-forms-validation": {
+          "name": "hwc-forms-validation",
+          "description": "Handle Hotwire form workflows: form submission lifecycle, inline editing, validation errors, typeahead/autocomplete, modal forms, and external form controls. Prefer this skill when the core problem is correctness and UX of form interaction. Use hwc-navigation-content for pagination/tabs/filter navigation, hwc-realtime-streaming for WebSocket/Turbo Stream broadcasting, hwc-media-content for image/video/audio behavior, hwc-ux-feedback for generic loading/transition polish, and hwc-stimulus-fundamentals for framework-level Stimulus APIs not tied to forms.",
+          "path": "skills/hwc-forms-validation"
+        },
+        "hwc-ux-feedback": {
+          "name": "hwc-ux-feedback",
+          "description": "Implement cross-cutting Hotwire UX feedback patterns: loading states, busy indicators, progress bars, optimistic UI, render interception, and view/page transitions. Prefer this skill when the core goal is perceived performance and user feedback, independent of a single feature domain. Use hwc-forms-validation for form correctness and validation behavior, hwc-navigation-content for navigation/history/cache mechanics, hwc-realtime-streaming for push/stream orchestration, hwc-media-content for media-specific behavior, and hwc-stimulus-fundamentals for base Stimulus API questions.",
+          "path": "skills/hwc-ux-feedback"
+        },
+        "subagent-driven-development": {
+          "name": "subagent-driven-development",
+          "description": "Use when executing implementation plans with independent tasks in the current session",
+          "path": "skills/subagent-driven-development"
+        },
+        "hwc-media-content": {
+          "name": "hwc-media-content",
+          "description": "Handle media-heavy Hotwire features: image/video/audio uploads, previews, playback controls, progress tracking, and third-party media integrations (for example WaveSurfer, Swiper, Picture-in-Picture, Blurhash). Prefer this skill when the core problem is media rendering, playback state, or media library integration. Use hwc-realtime-streaming for server-pushed Turbo Stream updates, hwc-navigation-content for non-media pagination/tab/lazy-navigation flows, hwc-forms-validation for form validation and inline-edit behavior, hwc-ux-feedback for generic loading/transition patterns, and hwc-stimulus-fundamentals for Stimulus primitives not specific to media.",
+          "path": "skills/hwc-media-content"
+        },
+        "writing-plans": {
+          "name": "writing-plans",
+          "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
+          "path": "skills/writing-plans"
+        },
+        "receiving-code-review": {
+          "name": "receiving-code-review",
+          "description": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation",
+          "path": "skills/receiving-code-review"
+        },
+        "executing-plans": {
+          "name": "executing-plans",
+          "description": "Use when you have a written implementation plan to execute in a separate session with review checkpoints",
+          "path": "skills/executing-plans"
+        },
+        "ruby-commit-message": {
+          "name": "ruby-commit-message",
+          "description": "Use when committing code changes in Ruby or Ruby on Rails projects — guides commit message structure, type selection, and body content following Conventional Commits format",
+          "path": "skills/ruby-commit-message"
+        },
+        "systematic-debugging": {
+          "name": "systematic-debugging",
+          "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+          "path": "skills/systematic-debugging"
+        },
+        "hwc-navigation-content": {
+          "name": "hwc-navigation-content",
+          "description": "Build Hotwire navigation and content-discovery flows: Turbo Frame pagination, tabbed navigation, lazy loading, faceted filtering/search, cache lifecycle, scroll restoration, and visit/render control. Prefer this skill when the core problem is request/response navigation state and browser history behavior. Use hwc-forms-validation for form validation and inline edit flows, hwc-realtime-streaming for WebSocket/Turbo Stream push updates, hwc-media-content for image/video/audio features, hwc-ux-feedback for generic loading/progress/transition polish, and hwc-stimulus-fundamentals for Stimulus APIs not centered on navigation.",
+          "path": "skills/hwc-navigation-content"
+        },
+        "37signals-style": {
+          "name": "37signals-style",
+          "description": "Rails coding patterns derived from analysis of 37signals' Fizzy codebase. Use when writing Rails code in 37signals/Basecamp style or when asked to follow 37signals patterns. Covers controllers, models, views, Hotwire, testing, database, security, and team philosophy.",
+          "path": "skills/37signals-style"
+        },
+        "test-driven-development": {
+          "name": "test-driven-development",
+          "description": "Use when implementing any feature or bugfix, before writing implementation code",
+          "path": "skills/test-driven-development"
+        },
+        "hwc-realtime-streaming": {
+          "name": "hwc-realtime-streaming",
+          "description": "Implement real-time Hotwire behavior: Turbo Streams over WebSocket/SSE, custom stream actions, inline stream tags, live list updates, and cross-tab state synchronization. Prefer this skill when the core problem is push-based updates or stream action orchestration. Use hwc-navigation-content for pull-based pagination/tab/lazy-navigation flows, hwc-forms-validation for form lifecycle and validation, hwc-media-content for media upload/playback behavior, hwc-ux-feedback for generic loading/progress/transitions, and hwc-stimulus-fundamentals for non-stream Stimulus fundamentals.",
+          "path": "skills/hwc-realtime-streaming"
+        },
+        "consulting-an-oracle": {
+          "name": "consulting-an-oracle",
+          "description": "Use when stuck after multiple debug attempts and want to escalate to a stronger one-shot model (GPT-5 Pro, Opus, Gemini Pro) — packages a self-contained \"oracle prompt\" with Ruby/Rails project briefing, verbatim error, what-was-tried, constraints, and just-enough attached files. Triggers include \"ask the oracle\", \"write a letter to GPT-5\", \"I'm stuck, draft a prompt for another model\", \"/tmp/letter.md\".",
+          "path": "skills/consulting-an-oracle"
+        },
+        "dispatching-parallel-agents": {
+          "name": "dispatching-parallel-agents",
+          "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
+          "path": "skills/dispatching-parallel-agents"
+        },
+        "compound": {
+          "name": "compound",
+          "description": "Use when a problem has just been solved and verified working — the fix is fresh, the investigation is in recent history, and the solution is non-trivial enough to capture for future reference",
+          "path": "skills/compound"
+        },
+        "writing-skills": {
+          "name": "writing-skills",
+          "description": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
+          "path": "skills/writing-skills"
+        },
+        "compound-refresh": {
+          "name": "compound-refresh",
+          "description": "Use when docs/solutions/ learnings may be stale — after refactors, migrations, or dependency upgrades, when a retrieved learning feels outdated or contradicts a recently solved problem, when pattern docs no longer reflect current code, or when reviewing docs/solutions/ for accuracy.",
+          "path": "skills/compound-refresh"
+        },
+        "using-git-worktrees": {
+          "name": "using-git-worktrees",
+          "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification",
+          "path": "skills/using-git-worktrees"
+        },
+        "handoff-resume": {
+          "name": "handoff-resume",
+          "description": "Use when starting a new session and wanting to continue from a previous handoff — reads the latest unrestored handoff document and restores session context",
+          "path": "skills/handoff-resume"
+        },
+        "hwc-stimulus-fundamentals": {
+          "name": "hwc-stimulus-fundamentals",
+          "description": "Cover Stimulus controller fundamentals: lifecycle hooks, values and valueChanged callbacks, targets and target callbacks, outlets, action parameters, keyboard events, and controller architecture patterns. Prefer this skill when the request is primarily about Stimulus APIs and controller design independent of a specific Hotwire domain. Use hwc-forms-validation for form-specific workflows, hwc-navigation-content for Turbo navigation concerns, hwc-realtime-streaming for Turbo Streams/WebSocket patterns, hwc-media-content for media integrations, and hwc-ux-feedback for loading/progress/transition UX patterns.",
+          "path": "skills/hwc-stimulus-fundamentals"
+        },
+        "brainstorming": {
+          "name": "brainstorming",
+          "description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.",
+          "path": "skills/brainstorming"
+        },
+        "handoff-list": {
+          "name": "handoff-list",
+          "description": "Use when viewing available handoff documents — lists active and archived handoffs with their status, date, topic, and branch",
+          "path": "skills/handoff-list"
+        },
+        "rails-upgrade": {
+          "name": "rails-upgrade",
+          "description": "Use when upgrading a Rails application from one version to another, assessing upgrade readiness, planning a multi-hop upgrade path, or investigating breaking changes, deprecation warnings, gem compatibility issues, or config.load_defaults transitions between any Rails versions from 5.2 through the latest release.",
+          "path": "skills/rails-upgrade"
+        },
+        "verification-before-completion": {
+          "name": "verification-before-completion",
+          "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
+          "path": "skills/verification-before-completion"
+        },
+        "rails-guides": {
+          "name": "rails-guides",
+          "description": "Official Rails documentation. Use when asked about any Rails-specific topic including ActiveRecord, routing, controllers, views, mailers, jobs, Action Cable, Action Text, Active Storage, migrations, validations, callbacks, associations, caching, security, or internals.",
+          "path": "skills/rails-guides"
+        },
+        "finishing-a-development-branch": {
+          "name": "finishing-a-development-branch",
+          "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
+          "path": "skills/finishing-a-development-branch"
+        },
+        "using-sqlite-worktrees": {
+          "name": "using-sqlite-worktrees",
+          "description": "Use when creating a git worktree for a Rails project that uses SQLite - copies the main working tree's development SQLite databases (including Rails 8 Solid Queue/Cache/Cable) into the worktree's storage/ directory with proper WAL checkpointing, so the new worktree has real dev data without re-seeding or re-migrating",
+          "path": "skills/using-sqlite-worktrees"
+        },
+        "brakeman": {
+          "name": "brakeman",
+          "description": "Static analysis security vulnerability scanner for Ruby on Rails applications. Use when analyzing Rails code for security issues, running security audits, reviewing code for vulnerabilities, setting up security scanning in CI/CD, managing security warnings, or investigating specific vulnerability types (SQL injection, XSS, command injection, etc.). Also use when configuring Brakeman, reducing false positives, or integrating with automated workflows.",
+          "path": "skills/brakeman"
+        },
+        "sandi-metz-rules": {
+          "name": "sandi-metz-rules",
+          "description": "This skill should be used when users request code review, refactoring, or code quality improvements for Ruby codebases. Apply Sandi Metz's four rules for writing maintainable object-oriented code - classes under 100 lines, methods under 5 lines, no more than 4 parameters, and controllers instantiate only one object. Use when users mention \"Sandi Metz\", \"code quality\", \"refactoring\", or when reviewing Ruby code for maintainability.",
+          "path": "skills/sandi-metz-rules"
+        },
+        "using-superpowers": {
+          "name": "using-superpowers",
+          "description": "Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions",
+          "path": "skills/using-superpowers"
+        },
+        "handoff": {
+          "name": "handoff",
+          "description": "Use when capturing session state before switching context, ending a session, or manually preserving progress — creates a structured handoff document in docs/handoffs/ so a future session can resume seamlessly",
+          "path": "skills/handoff"
+        }
+      }
+    },
+    "palkan": {
+      "owner": "palkan",
+      "repo": "skills",
+      "rev": "f4e8cd90ae388339d53bc05a3826034d0df56255",
+      "hash": "sha256-jkDP8XLxu87DMgyB4zApyLwn5erDs7pX0XkqCxYXNeg=",
+      "skills": {}
     }
   }
 }

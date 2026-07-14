@@ -245,6 +245,9 @@ in
     skills = {
       frontend-design.enable = true;
       thermos-thermo-nuclear-code-quality-review.enable = true;
+      principle-type-system-discipline.enable = true;
+      principle-boundary-discipline.enable = true;
+      typescript-best-practices.enable = true;
       grill-me = {
         enable = true;
         agents = [

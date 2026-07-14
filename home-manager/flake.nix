@@ -36,7 +36,7 @@
     emacs-overlay = {
       # Pinned to a known-good rev; emacs-overlay master occasionally breaks.
       # Bump deliberately with: nix flake update emacs-overlay
-      url = "github:nix-community/emacs-overlay/8eb5fada90f17ad128506ed6b2b5b2369494719b";
+      url = "github:nix-community/emacs-overlay/9bae184ed0c04cf270fbb0c9ba886d49bc9cc5e2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -71,6 +71,12 @@
                 {
                   tidal = tidal-tools;
                   direnv = (import nixpkgs-stable { inherit system; }).direnv;
+                  stable = import nixpkgs-stable {
+                    inherit system;
+                    config = {
+                      allowUnfree = true;
+                    };
+                  };
                 })
               emacs-overlay.overlays.default
               tidal-overlay.overlays.default

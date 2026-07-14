@@ -18,21 +18,24 @@ with lib; {
         enable = true;
         package =
           let
-            base = (if pkgs.stdenv.isDarwin then pkgs.emacs-git else pkgs.emacs-igc).override {
+            base = pkgs.emacs-git.override {
               withSQLite3 = true;
               withGTK3 = config.modules.emacs.with-gtk;
               withNativeCompilation = true;
             };
           in
           # On macOS 26 (Tahoe) nixpkgs builds against an older SDK, so the
-          # upstream Tahoe scroll-lag fix in nsterm.m is compiled out. Re-enable
-          # it with a runtime version check. See ./patches/tahoe-scroll.patch.
+            # upstream Tahoe scroll-lag fix in nsterm.m is compiled out. Re-enable
+            # it with a runtime version check. See ./patches/tahoe-scroll.patch.
           base.overrideAttrs (old: {
             patches = (old.patches or [ ]) ++ lib.optional pkgs.stdenv.isDarwin ./patches/tahoe-scroll.patch;
+          } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+            buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.mps ];
+            configureFlags = (old.configureFlags or [ ]) ++ [ "--with-mps=yes" ];
           });
         extraPackages =
           (epkgs: [
-            (epkgs.treesit-grammars.with-grammars (ps: lib.filter (p: !p.meta.broken) (lib.attrValues ps)))
+            (pkgs.stable.emacsPackages.treesit-grammars.with-grammars (ps: lib.filter (p: !p.meta.broken) (lib.attrValues ps)))
             epkgs.auctex
             epkgs.vterm
             epkgs.pdf-tools

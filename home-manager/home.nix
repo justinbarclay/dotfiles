@@ -1,4 +1,4 @@
-{ config, pkgs, user, system, ... }:
+{ config, pkgs, user, system, inputs, ... }:
 let
   stdenv = pkgs.stdenv;
 in
@@ -77,10 +77,6 @@ in
 
       (pkgs.writeScriptBin "rebuild-home" (builtins.readFile ./scripts/rebuild-home))
       (pkgs.writeScriptBin "scan-ruby" (builtins.readFile ./scripts/scan_ruby.nu))
-      (pkgs.writeScriptBin "update-skills" ''
-        #!/usr/bin/env bash
-        exec ${pkgs.nushell}/bin/nu ${config.home.homeDirectory}/dotfiles/home-manager/modules/agentic-skills/update-skills.nu "$@"
-      '')
     ];
 
     file.".npmrc" = {

@@ -39,10 +39,14 @@
       url = "github:nix-community/emacs-overlay/9bae184ed0c04cf270fbb0c9ba886d49bc9cc5e2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agentic-skills = {
+      url = "github:justinbarclay/agent-skills";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs
+    inputs @ { nixpkgs
     , nixpkgs-stable
     , home-manager
     , tidal-overlay
@@ -87,8 +91,12 @@
           extraSpecialArgs = {
             inherit system;
             inherit user;
+            inherit inputs;
           };
-          modules = [ ./home.nix ];
+          modules = [
+            ./home.nix
+            inputs.agentic-skills.homeManagerModules.default
+          ];
         };
     in
     {

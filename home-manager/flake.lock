@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "agentic-skills": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784146395,
+        "narHash": "sha256-V3PPhOxH9doUNWD7dyvqsCo+yMrCLlBEs5i972JcXLM=",
+        "owner": "justinbarclay",
+        "repo": "agent-skills",
+        "rev": "95a058c94d0553b2cddb8c4d5977459cb10da062",
+        "type": "github"
+      },
+      "original": {
+        "owner": "justinbarclay",
+        "repo": "agent-skills",
+        "type": "github"
+      }
+    },
     "cachix": {
       "inputs": {
         "devenv": [
@@ -1373,6 +1393,7 @@
     },
     "root": {
       "inputs": {
+        "agentic-skills": "agentic-skills",
         "determinate": "determinate",
         "devenv": "devenv",
         "emacs-lsp-booster": "emacs-lsp-booster",

@@ -236,9 +236,6 @@ let
   };
 in
 {
-  imports = [
-    ./modules/agentic-skills
-  ];
 
   modules.agentic-skills = {
     enable = true;

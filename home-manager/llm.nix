@@ -245,23 +245,16 @@ in
       principle-type-system-discipline.enable = true;
       principle-boundary-discipline.enable = true;
       typescript-best-practices.enable = true;
-      grill-me = {
+      grill-with-docs = {
         enable = true;
         agents = [
-          "gemini"
-          "copilot"
           "claude"
+          "copilot"
         ];
       };
-      grilling = {
-        enable = true;
-        agents = [
-          "gemini"
-          "copilot"
-          "claude"
-        ];
-      };
+      using-superpowers.enable = true;
     };
+
   };
 
   home.packages = with pkgs;

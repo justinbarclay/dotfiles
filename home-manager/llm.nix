@@ -240,21 +240,57 @@ in
   modules.agentic-skills = {
     enable = true;
     skills = {
+      # Ruby & Rails
+      brakeman.enable = true;
+      lucianghinda-test-driven-development.enable = true;
+      rails-guides.enable = true;
+      ruby.enable = true;
+      sandi-metz-rules.enable = true;
+
+      # Rust
+      domain-cli.enable = true;
+      domain-web.enable = true;
+      m05-type-driven.enable = true;
+      rust-router.enable = true;
+
+      # Frontend
+      accelint-react-best-practices.enable = true;
+      accelint-ts-documentation.enable = true;
+      compound.enable = true;
       frontend-design.enable = true;
-      thermos-thermo-nuclear-code-quality-review.enable = true;
-      principle-type-system-discipline.enable = true;
-      principle-boundary-discipline.enable = true;
       typescript-best-practices.enable = true;
+
+      # Engineering Principles
+      composition-patterns.enable = true;
+      principle-boundary-discipline.enable = true;
+      principle-fix-root-causes.enable = true;
+      principle-type-system-discipline.enable = true;
+
+      # Quality & Debugging
+      debugging-and-error-recovery.enable = true;
+      deslop.enable = true;
+      systematic-debugging.enable = true;
+      thermos-thermo-nuclear-code-quality-review.enable = true;
+      verification-before-completion.enable = true;
+
+      # Planning & Process
+      brainstorming.enable = true;
+      doc-coauthoring.enable = true;
+      executing-plans.enable = true;
+      grilling = {
+        enable = true;
+        agents = [ "claude" "copilot" ];
+      };
       grill-with-docs = {
         enable = true;
-        agents = [
-          "claude"
-          "copilot"
-        ];
+        agents = [ "claude" "copilot" ];
       };
-      using-superpowers.enable = true;
-    };
+      writing-plans.enable = true;
 
+      # Tooling
+      using-git-worktrees.enable = true;
+      using-superpowers.enable = true; # this is the most important skill to enable for all agents, as it allows them to use the Superpowers tool for enhanced capabilities
+    };
   };
 
   home.packages = with pkgs;

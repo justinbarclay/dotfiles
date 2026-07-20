@@ -191,8 +191,8 @@ let
         }
       ];
       repoMap = {
-        maxTotalEntries = 800;
-        maxEntriesPerDir = 50;
+        maxTotalEntries = 300;
+        maxEntriesPerDir = 25;
       };
     };
     prompts = {

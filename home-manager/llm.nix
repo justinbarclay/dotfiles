@@ -62,6 +62,8 @@ let
   # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
   ecaMcpServers = lib.filterAttrs (name: _: builtins.elem name [ "github" "nixos" "postgres" ]) sharedMcpServers;
 
+  ecaReadOnlyTools = [ "edit_file" "write_file" "move_file" ];
+
   ecaConfig = {
     "$schema" = "https://eca.dev/config.json";
     providers = {
@@ -141,11 +143,7 @@ let
         prompts = {
           chat = "\${classpath:prompts/plan_agent.md}";
         };
-        disabledTools = [
-          "edit_file"
-          "write_file"
-          "move_file"
-        ];
+        disabledTools = ecaReadOnlyTools;
         mcpServers = ecaMcpServers;
         toolCall = {
           approval = {
@@ -167,6 +165,20 @@ let
             };
           };
         };
+      };
+      explore = {
+        defaultModel = "google/models/gemini-flash-latest";
+        disabledTools = ecaReadOnlyTools;
+        mcpServers = { };
+      };
+      implement = {
+        defaultModel = "google/models/gemini-flash-latest";
+        mcpServers = { };
+      };
+      review = {
+        defaultModel = "google/models/gemini-3.1-pro-preview";
+        disabledTools = ecaReadOnlyTools;
+        mcpServers = { };
       };
     };
     defaultAgent = "code";

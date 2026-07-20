@@ -27,6 +27,7 @@ This machine is managed by Nix home-manager from `~/dotfiles`. Deployed configur
 - **Testing:** Ensure the existing suite passes before starting; cover new behavior before calling work complete.
 - **Atomic Commits:** Keep commits logical and atomic. One change per commit to maintain a clean, reversible history.
 - **Conventional Commits:** Use the [Conventional Commits](https://www.conventionalcommits.org/) specification (e.g., `feat:`, `fix:`, `refactor:`, `test:`).
+- **No Co-authoring:** Never coauthor commits or include `Co-authored-by:` trailers.
 - **Development Docs:** When writing development documentation, use Org-mode syntax. Write developer documentation for moderately complex and larger systems.
 
 ## Behavioral Guidelines

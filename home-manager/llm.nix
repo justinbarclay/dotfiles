@@ -127,7 +127,7 @@ let
 
     agent = {
       code = {
-        defaultModel = "google/models/gemini-flash-latest";
+        defaultModel = "google/models/gemini-3.1-pro-preview";
         prompts = {
           chat = "\${classpath:prompts/code_agent.md}";
         };

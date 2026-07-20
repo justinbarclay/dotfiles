@@ -2,6 +2,14 @@
 let
   home = config.home.homeDirectory;
 
+  platformNote =
+    if pkgs.stdenv.isDarwin then
+      "## Platform\n\nThis machine runs macOS."
+    else
+      "## Platform\n\nThis machine runs WSL2 on Windows.";
+
+  agentsMdText = builtins.readFile ./config/AGENTS.md + "\n\n" + platformNote + "\n";
+
   # Define common MCP servers here that you want to share across multiple agents
   sharedMcpServers = {
     nixos = {
@@ -75,9 +83,6 @@ let
     netrcFile = null;
     hooks = { };
     rules = [
-      {
-        path = "${home}/GEMINI.md";
-      }
       {
         path = "AGENTS.md";
       }
@@ -344,19 +349,9 @@ in
     text = builtins.toJSON claudeConfig;
   };
 
-  home.file."GEMINI.md" = {
-    text = builtins.readFile ./config/GEMINI.md + "\n\n" + builtins.readFile ./config/AGENTS.md;
-  };
+  home.file."AGENTS.md".text = agentsMdText;
 
-  home.file."AGENTS.md" = {
-    source = ./config/AGENTS.md;
-  };
+  home.file.".gemini/AGENTS.md".text = agentsMdText;
 
-  home.file.".gemini/GEMINI.md" = {
-    source = ./config/GEMINI.md;
-  };
-
-  home.file.".gemini/AGENTS.md" = {
-    source = ./config/AGENTS.md;
-  };
+  home.file.".claude/CLAUDE.md".text = agentsMdText;
 }

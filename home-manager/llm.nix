@@ -59,6 +59,9 @@ let
     # };
   };
 
+  # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
+  ecaMcpServers = lib.filterAttrs (name: _: builtins.elem name [ "github" "nixos" "postgres" ]) sharedMcpServers;
+
   ecaConfig = {
     "$schema" = "https://eca.dev/config.json";
     providers = {
@@ -122,9 +125,6 @@ let
     mcpTimeoutSeconds = 60;
     lspTimeoutSeconds = 30;
 
-    # Global MCP servers available to all agents
-    mcpServers = sharedMcpServers;
-
     agent = {
       code = {
         defaultModel = "google/models/gemini-flash-latest";
@@ -134,8 +134,7 @@ let
         disabledTools = [
           "preview_file_change"
         ];
-        # If you wanted to specify different/extra servers per agent:
-        # mcpServers = sharedMcpServers // { ... };
+        mcpServers = ecaMcpServers;
       };
       plan = {
         defaultModel = "google/models/gemini-pro-latest";
@@ -147,6 +146,7 @@ let
           "write_file"
           "move_file"
         ];
+        mcpServers = ecaMcpServers;
         toolCall = {
           approval = {
             deny = {

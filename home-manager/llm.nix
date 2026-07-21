@@ -59,10 +59,18 @@ let
     # };
   };
 
-  # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
-  ecaMcpServers = lib.filterAttrs (name: _: builtins.elem name [ "github" "nixos" "postgres" ]) sharedMcpServers;
+  models = {
+    pro   = "google/models/gemini-3.1-pro-preview";
+    plan  = "google/models/gemini-pro-latest";
+    flash = "google/models/gemini-flash-latest";
+  };
 
-  ecaReadOnlyTools = [ "edit_file" "write_file" "move_file" ];
+  # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
+  ecaMcpServers = {
+    inherit (sharedMcpServers) github nixos postgres;
+  };
+
+  ecaWriteTools = [ "edit_file" "write_file" "move_file" ];
 
   ecaConfig = {
     "$schema" = "https://eca.dev/config.json";
@@ -84,7 +92,7 @@ let
         url = "http://localhost:11434";
       };
     };
-    defaultModel = "google/models/gemini-3.1-pro-preview";
+    defaultModel = models.pro;
     netrcFile = null;
     hooks = { };
     rules = [
@@ -129,7 +137,7 @@ let
 
     agent = {
       code = {
-        defaultModel = "google/models/gemini-3.1-pro-preview";
+        defaultModel = models.pro;
         prompts = {
           chat = "\${classpath:prompts/code_agent.md}";
         };
@@ -139,11 +147,11 @@ let
         mcpServers = ecaMcpServers;
       };
       plan = {
-        defaultModel = "google/models/gemini-pro-latest";
+        defaultModel = models.plan;
         prompts = {
           chat = "\${classpath:prompts/plan_agent.md}";
         };
-        disabledTools = ecaReadOnlyTools;
+        disabledTools = ecaWriteTools;
         mcpServers = ecaMcpServers;
         toolCall = {
           approval = {
@@ -167,17 +175,20 @@ let
         };
       };
       explore = {
-        defaultModel = "google/models/gemini-flash-latest";
-        disabledTools = ecaReadOnlyTools;
+        defaultModel = models.flash;
+        # Inherits top-level prompts.chat (code_agent.md).
+        disabledTools = ecaWriteTools;
         mcpServers = { };
       };
       implement = {
-        defaultModel = "google/models/gemini-flash-latest";
+        defaultModel = models.flash;
+        # Inherits top-level prompts.chat (code_agent.md).
         mcpServers = { };
       };
       review = {
-        defaultModel = "google/models/gemini-3.1-pro-preview";
-        disabledTools = ecaReadOnlyTools;
+        defaultModel = models.pro;
+        # Inherits top-level prompts.chat (code_agent.md).
+        disabledTools = ecaWriteTools;
         mcpServers = { };
       };
     };
@@ -204,7 +215,7 @@ let
       rewrite = "\${classpath:prompts/rewrite.md}";
     };
     completion = {
-      model = "google/models/gemini-flash-latest";
+      model = models.flash;
     };
   };
 

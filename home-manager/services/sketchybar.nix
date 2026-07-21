@@ -306,6 +306,16 @@ in
         sketchybar --update
       '';
     };
+
+    launchd.user.agents.sketchybar.serviceConfig = {
+      Program = "/bin/sh";
+      ProgramArguments = lib.mkForce [
+        "/bin/sh"
+        "-c"
+        "/bin/wait4path /nix/store && exec ${pkgs.sketchybar}/bin/sketchybar --config ${pkgs.writeShellScript "sketchybarrc" config.services.sketchybar.config}"
+      ];
+    };
+
     environment.systemPackages = [ pkgs.sketchybar pkgs.aerospace ];
   };
 }

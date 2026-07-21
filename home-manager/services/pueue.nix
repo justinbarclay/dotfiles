@@ -19,8 +19,12 @@ with lib; {
         serviceConfig = {
           RunAtLoad = true;
           KeepAlive = true;
-          Program = "${pkgs.pueue}/bin/pueued";
-          ProgramArguments = [ "-vv" ];
+          Program = "/bin/sh";
+          ProgramArguments = [
+            "/bin/sh"
+            "-c"
+            "/bin/wait4path /nix/store && exec ${pkgs.pueue}/bin/pueued -vv"
+          ];
           WorkingDirectory = "/Users/justin";
           StandardOutPath = "/Users/justin/.pueue.stdout.log";
           StandardErrorPath = "/Users/justin/.pueue.stderr.log";

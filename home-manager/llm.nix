@@ -138,6 +138,7 @@ let
 
     agent = {
       coordinator = {
+        description = "Lightweight orchestrator and router.";
         defaultModel = models.flash;
         prompts = {
           chat = coordinatorPrompt;
@@ -146,6 +147,7 @@ let
         mcpServers = ecaMcpServers;
       };
       code = {
+        description = "Writing, editing, or refactoring code.";
         defaultModel = models.flash;
         prompts = {
           chat = "\${classpath:prompts/code_agent.md}";
@@ -156,6 +158,7 @@ let
         mcpServers = ecaMcpServers;
       };
       plan = {
+        description = "Creating implementation plans, architecture decisions, and multi-step strategies.";
         defaultModel = models.pro;
         prompts = {
           chat = "\${classpath:prompts/plan_agent.md}";
@@ -184,18 +187,21 @@ let
         };
       };
       explore = {
+        description = "Broad codebase survey, finding files, and mapping module structure.";
         defaultModel = models.flash;
         # Inherits top-level prompts.chat (code_agent.md).
         disabledTools = ecaWriteTools;
         mcpServers = ecaMcpServers;
       };
       investigate = {
+        description = "Deep reasoning about specific questions, debugging, and tracing complex behavior.";
         defaultModel = models.pro;
         # Inherits top-level prompts.chat (code_agent.md).
         disabledTools = ecaWriteTools;
         mcpServers = ecaMcpServers;
       };
       review = {
+        description = "Code review, quality analysis, and finding bugs in existing code.";
         defaultModel = models.pro;
         # Inherits top-level prompts.chat (code_agent.md).
         disabledTools = ecaWriteTools;

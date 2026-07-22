@@ -9,6 +9,7 @@ let
       "## Platform\n\nThis machine runs WSL2 on Windows.";
 
   agentsMdText = builtins.readFile ./config/AGENTS.md + "\n\n" + platformNote + "\n";
+  antigravityAgentsMdText = agentsMdText + "\n## Default Shell\n\nUse `zsh` as the default shell for all commands.\n";
   coordinatorPrompt = builtins.readFile ./config/coordinator_agent.md;
 
   # Define common MCP servers here that you want to share across multiple agents
@@ -383,7 +384,7 @@ in
 
   home.file."AGENTS.md".text = agentsMdText;
 
-  home.file.".gemini/AGENTS.md".text = agentsMdText;
+  home.file.".gemini/AGENTS.md".text = antigravityAgentsMdText;
 
   home.file.".claude/CLAUDE.md".text = agentsMdText;
 }

@@ -38,6 +38,7 @@ with lib; {
             (pkgs.stable.emacsPackages.treesit-grammars.with-grammars (ps: lib.filter (p: !p.meta.broken) (lib.attrValues ps)))
             epkgs.auctex
             epkgs.vterm
+            epkgs.ghostel
             epkgs.pdf-tools
             epkgs.mu4e
           ]);
@@ -56,6 +57,7 @@ with lib; {
           #
           # Used by magit
           sqlite
+
           # used by gcc
           # binutils
           # Needed for things like custom treesitter builds or vterm
@@ -68,6 +70,7 @@ with lib; {
           ltex-ls
           harper
           leetcode-cli
+
           # Dirvish
           coreutils
           fd
@@ -83,6 +86,9 @@ with lib; {
           vale
 
           emacs-lsp-booster
+
+          # needed for ghostel
+          libghostty-vt
         ];
     };
 }

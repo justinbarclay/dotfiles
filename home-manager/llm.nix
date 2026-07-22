@@ -9,6 +9,7 @@ let
       "## Platform\n\nThis machine runs WSL2 on Windows.";
 
   agentsMdText = builtins.readFile ./config/AGENTS.md + "\n\n" + platformNote + "\n";
+  coordinatorPrompt = builtins.readFile ./config/coordinator_agent.md;
 
   # Define common MCP servers here that you want to share across multiple agents
   sharedMcpServers = {
@@ -61,7 +62,6 @@ let
 
   models = {
     pro   = "google/models/gemini-3.1-pro-preview";
-    plan  = "google/models/gemini-pro-latest";
     flash = "google/models/gemini-flash-latest";
   };
 
@@ -136,8 +136,16 @@ let
     lspTimeoutSeconds = 30;
 
     agent = {
+      coordinator = {
+        defaultModel = models.flash;
+        prompts = {
+          chat = coordinatorPrompt;
+        };
+        disabledTools = ecaWriteTools;
+        mcpServers = ecaMcpServers;
+      };
       code = {
-        defaultModel = models.pro;
+        defaultModel = models.flash;
         prompts = {
           chat = "\${classpath:prompts/code_agent.md}";
         };
@@ -147,7 +155,7 @@ let
         mcpServers = ecaMcpServers;
       };
       plan = {
-        defaultModel = models.plan;
+        defaultModel = models.pro;
         prompts = {
           chat = "\${classpath:prompts/plan_agent.md}";
         };
@@ -178,12 +186,13 @@ let
         defaultModel = models.flash;
         # Inherits top-level prompts.chat (code_agent.md).
         disabledTools = ecaWriteTools;
-        mcpServers = { };
+        mcpServers = ecaMcpServers;
       };
-      implement = {
-        defaultModel = models.flash;
+      investigate = {
+        defaultModel = models.pro;
         # Inherits top-level prompts.chat (code_agent.md).
-        mcpServers = { };
+        disabledTools = ecaWriteTools;
+        mcpServers = ecaMcpServers;
       };
       review = {
         defaultModel = models.pro;
@@ -192,7 +201,7 @@ let
         mcpServers = { };
       };
     };
-    defaultAgent = "code";
+    defaultAgent = "coordinator";
     welcomeMessage = "Welcome to ECA!\n\nType '/' for commands\n\n";
     autoCompactPercentage = 85;
     index = {

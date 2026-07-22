@@ -44,25 +44,28 @@ function Test-DotfilesLinks {
     return ($issues.Count -eq 0)
 }
 
-# Creates/repairs every symlink in the manifest. Requires Developer Mode (unprivileged mklink).
+# Creates/repairs a single symlink using native PowerShell New-Item.
+function Install-Symlink {
+    param(
+        [Parameter(Mandatory=$true)][string]$LinkPath,
+        [Parameter(Mandatory=$true)][string]$TargetPath
+    )
+    $parent = Split-Path $LinkPath -Parent
+    if (-not (Test-Path $parent)) {
+        New-Item -ItemType Directory -Path $parent -Force | Out-Null
+    }
+    if (Test-Path $LinkPath) {
+        Remove-Item $LinkPath -Force -Recurse
+    }
+    New-Item -ItemType SymbolicLink -Path $LinkPath -Target $TargetPath -Force | Out-Null
+}
+
+# Creates/repairs every symlink in the manifest. Requires Developer Mode (unprivileged symlinks).
 function Install-DotfilesLinks {
     param(
         [string]$DotfilesRoot = (Join-Path $env:USERPROFILE 'dotfiles')
     )
     foreach ($link in (Get-DotfilesLinks -DotfilesRoot $DotfilesRoot)) {
-        New-Item -ItemType Directory -Force -Path (Split-Path $link.Dest -Parent) | Out-Null
-
-        if (Test-Path $link.Dest) {
-            $item = Get-Item $link.Dest -Force
-            if (-not $item.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint)) {
-                Remove-Item $link.Dest -Force
-            } elseif ($item.Target -eq $link.Src) {
-                continue
-            } else {
-                Remove-Item $link.Dest -Force
-            }
-        }
-
-        & cmd.exe /c "mklink `"$($link.Dest)`" `"$($link.Src)`"" | Out-Null
+        Install-Symlink -LinkPath $link.Dest -TargetPath $link.Src
     }
 }

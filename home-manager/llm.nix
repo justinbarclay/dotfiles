@@ -294,9 +294,10 @@ in
       # Rust
       domain-cli.enable = true;
       domain-web.enable = true;
+      domain-modeling.enable = true;
       m05-type-driven.enable = true;
       rust-router.enable = true;
-
+      m12-lifecycle.enable = true;
       # Frontend
       accelint-react-best-practices.enable = true;
       accelint-ts-documentation.enable = true;

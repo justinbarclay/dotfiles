@@ -118,7 +118,9 @@ with lib; {
       };
     };
 
-    security.pki.certificateFiles = [ /home/justin/.local/share/mkcert/rootCA.pem ];
+    security.pki.certificateFiles =
+      let certPath = /home/justin/.local/share/mkcert/rootCA.pem;
+      in if builtins.pathExists certPath then [ certPath ] else [ ];
 
     virtualisation.podman = {
       enable = true;

@@ -16,7 +16,7 @@
   "monitors": [
     {
       "workspaces": [
-        { "name": "1", "layout": "BSP" },
+        { "name": "1", "layout": "Floating" },
         { "name": "2", "layout": "BSP" },
         { "name": "3", "layout": "BSP" },
         { "name": "c", "layout": "BSP"      },

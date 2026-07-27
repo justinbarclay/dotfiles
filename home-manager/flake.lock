@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784796993,
-        "narHash": "sha256-8TMQCAVEw9chpH0/eJxpmO+JLlT6lTCnqJn+YEo8y6w=",
+        "lastModified": 1784883277,
+        "narHash": "sha256-VDO6pqfwx66wCM/ot85Txl2De+N0iwc48YKYLBzM5mY=",
         "owner": "justinbarclay",
         "repo": "agent-skills",
-        "rev": "6debe1cd4e0b5ceae1d879bf83884758275295f5",
+        "rev": "d9a78363b3438fb64929d69b9c2bea47a62e017e",
         "type": "github"
       },
       "original": {
@@ -896,11 +896,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784789275,
-        "narHash": "sha256-cgRTWuG+u1tBPhm01JrId2k0Bni09phVJ1Q0BZlRd7M=",
+        "lastModified": 1784913159,
+        "narHash": "sha256-JWq0BfjO4ktpH5USfQNQzdvHpIDT8fSKD5K7LvdMRFs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "3b0e6bbd65869af1beadf5963a99befc179d209f",
+        "rev": "079a3b5d1aa6a719920a51316253b7d6dd22738d",
         "type": "github"
       },
       "original": {
@@ -1553,11 +1553,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781904722,
-        "narHash": "sha256-oQGfeVawec/NcNLfHe9LV9Yj/69QuYlVrQWSv8vs8HE=",
+        "lastModified": 1784912387,
+        "narHash": "sha256-zvLotL8dZLrZ8+G9TuFTHsA6ZMro4GVHvlu4HW7mdSA=",
         "ref": "refs/heads/main",
-        "rev": "df150792bb1881cb6a6b2898692b0c7bd6cf48bf",
-        "revCount": 1419,
+        "rev": "b32d18bbc2db95daf394c974f39e89701cad1703",
+        "revCount": 1420,
         "type": "git",
         "url": "ssh://git@github.com/tidalmigrations/tidal-tools"
       },

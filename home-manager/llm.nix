@@ -62,7 +62,7 @@ let
   };
 
   models = {
-    pro   = "google/models/gemini-3.1-pro-preview";
+    pro = "google/models/gemini-3.1-pro-preview";
     flash = "google/models/gemini-flash-latest";
   };
 
@@ -315,7 +315,7 @@ in
       debugging-and-error-recovery.enable = true;
       deslop.enable = true;
       systematic-debugging.enable = true;
-      thermos-thermo-nuclear-code-quality-review.enable = true;
+      thermo-nuclear-code-quality-review.enable = true;
       verification-before-completion.enable = true;
 
       # Planning & Process

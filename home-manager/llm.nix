@@ -292,11 +292,9 @@ in
     enable = true;
     skills = {
       # Ruby & Rails
-      brakeman.enable = true;
-      lucianghinda-test-driven-development.enable = true;
-      rails-guides.enable = true;
+      superpowers-test-driven-development.enable = true;
       ruby.enable = true;
-      sandi-metz-rules.enable = true;
+      layered-rails.enable = true;
 
       # Rust
       domain-cli.enable = true;
@@ -305,12 +303,13 @@ in
       m05-type-driven.enable = true;
       rust-router.enable = true;
       m12-lifecycle.enable = true;
+
       # Frontend
       accelint-react-best-practices.enable = true;
       accelint-ts-documentation.enable = true;
-      compound.enable = true;
       frontend-design.enable = true;
       typescript-best-practices.enable = true;
+      react.enable = true;
 
       # Engineering Principles
       composition-patterns.enable = true;
@@ -338,9 +337,11 @@ in
         agents = [ "claude" "copilot" ];
       };
       writing-plans.enable = true;
-
+      planning-and-task-breakdown.enable = true;
+      writing-great-skills.enable = true;
       # Tooling
       using-git-worktrees.enable = true;
+      subagent-driven-development.enable = true;
       using-superpowers.enable = true; # this is the most important skill to enable for all agents, as it allows them to use the Superpowers tool for enhanced capabilities
     };
   };

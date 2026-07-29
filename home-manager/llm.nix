@@ -54,6 +54,13 @@ let
         "false"
       ];
     };
+    firefox-devtools = {
+      # Uses the Nix-installed Linux Firefox rather than the Windows install under
+      # /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
+      # WebDriver BiDi handshake hanging indefinitely.
+      command = "${pkgs.firefox-devtools-mcp}/bin/firefox-devtools-mcp";
+      args = [ "--firefox-path" "${pkgs.firefox}/bin/firefox" "--headless" ];
+    };
     # Example:
     # sqlite = {
     #   command = "${pkgs.nodejs}/bin/npx";
@@ -68,7 +75,7 @@ let
 
   # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
   ecaMcpServers = {
-    inherit (sharedMcpServers) github nixos postgres;
+    inherit (sharedMcpServers) github nixos postgres firefox-devtools;
   };
 
   ecaWriteTools = [ "edit_file" "write_file" "move_file" ];
@@ -364,6 +371,7 @@ in
       github-copilot-cli
       gh
       github-mcp-server
+      firefox-devtools-mcp
     ];
 
   home.file.".config/eca/config.json".text = builtins.toJSON ecaConfig;

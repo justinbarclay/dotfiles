@@ -310,6 +310,8 @@ in
       frontend-design.enable = true;
       typescript-best-practices.enable = true;
       react.enable = true;
+      xstate-v5.enable = true;
+      state-management.enable = true;
 
       # Engineering Principles
       composition-patterns.enable = true;
@@ -339,6 +341,7 @@ in
       writing-plans.enable = true;
       planning-and-task-breakdown.enable = true;
       writing-great-skills.enable = true;
+
       # Tooling
       using-git-worktrees.enable = true;
       subagent-driven-development.enable = true;

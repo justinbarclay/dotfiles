@@ -68,6 +68,7 @@ in
 
       texliveFull
       mkcert
+      typescript
       typescript-language-server
 
       # eslint_d

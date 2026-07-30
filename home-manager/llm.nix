@@ -8,6 +8,15 @@ let
     else
       "## Platform\n\nThis machine runs WSL2 on Windows.";
 
+  # The Firefox derivation lays itself out differently per platform: Linux gets
+  # `bin/firefox`, while Darwin ships only an .app bundle (no `bin/` at all), so
+  # the executable has to be reached through Contents/MacOS.
+  firefoxBinary =
+    if pkgs.stdenv.isDarwin then
+      "${pkgs.firefox}/Applications/Firefox.app/Contents/MacOS/firefox"
+    else
+      "${pkgs.firefox}/bin/firefox";
+
   agentsMdText = builtins.readFile ./config/AGENTS.md + "\n\n" + platformNote + "\n";
   antigravityAgentsMdText = agentsMdText + "\n## Default Shell\n\nUse `zsh` as the default shell for all commands.\n";
   coordinatorPrompt = builtins.readFile ./config/coordinator_agent.md;
@@ -55,11 +64,11 @@ let
       ];
     };
     firefox-devtools = {
-      # Uses the Nix-installed Linux Firefox rather than the Windows install under
-      # /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
+      # On WSL, uses the Nix-installed Linux Firefox rather than the Windows install
+      # under /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
       # WebDriver BiDi handshake hanging indefinitely.
       command = "${pkgs.firefox-devtools-mcp}/bin/firefox-devtools-mcp";
-      args = [ "--firefox-path" "${pkgs.firefox}/bin/firefox" "--headless" ];
+      args = [ "--firefox-path" firefoxBinary "--headless" ];
     };
     # Example:
     # sqlite = {
@@ -247,6 +256,21 @@ let
     mcpServers = sharedMcpServers;
   };
 
+  # Claude Code (the CLI) never reads the Claude Desktop config; it only looks at
+  # ~/.claude.json and per-project .mcp.json, neither of which Nix can own. Bake the
+  # shared servers into the binary via --mcp-config instead. Repeated --mcp-config
+  # flags merge, so a caller passing its own (e.g. Emacs) keeps these too.
+  claudeCodeMcpConfig = pkgs.writeText "claude-code-mcp.json" (builtins.toJSON claudeConfig);
+
+  claude-code-with-mcp = pkgs.symlinkJoin {
+    name = "claude-code-with-mcp";
+    paths = [ pkgs.claude-code ];
+    nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude --add-flags "--mcp-config=${claudeCodeMcpConfig}"
+    '';
+  };
+
   geminiConfig = {
     experimental = {
       modelSteering = true;
@@ -371,7 +395,7 @@ in
           "$UPDATE_SCRIPT"
         '';
       })
-      claude-code
+      claude-code-with-mcp
       github-copilot-cli
       gh
       github-mcp-server

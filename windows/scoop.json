@@ -9,11 +9,23 @@
       "Source": "https://github.com/ScoopInstaller/Extras"
     },
     {
+      "Name": "versions",
+      "Source": "https://github.com/ScoopInstaller/Versions"
+    },
+    {
       "Name": "nerd-fonts",
       "Source": "https://github.com/matthewjberger/scoop-nerd-fonts"
+    },
+    {
+      "Name": "amrbashir",
+      "Source": "https://github.com/amrbashir/scoop-bucket"
     }
   ],
   "apps": [
+    {
+      "Name": "1password-cli",
+      "Source": "main"
+    },
     {
       "Name": "7zip",
       "Source": "main"
@@ -27,7 +39,19 @@
       "Source": "main"
     },
     {
+      "Name": "bottom",
+      "Source": "main"
+    },
+    {
+      "Name": "carapace-bin",
+      "Source": "extras"
+    },
+    {
       "Name": "coreutils",
+      "Source": "main"
+    },
+    {
+      "Name": "diffutils",
       "Source": "main"
     },
     {
@@ -39,7 +63,19 @@
       "Source": "main"
     },
     {
+      "Name": "ffmpeg",
+      "Source": "main"
+    },
+    {
+      "Name": "fnm",
+      "Source": "main"
+    },
+    {
       "Name": "fzf",
+      "Source": "main"
+    },
+    {
+      "Name": "gh",
       "Source": "main"
     },
     {
@@ -51,7 +87,27 @@
       "Source": "main"
     },
     {
+      "Name": "komorebi",
+      "Source": "extras"
+    },
+    {
+      "Name": "komorebi-switcher",
+      "Source": "amrbashir"
+    },
+    {
+      "Name": "mkcert",
+      "Source": "extras"
+    },
+    {
+      "Name": "pulumi",
+      "Source": "main"
+    },
+    {
       "Name": "ripgrep",
+      "Source": "main"
+    },
+    {
+      "Name": "rustup",
       "Source": "main"
     },
     {
@@ -64,6 +120,14 @@
     },
     {
       "Name": "vale",
+      "Source": "main"
+    },
+    {
+      "Name": "whkd",
+      "Source": "extras"
+    },
+    {
+      "Name": "zellij",
       "Source": "main"
     },
     {

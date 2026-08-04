@@ -1,33 +1,123 @@
 {
   "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.json",
-  "display_index_preferences": {},
+    "display_index_preferences": {
+    "0": "337002",
+    "1": "2DH1YZ3"
+  },
+  "bar_configurations": [
+    "$KOMOREBI_CONFIG_HOME/komorebi.bar.monitor0.json",
+    "$KOMOREBI_CONFIG_HOME/komorebi.bar.monitor1.json"
+  ],
+  "mouse_follows_focus": true,
   "window_hiding_behaviour": "Cloak",
   "cross_monitor_move_behaviour": "Insert",
-  "default_workspace_padding": 8,
-  "default_container_padding": 8,
+  "default_workspace_padding": 4,
+  "default_container_padding": 4,
   "border": true,
-  "border_width": 2,
+  "border_width": 4,
   "border_colours": {
-    "single":   { "r": 86,  "g": 182, "b": 194, "a": 255 },
-    "stack":    { "r": 250, "g": 166, "b": 50,  "a": 255 },
-    "monocle":  { "r": 255, "g": 99,  "b": 110, "a": 255 }
+    "single": {
+      "r": 0,
+      "g": 229,
+      "b": 255,
+      "a": 255
+    },
+    "stack": {
+      "r": 204,
+      "g": 85,
+      "b": 255,
+      "a": 255
+    },
+    "monocle": {
+      "r": 255,
+      "g": 0,
+      "b": 68,
+      "a": 255
+    }
   },
-  "app_specific_configuration_path": "$Env:USERPROFILE/.config/komorebi/applications.yaml",
+  "app_specific_configuration_path": "$KOMOREBI_CONFIG_HOME/applications.json",
   "monitors": [
     {
       "workspaces": [
-        { "name": "1", "layout": "Floating" },
-        { "name": "2", "layout": "BSP" },
-        { "name": "3", "layout": "BSP" },
-        { "name": "c", "layout": "BSP"      },
-        { "name": "e", "layout": "Monocle"  },
-        { "name": "t", "layout": "BSP"      }
-      ],
-      "workspace_rules": [
-        { "app_name_regex": "[Ee]macs",  "workspace": "e", "initial_workspace_rule": true },
-        { "app_name_regex": "WezTerm",   "workspace": "t", "initial_workspace_rule": true },
-        { "app_name_regex": "Slack",     "workspace": "c", "initial_workspace_rule": true },
-        { "app_name_regex": "Discord",   "workspace": "c", "initial_workspace_rule": true }
+        {
+          "name": "1",
+          "layout": "Rows",
+          "initial_workspace_rules": [
+            { "kind": "Exe", "id": "TIDAL.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "tidal.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "TIDALPlayer.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Signal.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "signal.exe", "matching_strategy": "Equals" }
+          ],
+          "workspace_rules": [
+            { "kind": "Exe", "id": "TIDAL.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "tidal.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "TIDALPlayer.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Signal.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "signal.exe", "matching_strategy": "Equals" }
+          ]
+        },
+        {
+          "name": "2",
+          "layout": "Rows"
+        },
+        {
+          "name": "3",
+          "layout": "Rows"
+        },
+        {
+          "name": "w",
+          "layout": "Rows",
+          "initial_workspace_rules": [
+            { "kind": "Exe", "id": "slack.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Slack.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Discord.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "discord.exe", "matching_strategy": "Equals" }
+          ],
+          "workspace_rules": [
+            { "kind": "Exe", "id": "slack.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Slack.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "Discord.exe", "matching_strategy": "Equals" },
+            { "kind": "Exe", "id": "discord.exe", "matching_strategy": "Equals" }
+          ]
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            { "kind": "Exe", "id": "firefox.exe", "matching_strategy": "Equals" },
+            { "kind": "Class", "id": "MozillaWindowClass", "matching_strategy": "Equals" }
+          ],
+          "workspace_rules": [
+            { "kind": "Exe", "id": "firefox.exe", "matching_strategy": "Equals" },
+            { "kind": "Class", "id": "MozillaWindowClass", "matching_strategy": "Equals" }
+          ]
+        },
+        {
+          "name": "2",
+          "layout": "BSP"
+        },
+        {
+          "name": "3",
+          "layout": "BSP"
+        },
+        {
+          "name": "w",
+          "layout": "BSP",
+          "layout_options": {
+            "column_ratios": [0.6]
+          },
+          "initial_workspace_rules": [
+            { "kind": "Exe", "id": "wezterm-gui.exe", "matching_strategy": "Equals" }
+          ],
+          "workspace_rules": [
+            { "kind": "Class", "id": "Emacs", "matching_strategy": "Equals" }
+          ]
+        }
       ]
     }
   ]

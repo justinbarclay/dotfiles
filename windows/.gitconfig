@@ -15,7 +15,7 @@
 [gpg]
   format = ssh
 [gpg "ssh"]
-  program = ~/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe
+	program = C:\\Users\\justin\\AppData\\Local\\Microsoft\\WindowsApps\\op-ssh-sign.exe
   allowedSignersFile = ~/.allowed-signers
 [commit]
   gpgSign = true

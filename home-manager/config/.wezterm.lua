@@ -1,6 +1,6 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
-local default_font_size = 16
+local default_font_size = 14
 -- This table will hold the configuration.
 local config = {}
 

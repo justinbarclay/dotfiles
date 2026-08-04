@@ -760,3 +760,49 @@ properties:
         SetScript: |
           . (Join-Path $env:USERPROFILE 'dotfiles\windows\links.ps1')
           Install-DotfilesLinks
+
+    # -------------------------------------------------------------------------
+    # Komorebi environment variables
+    # Sets KOMOREBI_CONFIG_HOME persistently in User Environment Variables.
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Script
+      id: komorebi-config-home-env
+      directives:
+        description: Set KOMOREBI_CONFIG_HOME environment variable
+        allowPrerelease: false
+      settings:
+        GetScript: |
+          $val = [Environment]::GetEnvironmentVariable('KOMOREBI_CONFIG_HOME', 'User')
+          return @{ Result = [string]$val }
+        TestScript: |
+          $val = [Environment]::GetEnvironmentVariable('KOMOREBI_CONFIG_HOME', 'User')
+          $target = Join-Path $env:USERPROFILE '.config\komorebi'
+          return ($val -eq $target)
+        SetScript: |
+          $target = Join-Path $env:USERPROFILE '.config\komorebi'
+          [Environment]::SetEnvironmentVariable('KOMOREBI_CONFIG_HOME', $target, 'User')
+
+    # -------------------------------------------------------------------------
+    # Komorebi autostart
+    # Configures komorebi and whkd to start automatically at login.
+    # -------------------------------------------------------------------------
+    - resource: PSDscResources/Script
+      id: komorebi-autostart
+      directives:
+        description: Enable autostart for komorebi and whkd on user login
+        allowPrerelease: false
+      dependsOn:
+        - scoop-apps
+        - symlinks
+        - komorebi-config-home-env
+      settings:
+        GetScript: |
+          $shortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup\komorebi.lnk'
+          return @{ Result = [string](Test-Path $shortcut) }
+        TestScript: |
+          $shortcut = Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs\Startup\komorebi.lnk'
+          return (Test-Path $shortcut)
+        SetScript: |
+          if (Get-Command komorebic -ErrorAction SilentlyContinue) {
+            komorebic enable-autostart --whkd --bar
+          }

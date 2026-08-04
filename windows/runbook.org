@@ -39,7 +39,34 @@ For security, this must be done manually:
 2. Settings > Developer
 3. Check *Use the SSH agent*
 
-** 2. Clone Emacs Configuration
+** 2. Update the ~op://~ Reference
+The bootstrap installs OpenSSH Server and provisions the authorized key from 1Password automatically. Before running, update the ~op://~ reference in ~windows/setup.winget~ to match your vault and item name:
+
+Search for ~op://Private/SSH Key/public key~ and replace with your actual reference. You can find the correct path by running:
+
+#+begin_src powershell
+op item get "Your SSH Key Name" --vault "Your Vault" --format json | Select-String "public key"
+#+end_src
+
+** 3. Verify SSH Server After Bootstrap
+Once bootstrap completes, verify the SSH server is running and properly hardened:
+
+#+begin_src powershell
+# Confirm sshd is running
+Get-Service sshd
+
+# Confirm password auth is disabled
+Select-String -Path "$env:ProgramData\ssh\sshd_config" -Pattern "PasswordAuthentication"
+
+# Confirm authorized key is provisioned with correct ACLs
+Get-Content "$env:ProgramData\ssh\administrators_authorized_keys"
+icacls "$env:ProgramData\ssh\administrators_authorized_keys"
+
+# Test from another machine on the tailnet
+# ssh your-username@this-machine.tailnet-name.ts.net
+#+end_src
+
+** 4. Clone Emacs Configuration
 Once the 1Password SSH agent is active, clone your Emacs dotfiles. The ~GNU.Emacs~ package on Windows defaults to looking in ~%APPDATA%\.emacs.d~.
 
 #+begin_src powershell

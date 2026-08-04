@@ -5,6 +5,6 @@
 # networkingMode=mirrored is deliberately NOT set here: env.nu resolves
 # $env.WINDOWS_HOST by reading the WSL default-route gateway, which only
 # exists in NAT networking mode. Mirrored mode would break that lookup.
-[wsl2]
+[experimental]
 autoMemoryReclaim=gradual
 sparseVhd=true

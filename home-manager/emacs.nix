@@ -22,6 +22,7 @@ with lib; {
               withSQLite3 = true;
               withGTK3 = config.modules.emacs.with-gtk;
               withNativeCompilation = true;
+              withMailutils = false;
             };
           in
           # On macOS 26 (Tahoe) nixpkgs builds against an older SDK, so the

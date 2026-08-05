@@ -71,8 +71,11 @@
               allowUnfree = true;
             };
             overlays = [
+              emacs-overlay.overlays.default
               (final: prev:
                 {
+                  emacs-git = prev.emacs-git.override { withMailutils = false; };
+                  mu = prev.mu.override { emacs = final.emacs-git; };
                   tidal = tidal-tools;
                   direnv = (import nixpkgs-stable { inherit system; }).direnv;
                   stable = import nixpkgs-stable {
@@ -82,7 +85,6 @@
                     };
                   };
                 })
-              emacs-overlay.overlays.default
               tidal-overlay.overlays.default
               tidalkms.overlays.default
               emacs-lsp-booster.overlays.default

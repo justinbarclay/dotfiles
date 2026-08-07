@@ -13,7 +13,7 @@ with lib; {
       enable = true;
       theme = {
         name = "Tokyo Night";
-        package = pkgs.tokyonight-gtk-theme;
+        package = pkgs.catppuccin-gtk;
       };
     };
 

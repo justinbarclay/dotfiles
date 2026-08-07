@@ -364,7 +364,7 @@ in
       };
       writing-plans.enable = true;
       planning-and-task-breakdown.enable = true;
-      writing-great-skills.enable = true;
+      writing-for-agents.enable = true;
 
       # Tooling
       using-git-worktrees.enable = true;

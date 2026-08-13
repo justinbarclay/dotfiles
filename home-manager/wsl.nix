@@ -131,7 +131,7 @@ with lib; {
       tailscale.enable = true;
       postgresql = {
         enable = true;
-        package = pkgs.postgresql_17;
+        package = pkgs.postgresql_18;
         extensions = ps: with ps; [ hypopg ];
         settings = {
           shared_preload_libraries = "pg_stat_statements,hypopg";

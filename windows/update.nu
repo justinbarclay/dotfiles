@@ -14,14 +14,14 @@ def section [title: string] {
 # 1. Upgrade Winget packages
 # ---------------------------------------------------------------------------
 section "Winget upgrade"
-winget upgrade --all --accept-source-agreements --accept-package-agreements
+do -i { winget upgrade --all --accept-source-agreements --accept-package-agreements }
 
 # ---------------------------------------------------------------------------
 # 2. Update Scoop itself, then all installed apps
 # ---------------------------------------------------------------------------
 section "Scoop update"
-scoop update
-scoop update "*"
+do -i { scoop update }
+do -i { scoop update "*" }
 
 # ---------------------------------------------------------------------------
 # 3. Filter and Export Winget packages to packages.json
@@ -55,6 +55,8 @@ let denylist = [
   "^Dell\\."
   "^PlayStation\\."
   "^Logitech\\."
+  "^LGUG2Z\\.komorebi"
+  "^wez\\.wezterm"
 ]
 
 # Filter packages

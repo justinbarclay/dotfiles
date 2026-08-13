@@ -87,8 +87,8 @@
       "Source": "main"
     },
     {
-      "Name": "komorebi",
-      "Source": "extras"
+      "Name": "komorebi-nightly",
+      "Source": "versions"
     },
     {
       "Name": "komorebi-switcher",
@@ -125,6 +125,10 @@
     {
       "Name": "vale",
       "Source": "main"
+    },
+    {
+      "Name": "wezterm-nightly",
+      "Source": "versions"
     },
     {
       "Name": "whkd",

@@ -1,43 +1,47 @@
 .shell pwsh
 
 # Reload komorebi & whkd config
-f24 + oem_comma : komorebic replace-configuration $Env:USERPROFILE/.config/komorebi/komorebi.json ;
+f20 + oem_comma : komorebic replace-configuration $Env:USERPROFILE/.config/komorebi/komorebi.json ;
 
 # Focus Workspaces (Plural - Focuses workspace index across ALL monitors simultaneously)
-f24 + 1 : komorebic focus-workspaces 0
-f24 + 2 : komorebic focus-workspaces 1
-f24 + 3 : komorebic focus-workspaces 2
-f24 + w : komorebic focus-workspaces 3
+f20 + 1 : komorebic focus-workspaces 0
+f20 + 2 : komorebic focus-workspaces 1
+f20 + 3 : komorebic focus-workspaces 2
+f20 + w : komorebic focus-workspaces 3
 
 # Move Window to Workspace on Focused Monitor
-f24 + shift + 1 : komorebic move-to-workspace 0
-f24 + shift + 2 : komorebic move-to-workspace 1
-f24 + shift + 3 : komorebic move-to-workspace 2
-f24 + shift + w : komorebic move-to-workspace 3
+f20 + shift + 1 : komorebic move-to-workspace 0
+f20 + shift + 2 : komorebic move-to-workspace 1
+f20 + shift + 3 : komorebic move-to-workspace 2
+f20 + shift + w : komorebic move-to-workspace 3
 
 # Window State Controls
-f24 + f     : komorebic toggle-float
-f24 + m     : komorebic toggle-monocle
-f24 + s     : komorebic toggle-window-container-behaviour
-f24 + r     : komorebic flip-layout horizontal
-f24 + space : komorebic promote-swap
+f20 + f     : komorebic toggle-float
+f20 + m     : komorebic toggle-monocle
+f20 + s     : komorebic toggle-window-container-behaviour
+f20 + r     : komorebic flip-layout horizontal
+f20 + space : komorebic promote-swap
+
+# Cycle Workspace Layout (Rows -> BSP -> Columns -> Floating -> ...)
+f20 + t         : nu $Env:USERPROFILE/.config/komorebi/cycle-layout.nu next
+f20 + shift + t : nu $Env:USERPROFILE/.config/komorebi/cycle-layout.nu previous
 
 # Window Focus Navigation (Arrow keys)
-f24 + left  : komorebic focus left
-f24 + down  : komorebic focus down
-f24 + up    : komorebic focus up
-f24 + right : komorebic focus right
+f20 + left  : komorebic focus left
+f20 + down  : komorebic focus down
+f20 + up    : komorebic focus up
+f20 + right : komorebic focus right
 
 # Move Window Navigation (Arrow keys)
-f24 + shift + left  : komorebic move left
-f24 + shift + down  : komorebic move down
-f24 + shift + up    : komorebic move up
-f24 + shift + right : komorebic move right
+f20 + shift + left  : komorebic move left
+f20 + shift + down  : komorebic move down
+f20 + shift + up    : komorebic move up
+f20 + shift + right : komorebic move right
 
 # Cycle Focus
-f24 + n : komorebic cycle-focus next
-f24 + p : komorebic cycle-focus previous
+f20 + n : komorebic cycle-focus next
+f20 + p : komorebic cycle-focus previous
 
 # Resize
-f24 + oem_plus  : komorebic resize-axis vertical increase
-f24 + oem_minus : komorebic resize-axis vertical decrease
+f20 + oem_plus  : komorebic resize-axis vertical increase
+f20 + oem_minus : komorebic resize-axis vertical decrease

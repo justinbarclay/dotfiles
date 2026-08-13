@@ -80,3 +80,43 @@ def update-windows [] {
   }
   nu ([$env.USERPROFILE "dotfiles" "windows" "update.nu"] | path join)
 }
+
+# ---------------------------------------------------------------------------
+# check-wezterm-nightly — compare local WezTerm Nightly vs GitHub release
+# ---------------------------------------------------------------------------
+def check-wezterm-nightly [--update (-u)] {
+  if (sys host | get name) != "Windows" {
+    error make {msg: "check-wezterm-nightly only runs on Windows"}
+  }
+
+  let local_exe = ([$env.USERPROFILE "scoop" "apps" "wezterm-nightly" "current" "wezterm-gui.exe"] | path join)
+  if not ($local_exe | path exists) {
+    print $"\e[1;31mWezTerm Nightly is not installed via Scoop.\e[0m"
+    return
+  }
+
+  let local_time = (ls $local_exe | get modified.0)
+  let local_ver = (do -i { wezterm --version } | complete | get stdout | str trim)
+
+  print $"\e[1;36m== WezTerm Nightly Update Status ==\e[0m"
+  print $"\e[32mInstalled Version:\e[0m ($local_ver)"
+  print $"\e[32mInstalled Build Time:\e[0m ($local_time)"
+
+  let api_res = (http get https://api.github.com/repos/wez/wezterm/releases/tags/nightly)
+  let zip_asset = ($api_res.assets | where name == "WezTerm-windows-nightly.zip" | first)
+  let remote_time = ($zip_asset.updated_at | into datetime)
+
+  print $"\e[33mLatest GitHub Build:\e[0m ($remote_time)"
+
+  if $local_time < $remote_time {
+    print $"\n\e[1;33mA newer nightly build is available on GitHub!\e[0m"
+    if $update {
+      print $"\e[36mRunning: scoop update wezterm-nightly --force...\e[0m"
+      scoop update wezterm-nightly --force
+    } else {
+      print "Run `check-wezterm-nightly --update` (or `scoop update wezterm-nightly --force`) to update."
+    }
+  } else {
+    print $"\n\e[1;32mYour installed WezTerm Nightly build is up to date!\e[0m"
+  }
+}

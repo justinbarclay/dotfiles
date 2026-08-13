@@ -9,6 +9,7 @@
     { "dest": "$USERPROFILE\\.allowed-signers", "src": "windows\\allowed-signers" },
     { "dest": "$USERPROFILE\\.wezterm.lua", "src": "home-manager\\config\\.wezterm.lua" },
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.json", "src": "windows\\komorebi.json" },
+    { "dest": "$USERPROFILE\\.config\\komorebi\\cycle-layout.nu", "src": "windows\\cycle-layout.nu" },
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.bar.json", "src": "windows\\komorebi.bar.json" },
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.bar.monitor0.json", "src": "windows\\komorebi.bar.monitor0.json" },
     { "dest": "$USERPROFILE\\.config\\komorebi\\komorebi.bar.monitor1.json", "src": "windows\\komorebi.bar.monitor1.json" },

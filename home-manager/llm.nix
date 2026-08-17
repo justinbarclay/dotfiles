@@ -337,6 +337,13 @@ in
       xstate-v5.enable = true;
       state-management.enable = true;
 
+      #IAC
+      pulumi-automation-api.enable = true;
+      pulumi-component.enable = true;
+      pulumi-terraform-to-pulumi.enable = true;
+      pulumi-esc.enable = true;
+      pulumi-best-practices.enable = true;
+
       # Engineering Principles
       composition-patterns.enable = true;
       principle-boundary-discipline.enable = true;

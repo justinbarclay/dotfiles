@@ -66,7 +66,7 @@ with lib; {
           cat = "bat";
           ls = "ls";
         } //
-        (if pkgs.stdenv.isLinux then
+        (if pkgs.stdenv.hostPlatform.isLinux then
           {
             ssh = "ssh.exe";
             ssh-add = "ssh-add.exe";
@@ -81,7 +81,7 @@ with lib; {
       '';
       extraConfig = ''
         use tidal-aws.nu
-        ${if pkgs.stdenv.isDarwin then ''
+        ${if pkgs.stdenv.hostPlatform.isDarwin then ''
           def --env emacsBg [] {
             pueue add -- emacs $env.PWD
           }

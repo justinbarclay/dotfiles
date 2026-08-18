@@ -29,8 +29,8 @@ with lib; {
             # upstream Tahoe scroll-lag fix in nsterm.m is compiled out. Re-enable
             # it with a runtime version check. See ./patches/tahoe-scroll.patch.
           base.overrideAttrs (old: {
-            patches = (old.patches or [ ]) ++ lib.optional pkgs.stdenv.isDarwin ./patches/tahoe-scroll.patch;
-          } // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+            patches = (old.patches or [ ]) ++ lib.optional pkgs.stdenv.hostPlatform.isDarwin ./patches/tahoe-scroll.patch;
+          } // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
             buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.mps ];
             configureFlags = (old.configureFlags or [ ]) ++ [ "--with-mps=yes" ];
           });

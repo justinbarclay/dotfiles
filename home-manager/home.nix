@@ -14,7 +14,7 @@ in
   ];
 
   modules.git = {
-    is-darwin = stdenv.isDarwin;
+    is-darwin = stdenv.hostPlatform.isDarwin;
     enable = true;
   };
 
@@ -29,10 +29,10 @@ in
   };
   modules.emacs = {
     enable = true;
-    with-gtk = stdenv.isLinux;
+    with-gtk = stdenv.hostPlatform.isLinux;
   };
 
-  modules.gtk.enable = stdenv.isLinux;
+  modules.gtk.enable = stdenv.hostPlatform.isLinux;
 
   programs = {
     home-manager.enable = true;
@@ -45,7 +45,7 @@ in
     username = "${user}";
     language.base = "en_CA.UTF-8";
     homeDirectory =
-      if stdenv.isDarwin then "/Users/${user}" else "/home/${user}";
+      if stdenv.hostPlatform.isDarwin then "/Users/${user}" else "/home/${user}";
 
     packages = with pkgs; [
       nixpkgs-fmt

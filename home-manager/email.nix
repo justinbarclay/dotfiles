@@ -40,7 +40,7 @@ with lib;
           mu.enable = true;
           primary = true;
           realName = "Justin Barclay";
-          passwordCommand = if pkgs.stdenv.isDarwin then "op item get fastmail-smtp --field password --reveal" else "op.exe item get fastmail-smtp --field password --reveal";
+          passwordCommand = if pkgs.stdenv.hostPlatform.isDarwin then "op item get fastmail-smtp --field password --reveal" else "op.exe item get fastmail-smtp --field password --reveal";
           userName = config.modules.email.username;
         };
 
@@ -60,7 +60,7 @@ with lib;
         #   mu.enable = true;
         #   primary = false;
         #   realName = "Justin Barclay";
-        #   passwordCommand = if pkgs.stdenv.isDarwin then "/usr/local/bin/op item get gmail-smtp --field password" else "op.exe item get gmail-smtp --field password";
+        #   passwordCommand = if pkgs.stdenv.hostPlatform.isDarwin then "/usr/local/bin/op item get gmail-smtp --field password" else "op.exe item get gmail-smtp --field password";
         #   userName = "{{ op://Private/gmail-smtp/username }}";
         # };
       };

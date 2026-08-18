@@ -3,7 +3,7 @@ let
   home = config.home.homeDirectory;
 
   platformNote =
-    if pkgs.stdenv.isDarwin then
+    if pkgs.stdenv.hostPlatform.isDarwin then
       "## Platform\n\nThis machine runs macOS."
     else
       "## Platform\n\nThis machine runs WSL2 on Windows.";
@@ -12,7 +12,7 @@ let
   # `bin/firefox`, while Darwin ships only an .app bundle (no `bin/` at all), so
   # the executable has to be reached through Contents/MacOS.
   firefoxBinary =
-    if pkgs.stdenv.isDarwin then
+    if pkgs.stdenv.hostPlatform.isDarwin then
       "${pkgs.firefox}/Applications/Firefox.app/Contents/MacOS/firefox"
     else
       "${pkgs.firefox}/bin/firefox";
@@ -423,12 +423,12 @@ in
   home.file.".copilot/mcp-config.json".text = builtins.toJSON copilotConfig;
 
   # On macOS, Claude Desktop config is in a different place
-  home.file."Library/Application Support/Claude/claude_desktop_config.json" = lib.mkIf pkgs.stdenv.isDarwin {
+  home.file."Library/Application Support/Claude/claude_desktop_config.json" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     text = builtins.toJSON claudeConfig;
   };
 
   # On Linux, it's usually in ~/.config/Claude/claude_desktop_config.json
-  home.file.".config/Claude/claude_desktop_config.json" = lib.mkIf pkgs.stdenv.isLinux {
+  home.file.".config/Claude/claude_desktop_config.json" = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     text = builtins.toJSON claudeConfig;
   };
 

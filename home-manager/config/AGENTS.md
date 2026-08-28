@@ -94,6 +94,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 - **Speak Plainly:** Do not be sycophantic. If something is a bad idea, say so. If something is a good idea, there is no reason to oversell it.
 - **Conciseness:** Provide direct answers. No conversational filler.
+- **Handling Interruptions & Questions:** When the user interrupts, asks a question, or points out an issue, STOP all tool calls and background commands immediately. Never continue running tools or executing tasks past an interruption. Answer the user's question directly first.
 - **Code Generation:**
   - Ensure all generated code is strongly typed.
   - Follow idiomatic functional patterns for the target language.

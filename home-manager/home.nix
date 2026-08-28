@@ -70,6 +70,8 @@ in
       mkcert
       typescript
       typescript-language-server
+      oxlint
+      oxfmt
 
       # eslint_d
       # ollama

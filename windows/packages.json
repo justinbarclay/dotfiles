@@ -190,6 +190,9 @@
         },
         {
           "PackageIdentifier": "Microsoft.WSL"
+        },
+        {
+          "PackageIdentifier": "oxc-project.oxfmt"
         }
       ],
       "SourceDetails": {

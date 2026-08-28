@@ -99,6 +99,10 @@
       "Source": "extras"
     },
     {
+      "Name": "oxlint",
+      "Source": "main"
+    },
+    {
       "Name": "pulumi",
       "Source": "main"
     },

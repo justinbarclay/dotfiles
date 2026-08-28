@@ -4,6 +4,7 @@ with lib; {
   config = {
     wsl = {
       enable = true;
+      interop.register = true;
       wslConf.automount.root = "/mnt";
       defaultUser = user;
       startMenuLaunchers = true;

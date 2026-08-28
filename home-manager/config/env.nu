@@ -5,25 +5,32 @@ if (not ((sys host | get name) == "Windows")) {
    $env.AWS_REGION = "ca-central-1"
 }
 
+# config.nu `source`s these four files unconditionally, and `source` resolves at
+# parse time, so each one has to exist before the shell starts.
+#
+# Windows has no package manager wiring these integrations up, so generate them
+# here. Everywhere else nix/home-manager installs the real thing already —
+# starship/zoxide/atuin are appended to config.nu by home-manager, and carapace
+# is baked into ~/.config/nushell/autoload at build time (see nushell.nix) — so
+# these stay empty stubs instead of costing a subprocess on every startup.
 mkdir ($nu.home-dir | path join ".config/starship")
-starship init nu | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
-
 mkdir ($nu.home-dir | path join ".config/zoxide")
-zoxide init nushell | save -f ($nu.home-dir | path join ".config/zoxide/init.nu" )
-
-mkdir ($nu.home-dir | path join ".cache/carapace")
-$env.CARAPACE_BRIDGES = 'zsh,fish,bash'
-carapace _nushell | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
-
-# Generated unconditionally so config.nu's `source` always has a file to parse.
-# Only Windows actually initializes atuin here: on NixOS/Darwin, home-manager's
-# `programs.atuin.enableNushellIntegration` (nushell.nix) already wires it in
-# via nushell's vendor-autoload mechanism, so this stays a no-op there.
 mkdir ($nu.home-dir | path join ".config/atuin")
+mkdir ($nu.home-dir | path join ".cache/carapace")
+
+# Bridged completers. Read by carapace at completion time, not at init time.
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash'
+
 if ((sys host | get name) == "Windows") {
+  starship init nu | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
+  zoxide init nushell | save -f ($nu.home-dir | path join ".config/zoxide/init.nu")
   atuin init nu --disable-up-arrow | save -f ($nu.home-dir | path join ".config/atuin/init.nu")
+  carapace _carapace nushell | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
 } else {
+  "" | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
+  "" | save -f ($nu.home-dir | path join ".config/zoxide/init.nu")
   "" | save -f ($nu.home-dir | path join ".config/atuin/init.nu")
+  "" | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
 }
 
 if ((sys host | get name) == "NixOS") {

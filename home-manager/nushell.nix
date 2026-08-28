@@ -52,6 +52,18 @@ with lib; {
       source = ./config/starship.toml;
     };
 
+    # `carapace _carapace nushell` takes ~300ms to run, so bake the init at build
+    # time rather than regenerating it on every shell start. Nushell sources
+    # everything in <configDir>/autoload after config.nu has run, which is what
+    # lets carapace's own (alias-aware) completer take effect. configDir differs
+    # per platform (~/.config/nushell on Linux, Library/Application Support on
+    # Darwin), so take it from the nushell module rather than hardcoding.
+    home.file."${config.programs.nushell.configDir}/autoload/carapace.nu".source =
+      pkgs.runCommand "carapace-init.nu" { nativeBuildInputs = [ pkgs.carapace ]; } ''
+        export HOME=${config.home.homeDirectory}
+        carapace _carapace nushell > $out
+      '';
+
     programs.zoxide = {
       enable = true;
       enableNushellIntegration = true;

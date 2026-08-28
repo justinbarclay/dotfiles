@@ -36,7 +36,7 @@
     emacs-overlay = {
       # Pinned to a known-good rev; emacs-overlay master occasionally breaks.
       # Bump deliberately with: nix flake update emacs-overlay
-      url = "github:nix-community/emacs-overlay/5312c2b24b67000a3fd35e83af3176cb4c9c3b1b";
+      url = "github:nix-community/emacs-overlay/aa7352f2aac735e9ece2ad25cf1bb8a553c0c668";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agentic-skills = {

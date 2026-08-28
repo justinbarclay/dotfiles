@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-08-17T09:07:35.275-00:00",
+  "CreationDate": "2026-08-28T08:39:14.841-00:00",
   "Sources": [
     {
       "Packages": [
@@ -8,10 +8,16 @@
           "PackageIdentifier": "MullvadVPN.MullvadVPN"
         },
         {
+          "PackageIdentifier": "Ratta.SupernotePartner"
+        },
+        {
           "PackageIdentifier": "NexusMods.Vortex"
         },
         {
           "PackageIdentifier": "7zip.7zip"
+        },
+        {
+          "PackageIdentifier": "Google.AndroidStudio"
         },
         {
           "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition"
@@ -24,9 +30,6 @@
         },
         {
           "PackageIdentifier": "GNU.Emacs"
-        },
-        {
-          "PackageIdentifier": "Clement.bottom"
         },
         {
           "PackageIdentifier": "RedHat.Podman"
@@ -48,19 +51,22 @@
           "PackageIdentifier": "Starship.Starship"
         },
         {
-          "PackageIdentifier": "Pulumi.Pulumi"
+          "PackageIdentifier": "LGUG2Z.whkd"
         },
         {
-          "PackageIdentifier": "LGUG2Z.whkd"
+          "PackageIdentifier": "calibre.calibre"
+        },
+        {
+          "PackageIdentifier": "Clement.bottom"
+        },
+        {
+          "PackageIdentifier": "Pulumi.Pulumi"
         },
         {
           "PackageIdentifier": "Nushell.Nushell"
         },
         {
           "PackageIdentifier": "MongoDB.Compass.Community"
-        },
-        {
-          "PackageIdentifier": "calibre.calibre"
         },
         {
           "PackageIdentifier": "Microsoft.VisualStudio.2022.BuildTools"
@@ -81,10 +87,13 @@
           "PackageIdentifier": "Rem0o.FanControl"
         },
         {
+          "PackageIdentifier": "Tailscale.Tailscale"
+        },
+        {
           "PackageIdentifier": "EpicGames.EpicOnlineServices"
         },
         {
-          "PackageIdentifier": "Tailscale.Tailscale"
+          "PackageIdentifier": "Microsoft.XNARedist"
         },
         {
           "PackageIdentifier": "OpenWhisperSystems.Signal"
@@ -141,6 +150,9 @@
           "PackageIdentifier": "code52.Carnac"
         },
         {
+          "PackageIdentifier": "Granola.Granola"
+        },
+        {
           "PackageIdentifier": "junegunn.fzf"
         },
         {
@@ -162,13 +174,13 @@
           "PackageIdentifier": "uutils.diffutils"
         },
         {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
           "PackageIdentifier": "ZedIndustries.Zed"
         },
         {
           "PackageIdentifier": "Ollama.Ollama"
-        },
-        {
-          "PackageIdentifier": "Microsoft.PowerToys"
         },
         {
           "PackageIdentifier": "Microsoft.VisualStudioCode"
@@ -184,6 +196,9 @@
         },
         {
           "PackageIdentifier": "OffSec.KaliLinux"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Outlook"
         },
         {
           "PackageIdentifier": "Microsoft.PowerShell"
@@ -219,5 +234,5 @@
       }
     }
   ],
-  "WinGetVersion": "1.30.100-preview"
+  "WinGetVersion": "1.30.110-preview"
 }

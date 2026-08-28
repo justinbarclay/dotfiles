@@ -815,8 +815,19 @@ properties:
           if (-not (Test-Path $shortcut)) { return $false }
           $s = New-Object -ComObject WScript.Shell
           $lnk = $s.CreateShortcut($shortcut)
-          return (Test-Path $lnk.TargetPath)
+          if (-not (Test-Path $lnk.TargetPath)) { return $false }
+          if ($lnk.Arguments -notmatch '--whkd' -or $lnk.Arguments -notmatch '--bar') { return $false }
+          $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder'
+          $regVal = (Get-ItemProperty -Path $regKey -ErrorAction SilentlyContinue).'komorebi.lnk'
+          if ($null -ne $regVal -and $regVal.Length -gt 0 -and $regVal[0] -ne 2) { return $false }
+          return $true
         SetScript: |
           if (Get-Command komorebic -ErrorAction SilentlyContinue) {
             komorebic enable-autostart --whkd --bar
+            $regKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder'
+            $regVal = (Get-ItemProperty -Path $regKey -ErrorAction SilentlyContinue).'komorebi.lnk'
+            if ($null -ne $regVal -and $regVal.Length -gt 0 -and $regVal[0] -ne 2) {
+              $enabledVal = [byte[]]@(0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
+              Set-ItemProperty -Path $regKey -Name 'komorebi.lnk' -Value $enabledVal -Type Binary
+            }
           }

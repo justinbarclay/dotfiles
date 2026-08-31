@@ -60,8 +60,8 @@ with lib; {
     # Darwin), so take it from the nushell module rather than hardcoding.
     home.file."${config.programs.nushell.configDir}/autoload/carapace.nu".source =
       pkgs.runCommand "carapace-init.nu" { nativeBuildInputs = [ pkgs.carapace ]; } ''
-        export HOME=${config.home.homeDirectory}
-        carapace _carapace nushell > $out
+        export HOME=$(mktemp -d)
+        carapace _carapace nushell | sed "s|$HOME|${config.home.homeDirectory}|g" > $out
       '';
 
     programs.zoxide = {

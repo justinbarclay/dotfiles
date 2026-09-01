@@ -4,10 +4,24 @@
   fetchurl,
   autoPatchelfHook,
   installShellFiles,
+  unzip,
+  withAcpServer ? false,
 }:
 
 let
   sources = lib.importJSON ./sources.json;
+  acpSrc =
+    if withAcpServer then
+      fetchurl {
+        inherit
+          (sources.acpSources.${stdenv.hostPlatform.system}
+            or (throw "Unsupported ACP server platform: ${stdenv.hostPlatform.system}"))
+          url
+          sha512
+          ;
+      }
+    else
+      null;
 in
 stdenv.mkDerivation {
   pname = "antigravity-cli";
@@ -28,13 +42,22 @@ stdenv.mkDerivation {
   sourceRoot = ".";
 
   nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ]
-    ++ [ installShellFiles ];
+    ++ [ installShellFiles ]
+    ++ lib.optionals withAcpServer [ unzip ];
 
   installPhase = ''
     runHook preInstall
     mkdir -p $out/bin
     cp antigravity $out/bin/agy
     ln -s $out/bin/agy $out/bin/antigravity-cli
+  '' + lib.optionalString withAcpServer ''
+    unzip -q "${acpSrc}" -d acp-extracted
+    cp acp-extracted/agy_acp_server.par $out/bin/agy_acp_server.par
+    if [ -f acp-extracted/localharness_external ]; then
+      cp acp-extracted/localharness_external $out/bin/localharness_external
+    fi
+    chmod +x $out/bin/agy_acp_server.par
+  '' + ''
     runHook postInstall
   '';
 

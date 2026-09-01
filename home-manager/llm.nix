@@ -382,7 +382,9 @@ in
 
   home.packages = with pkgs;
     [
-      (pkgs.callPackage ./packages/antigravity-cli/package.nix { })
+      (pkgs.callPackage ./packages/antigravity-cli/package.nix {
+        withAcpServer = true;
+      })
       (pkgs.writeShellApplication {
         name = "update-antigravity-cli";
         runtimeInputs = [ curl jq ];

@@ -40,6 +40,8 @@ linux_amd64_hash=$(echo "$linux_amd64" | jq -r '.sha512')
 linux_arm64_url=$(echo "$linux_arm64" | jq -r '.url')
 linux_arm64_hash=$(echo "$linux_arm64" | jq -r '.sha512')
 
+acp_sources=$(jq '.acpSources // empty' "$SOURCES_JSON" 2>/dev/null || echo "null")
+
 # Construct the new sources.json
 cat <<EOF > "$SOURCES_JSON"
 {
@@ -61,7 +63,8 @@ cat <<EOF > "$SOURCES_JSON"
       "url": "$linux_arm64_url",
       "sha512": "$linux_arm64_hash"
     }
-  }
+  },
+  "acpSources": $acp_sources
 }
 EOF
 

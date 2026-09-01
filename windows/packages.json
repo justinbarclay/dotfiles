@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-08-28T08:39:14.841-00:00",
+  "CreationDate": "2026-08-31T09:17:20.965-00:00",
   "Sources": [
     {
       "Packages": [
@@ -208,9 +208,6 @@
         },
         {
           "PackageIdentifier": "Microsoft.WSL"
-        },
-        {
-          "PackageIdentifier": "oxc-project.oxfmt"
         }
       ],
       "SourceDetails": {

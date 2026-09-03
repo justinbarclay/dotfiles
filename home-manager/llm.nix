@@ -269,6 +269,11 @@ let
     postBuild = ''
       wrapProgram $out/bin/claude --add-flags "--mcp-config=${claudeCodeMcpConfig}"
     '';
+    meta.mainProgram = "claude";
+  };
+
+  claude-agent-acp = pkgs.claude-agent-acp.override {
+    claude-code = claude-code-with-mcp;
   };
 
   geminiConfig = {
@@ -405,6 +410,7 @@ in
         '';
       })
       claude-code-with-mcp
+      claude-agent-acp
       github-copilot-cli
       gh
       github-mcp-server

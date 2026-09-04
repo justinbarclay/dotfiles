@@ -7,7 +7,9 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     devenv.url = "github:cachix/devenv/latest";
     tidal-overlay = {
-      url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
+      # Pinned to a known-good rev; tidal-overlay master occasionally breaks.
+      # Bump deliberately with: nix flake update tidal-overlay
+      url = "git+ssh://git@github.com/tidalmigrations/aws-sso?rev=6ca60153f59371fd27a01db2bc44a6a86f384741";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {

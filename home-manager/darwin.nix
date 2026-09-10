@@ -240,6 +240,7 @@
       "raycast"
       "vlc"
       "kap"
+      "pgadmin4"
       "istat-menus"
       "keycastr"
       "podman-desktop"

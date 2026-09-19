@@ -8,7 +8,7 @@ with lib; {
     };
     bind = mkOption {
       type = types.str;
-      default = "localhost";
+      default = "0.0.0.0 ::";
     };
   };
 

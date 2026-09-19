@@ -58,7 +58,7 @@
       ];
     };
     nixosVmBasedLinuxBuilder = {
-      enable = true;
+      enable = false;
     };
   };
   nix = {

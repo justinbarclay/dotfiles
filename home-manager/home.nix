@@ -86,7 +86,7 @@ in
       executable = false;
       text = ''
         prefix = ~/.npm-packages
-        min-release-age=3
+        # min-release-age=3
       '';
     };
     file.".wezterm.lua" = {

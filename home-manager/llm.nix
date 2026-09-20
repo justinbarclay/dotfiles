@@ -300,25 +300,120 @@ let
       sharedMcpServers;
   };
 
+  # Read-only git subcommands, auto-approved. Rules are anchored: the subcommand must
+  # directly follow `git` (plus optional -C/--no-pager), and the arguments may not
+  # contain shell metacharacters, so `git log; rm -rf ~` never matches.
+  allowedGitCommands = [
+    "blame"
+    "cat-file"
+    "check-ignore"
+    "describe"
+    "diff"
+    "grep"
+    "log"
+    "ls-files"
+    "ls-tree"
+    "merge-base"
+    "rev-parse"
+    "shortlog"
+    "show"
+    "show-ref"
+    "stash (list|show)"
+    "status"
+    "worktree list"
+  ];
+
+  gitPrefix = "^git (-C [^ ]+ |--no-pager )*";
+  gitArgs = "( [^;&|<>$`\n]*)?$";
+  # A bare word (not a flag), for pattern/ref/name arguments.
+  gitWord = "[^-;&|<>$`\n ][^;&|<>$`\n ]*";
+
+  gitCommandPattern =
+    "command(regex:${gitPrefix}(${lib.concatStringsSep "|" allowedGitCommands})${gitArgs})";
+
+  # Subcommands that both read and write. Only their listing forms are allowed: positional
+  # words are accepted solely after an explicit list flag, so `git branch foo`, `git tag v1`,
+  # `git remote add`, `git reflog expire` and every -d/-D/-m/-f variant still prompt.
+  gitListingPatterns = [
+    "command(regex:${gitPrefix}branch( (-a|-r|-v|-vv|--all|--remotes|--verbose|--show-current))*( (--list|--contains|--merged|--no-merged)( ${gitWord})*)?$)"
+    "command(regex:${gitPrefix}tag( -n[0-9]*)*( (-l|--list|--contains|--points-at|--merged|--no-merged)( ${gitWord})*)?$)"
+    "command(regex:${gitPrefix}remote( (-v|--verbose))?( (show|get-url)( -n)?( ${gitWord})*)?$)"
+    "command(regex:${gitPrefix}reflog(( (-n [0-9]+|--oneline|--no-color|--date=[a-z-]+))*| show( (-n [0-9]+|--oneline|--no-color|--date=[a-z-]+|${gitWord}))*)$)"
+  ];
+
+  agyStatusline = pkgs.writeShellApplication {
+    name = "agy-statusline";
+    runtimeInputs = [ pkgs.jq ];
+    text = builtins.readFile ./scripts/agy-statusline.sh;
+  };
+
   antigravityConfig = {
     enableTelemetry = false;
-    enableNotifications = true;
+    notifications = true;
     enableTerminalSandbox = false;
     trustedWorkspaces = [ ];
     altScreenMode = "always";
+    agentMode = "accept-edits";
+    colorScheme = "terminal";
     statusLine = {
+      type = "command";
+      command = "${agyStatusline}/bin/agy-statusline";
       enabled = true;
+    };
+    permissions = {
+      allow = [
+        "read_file(*)"
+        "command(biome)"
+        "command(bundle exec rubocop)"
+        "command(cargo check)"
+        "command(cargo clippy)"
+        "command(cat)"
+        "command(find)"
+        "command(gh issue list)"
+        "command(gh issue view)"
+        "command(gh pr diff)"
+        "command(gh pr list)"
+        "command(gh pr status)"
+        "command(gh pr view)"
+        "command(gh run list)"
+        "command(gh run view)"
+        "command(gh search)"
+        gitCommandPattern
+        "command(grep)"
+        "command(head)"
+        "command(ls)"
+        "command(nix flake)"
+        "command(nixpkgs-fmt)"
+        "command(npm run)"
+        "command(npm test)"
+        "command(npx biome)"
+        "command(npx oxfmt)"
+        "command(npx oxlint)"
+        "command(oxfmt)"
+        "command(oxlint)"
+        "command(rg)"
+        "command(rubocop)"
+        "command(tail)"
+      ] ++ gitListingPatterns;
     };
   };
 
+  # postgres needs a per-project DATABASE_URI, so agy starts it disabled instead of failing on
+  # every launch. Enable it with `agy mcp enable postgres` after exporting DATABASE_URI; use
+  # host.containers.internal rather than localhost, since the container runs in the podman VM.
+  # (agy swaps this symlink for a real file when enabling; the next home-manager switch resets it.)
   antigravityMcpConfig = {
-    mcpServers = sharedMcpServers;
+    mcpServers = sharedMcpServers // {
+      postgres = sharedMcpServers.postgres // { disabled = true; };
+    };
   };
 in
 {
 
   modules.agentic-skills = {
     enable = true;
+    # agy reads global skills from ~/.gemini/config/skills, not the legacy Gemini CLI path.
+    agents.gemini.path = ".gemini/config/skills";
     skills = {
       # Ruby & Rails
       superpowers-test-driven-development.enable = true;
@@ -426,7 +521,11 @@ in
     text = builtins.toJSON antigravityConfig;
   };
 
-  home.file.".gemini/antigravity-cli/mcp_config.json".text = builtins.toJSON antigravityMcpConfig;
+  # agy creates an empty placeholder here on first run, hence force.
+  home.file.".gemini/config/mcp_config.json" = {
+    force = true;
+    text = builtins.toJSON antigravityMcpConfig;
+  };
 
   home.file.".copilot/mcp-config.json".text = builtins.toJSON copilotConfig;
 
@@ -442,7 +541,7 @@ in
 
   home.file."AGENTS.md".text = agentsMdText;
 
-  home.file.".gemini/AGENTS.md".text = antigravityAgentsMdText;
+  home.file.".gemini/config/AGENTS.md".text = antigravityAgentsMdText;
 
   home.file.".claude/CLAUDE.md".text = agentsMdText;
 }

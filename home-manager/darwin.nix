@@ -1,6 +1,6 @@
 { pkgs, user, ... }:
 {
-  imports = [ ./services/redis.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ./services/sketchybar.nix ./services/ollama.nix ];
+  imports = [ ./services/redis.nix ./services/podman.nix ./services/pueue.nix ./services/mbsync.nix ./services/postgres.nix ./services/sketchybar.nix ./services/ollama.nix ];
 
   # modules.darwin.ollama = {
   #   enable = true;
@@ -21,6 +21,9 @@
     enable = true;
   };
   modules.darwin.redis = {
+    enable = true;
+  };
+  modules.darwin.podman = {
     enable = true;
   };
   modules.darwin.mbsync = {

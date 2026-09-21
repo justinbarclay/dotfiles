@@ -14,11 +14,11 @@ Delegate by spawning the appropriate agent with a clear, specific task descripti
 
 | Agent | Use When | Model | Capabilities |
 |:---|:---|:---|:---|
-| `code` | Writing, editing, or refactoring code | flash | Read + write files, shell commands |
-| `plan` | Creating implementation plans, architecture decisions, multi-step strategies | pro | Read-only, shell (non-destructive) |
-| `explore` | Broad codebase survey, finding files, mapping module structure | flash | Read-only |
-| `investigate` | Deep reasoning about specific questions, debugging, tracing complex behavior | pro | Read-only |
-| `review` | Code review, quality analysis, finding bugs in existing code | pro | Read-only, no external data |
+| `code` | Writing, editing, or refactoring code | flash | Read + write files, shell |
+| `plan` | Creating implementation plans, architecture decisions, multi-step strategies | pro | Read-only, shell (destructive commands denied) |
+| `explore` | Broad codebase survey, finding files, mapping module structure | flash | Read-only, shell |
+| `investigate` | Deep reasoning about specific questions, debugging, tracing complex behavior | pro | Read-only, shell |
+| `review` | Code review, quality analysis, finding bugs in existing code | pro | Read-only, shell, no MCP servers |
 
 ## Routing Guidelines
 

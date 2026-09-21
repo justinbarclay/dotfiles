@@ -2,13 +2,16 @@
 # agy status line: reads the state JSON on stdin, prints one ANSI-coloured line.
 # Payload schema: https://antigravity.google/docs/cli/statusline/
 
-IFS='|' read -r state model branch dirty used < <(
+# conversation_title is read last so that a title containing the '|' separator
+# spills into its own field rather than shifting every field after it.
+IFS='|' read -r state model branch dirty used title < <(
   jq -r '[
     (.agent_state // "idle"),
     (.model.display_name // ""),
     (.vcs.branch // ""),
     (.vcs.dirty // false),
-    (.context_window.used_percentage // 0)
+    (.context_window.used_percentage // 0),
+    (.conversation_title // "")
   ] | join("|")'
 )
 
@@ -24,6 +27,13 @@ case $state in
 esac
 
 line="${icon} ${state}${reset}"
+
+if [[ -n $title ]]; then
+  if ((${#title} > 32)); then
+    title="${title:0:31}…"
+  fi
+  line+="${sep}${title}"
+fi
 
 if [[ -n $model ]]; then
   line+="${sep}${model}"

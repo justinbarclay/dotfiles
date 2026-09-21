@@ -18,7 +18,7 @@ let
       "${pkgs.firefox}/bin/firefox";
 
   agentsMdText = builtins.readFile ./config/AGENTS.md + "\n\n" + platformNote + "\n";
-  antigravityAgentsMdText = agentsMdText + "\n## Default Shell\n\nUse `zsh` as the default shell for all commands.\n";
+  antigravityAgentsMdText = agentsMdText + "\n## Default Shell\n\nUse `zsh` as the default shell when generating user shell scripts.\n";
   coordinatorPrompt = builtins.readFile ./config/coordinator_agent.md;
 
   # Define common MCP servers here that you want to share across multiple agents
@@ -88,6 +88,86 @@ let
   };
 
   ecaWriteTools = [ "edit_file" "write_file" "move_file" ];
+
+  # Agent roster shared by ECA and agy. The prose in ./config/agents/<name>.md is the
+  # single source: ECA appends it to its own classpath prompt (`${classpath:...}` is a
+  # substitution, so it composes mid-string), and agy gets it as the body of the Markdown
+  # agent definition it discovers at ~/.gemini/config/agents/<name>/agent.md.
+  #
+  # The two backends are kept deliberately identical: same description, same prose, same
+  # capability grant (read tools plus non-destructive shell, never write tools), same
+  # MCP access and same model tier. Only the vocabularies differ, since ECA names tools
+  # and models differently from agy, so each tier and tool set is mapped per backend.
+  agentProse = name: builtins.readFile (./config/agents + "/${name}.md");
+
+  # agy agent frontmatter expects model tiers ("pro", "flash", "flash_lite", "inherit")
+  # rather than concrete model IDs. Concrete IDs trigger "Invalid model tier" in
+  # ParseModelTier and cause agy to reject the agent definition.
+  agyModels = {
+    pro = "pro";
+    flash = "flash";
+  };
+
+  agyAgentTools = [ "view_file" "run_command" ];
+
+  sharedAgents = {
+    explore = {
+      description = "Broad codebase survey, finding files, and mapping module structure.";
+      ecaBasePrompt = "prompts/code_agent.md";
+      tier = "flash";
+      mcp = true;
+    };
+    investigate = {
+      description = "Deep reasoning about specific questions, debugging, and tracing complex behavior.";
+      ecaBasePrompt = "prompts/code_agent.md";
+      tier = "pro";
+      mcp = true;
+    };
+    plan = {
+      description = "Creating implementation plans, architecture decisions, and multi-step strategies.";
+      ecaBasePrompt = "prompts/plan_agent.md";
+      tier = "pro";
+      mcp = true;
+    };
+    review = {
+      description = "Code review, quality analysis, and finding bugs in existing code.";
+      ecaBasePrompt = "prompts/code_agent.md";
+      tier = "pro";
+      mcp = false;
+    };
+  };
+
+  ecaAgentPrompt = name: agent:
+    "\${classpath:${agent.ecaBasePrompt}}\n\n" + agentProse name;
+
+  ecaAgent = name: agent: {
+    inherit (agent) description;
+    defaultModel = models.${agent.tier};
+    prompts.chat = ecaAgentPrompt name agent;
+    disabledTools = ecaWriteTools;
+    mcpServers = if agent.mcp then ecaMcpServers else { };
+  };
+
+  # builtins.toJSON gives a double-quoted scalar, which is valid YAML for any description.
+  agyAgentFile = name: agent: ''
+    ---
+    name: ${name}
+    description: ${builtins.toJSON agent.description}
+    model: ${agyModels.${agent.tier}}
+    inheritMcp: ${lib.boolToString agent.mcp}
+    tools:
+    ${lib.concatMapStringsSep "\n" (t: "  - ${t}") agyAgentTools}
+    ---
+
+    ${agentProse name}
+  '';
+
+  agyAgentsDir = pkgs.linkFarm "agy-agents" (lib.mapAttrsToList
+    (name: agent: {
+      name = "${name}/agent.md";
+      path = pkgs.writeText "agy-agent-${name}.md" (agyAgentFile name agent);
+    })
+    sharedAgents);
 
   ecaConfig = {
     "$schema" = "https://eca.dev/config.json";
@@ -173,14 +253,10 @@ let
         ];
         mcpServers = ecaMcpServers;
       };
-      plan = {
-        description = "Creating implementation plans, architecture decisions, and multi-step strategies.";
-        defaultModel = models.pro;
-        prompts = {
-          chat = "\${classpath:prompts/plan_agent.md}";
-        };
-        disabledTools = ecaWriteTools;
-        mcpServers = ecaMcpServers;
+      # Shell stays available to every shared agent; plan additionally denies the
+      # destructive forms outright. agy has no per-agent equivalent, so there the global
+      # permissions.allow list in antigravityConfig is what bounds the same commands.
+      plan = ecaAgent "plan" sharedAgents.plan // {
         toolCall = {
           approval = {
             deny = {
@@ -202,27 +278,9 @@ let
           };
         };
       };
-      explore = {
-        description = "Broad codebase survey, finding files, and mapping module structure.";
-        defaultModel = models.flash;
-        # Inherits top-level prompts.chat (code_agent.md).
-        disabledTools = ecaWriteTools;
-        mcpServers = ecaMcpServers;
-      };
-      investigate = {
-        description = "Deep reasoning about specific questions, debugging, and tracing complex behavior.";
-        defaultModel = models.pro;
-        # Inherits top-level prompts.chat (code_agent.md).
-        disabledTools = ecaWriteTools;
-        mcpServers = ecaMcpServers;
-      };
-      review = {
-        description = "Code review, quality analysis, and finding bugs in existing code.";
-        defaultModel = models.pro;
-        # Inherits top-level prompts.chat (code_agent.md).
-        disabledTools = ecaWriteTools;
-        mcpServers = { };
-      };
+      explore = ecaAgent "explore" sharedAgents.explore;
+      investigate = ecaAgent "investigate" sharedAgents.investigate;
+      review = ecaAgent "review" sharedAgents.review;
     };
     defaultAgent = "coordinator";
     welcomeMessage = "Welcome to ECA!\n\nType '/' for commands\n\n";
@@ -324,9 +382,9 @@ let
   ];
 
   gitPrefix = "^git (-C [^ ]+ |--no-pager )*";
-  gitArgs = "( [^;&|<>$`\n]*)?$";
+  gitArgs = "( [^;&|<>$`\\n]*)?$";
   # A bare word (not a flag), for pattern/ref/name arguments.
-  gitWord = "[^-;&|<>$`\n ][^;&|<>$`\n ]*";
+  gitWord = "[^-;&|<>$`\\n ][^;&|<>$`\\n ]*";
 
   gitCommandPattern =
     "command(regex:${gitPrefix}(${lib.concatStringsSep "|" allowedGitCommands})${gitArgs})";
@@ -402,9 +460,13 @@ let
   # every launch. Enable it with `agy mcp enable postgres` after exporting DATABASE_URI; use
   # host.containers.internal rather than localhost, since the container runs in the podman VM.
   # (agy swaps this symlink for a real file when enabling; the next home-manager switch resets it.)
+  # github needs GITHUB_PERSONAL_ACCESS_TOKEN and chroma needs a Chroma server on :8000;
+  # neither is present by default, so they start disabled for the same reason as postgres.
   antigravityMcpConfig = {
     mcpServers = sharedMcpServers // {
       postgres = sharedMcpServers.postgres // { disabled = true; };
+      github = sharedMcpServers.github // { disabled = true; };
+      chroma = sharedMcpServers.chroma // { disabled = true; };
     };
   };
 in
@@ -542,6 +604,14 @@ in
   home.file."AGENTS.md".text = agentsMdText;
 
   home.file.".gemini/config/AGENTS.md".text = antigravityAgentsMdText;
+
+  # Custom subagents, discovered by agy as ~/.gemini/config/agents/<name>/agent.md, generated
+  # from sharedAgents. recursive links each file individually, leaving the directory
+  # itself writable.
+  home.file.".gemini/config/agents" = {
+    source = agyAgentsDir;
+    recursive = true;
+  };
 
   home.file.".claude/CLAUDE.md".text = agentsMdText;
 }

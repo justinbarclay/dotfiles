@@ -44,23 +44,25 @@ let
         "--access-mode=restricted"
       ];
     };
+    # Runs as a local embedded (persistent) client inside the container instead
+    # of talking to a separate Chroma HTTP server, so there's no server to stand
+    # up and no --network=host portability gap between Darwin and NixOS/WSL: a
+    # bind-mounted data dir is all it needs, and podman machine on Darwin shares
+    # the home directory into the VM by default.
     chroma = {
       command = "podman";
       args = [
         "run"
         "-i"
         "--rm"
-        "--network=host"
+        "-v"
+        "${home}/.local/share/chroma:/data"
         "ghcr.io/chroma-core/chroma-mcp:latest"
         "chroma-mcp"
         "--client-type"
-        "http"
-        "--host"
-        "localhost"
-        "--port"
-        "8000"
-        "--ssl"
-        "false"
+        "persistent"
+        "--data-dir"
+        "/data"
       ];
     };
     firefox-devtools = {
@@ -68,7 +70,7 @@ let
       # under /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
       # WebDriver BiDi handshake hanging indefinitely.
       command = "${pkgs.firefox-devtools-mcp}/bin/firefox-devtools-mcp";
-      args = [ "--firefox-path" firefoxBinary "--headless" ];
+      args = [ "--firefox-path" firefoxBinary "--headless" "--acceptInsecureCerts" ];
     };
     # Example:
     # sqlite = {
@@ -460,13 +462,13 @@ let
   # every launch. Enable it with `agy mcp enable postgres` after exporting DATABASE_URI; use
   # host.containers.internal rather than localhost, since the container runs in the podman VM.
   # (agy swaps this symlink for a real file when enabling; the next home-manager switch resets it.)
-  # github needs GITHUB_PERSONAL_ACCESS_TOKEN and chroma needs a Chroma server on :8000;
-  # neither is present by default, so they start disabled for the same reason as postgres.
+  # github needs GITHUB_PERSONAL_ACCESS_TOKEN, which isn't present by default,
+  # so it starts disabled for the same reason as postgres. chroma is local
+  # (embedded persistent client) and needs no credentials, so it stays enabled.
   antigravityMcpConfig = {
     mcpServers = sharedMcpServers // {
       postgres = sharedMcpServers.postgres // { disabled = true; };
       github = sharedMcpServers.github // { disabled = true; };
-      chroma = sharedMcpServers.chroma // { disabled = true; };
     };
   };
 in
@@ -517,6 +519,7 @@ in
       deslop.enable = true;
       systematic-debugging.enable = true;
       thermo-nuclear-code-quality-review.enable = true;
+      pocock-code-review.enable = true;
       verification-before-completion.enable = true;
 
       # Planning & Process

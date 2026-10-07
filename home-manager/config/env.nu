@@ -36,6 +36,8 @@ if ((sys host | get name) == "Windows") {
 if ((sys host | get name) == "NixOS") {
   $env.WINDOWS_HOST = (ip route | grep default | awk '{print $3; exit;}')
   $env.DISPLAY = ($env.WINDOWS_HOST + ":0")
+  # Use the Windows mkcert CA so WSL and Windows share one root (see wsl.nix)
+  $env.CAROOT = "/mnt/c/Users/justin/AppData/Local/mkcert"
 }
 
 if ((sys host | get name) == "Windows") {

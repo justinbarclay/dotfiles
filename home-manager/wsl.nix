@@ -116,11 +116,14 @@ with lib; {
 
       variables = rec {
         BROWSER = "wsl-open";
+        # One mkcert root shared with Windows; a second same-named CA in the
+        # Linux trust store makes browsers fail leaf signatures as invalid.
+        CAROOT = "/mnt/c/Users/${user}/AppData/Local/mkcert";
       };
     };
 
     security.pki.certificateFiles =
-      let certPath = /home/justin/.local/share/mkcert/rootCA.pem;
+      let certPath = /mnt/c/Users/justin/AppData/Local/mkcert/rootCA.pem;
       in if builtins.pathExists certPath then [ certPath ] else [ ];
 
     virtualisation.podman = {

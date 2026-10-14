@@ -21,6 +21,26 @@ let
   antigravityAgentsMdText = agentsMdText + "\n## Default Shell\n\nUse `zsh` as the default shell when generating user shell scripts.\n";
   coordinatorPrompt = builtins.readFile ./config/coordinator_agent.md;
 
+  # Wrap github-mcp-server to automatically populate GITHUB_PERSONAL_ACCESS_TOKEN
+  # from `gh auth token` (or GITHUB_TOKEN) if not already set in the environment.
+  githubMcpServer = pkgs.writeShellApplication {
+    name = "github-mcp-server";
+    runtimeInputs = [ pkgs.gh ];
+    text = ''
+      if [ -z "''${GITHUB_PERSONAL_ACCESS_TOKEN:-}" ]; then
+        if [ -n "''${GITHUB_TOKEN:-}" ]; then
+          export GITHUB_PERSONAL_ACCESS_TOKEN="$GITHUB_TOKEN"
+        else
+          token="$(gh auth token 2>/dev/null || true)"
+          if [ -n "$token" ]; then
+            export GITHUB_PERSONAL_ACCESS_TOKEN="$token"
+          fi
+        fi
+      fi
+      exec ${pkgs.github-mcp-server}/bin/github-mcp-server "$@"
+    '';
+  };
+
   # Define common MCP servers here that you want to share across multiple agents
   sharedMcpServers = {
     nixos = {
@@ -28,43 +48,10 @@ let
       args = [ "run" "github:utensils/mcp-nixos" "--" ];
     };
     github = {
-      command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
+      command = "${githubMcpServer}/bin/github-mcp-server";
       args = [ "stdio" ];
     };
-    postgres = {
-      command = "podman";
-      args = [
-        "run"
-        "-i"
-        "--rm"
-        "--network=host"
-        "-e"
-        "DATABASE_URI"
-        "crystaldba/postgres-mcp"
-        "--access-mode=restricted"
-      ];
-    };
-    # Runs as a local embedded (persistent) client inside the container instead
-    # of talking to a separate Chroma HTTP server, so there's no server to stand
-    # up and no --network=host portability gap between Darwin and NixOS/WSL: a
-    # bind-mounted data dir is all it needs, and podman machine on Darwin shares
-    # the home directory into the VM by default.
-    chroma = {
-      command = "podman";
-      args = [
-        "run"
-        "-i"
-        "--rm"
-        "-v"
-        "${home}/.local/share/chroma:/data"
-        "ghcr.io/chroma-core/chroma-mcp:latest"
-        "chroma-mcp"
-        "--client-type"
-        "persistent"
-        "--data-dir"
-        "/data"
-      ];
-    };
+
     firefox-devtools = {
       # On WSL, uses the Nix-installed Linux Firefox rather than the Windows install
       # under /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
@@ -86,7 +73,7 @@ let
 
   # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
   ecaMcpServers = {
-    inherit (sharedMcpServers) github nixos postgres firefox-devtools;
+    inherit (sharedMcpServers) github nixos firefox-devtools;
   };
 
   ecaWriteTools = [ "edit_file" "write_file" "move_file" ];
@@ -458,18 +445,8 @@ let
     };
   };
 
-  # postgres needs a per-project DATABASE_URI, so agy starts it disabled instead of failing on
-  # every launch. Enable it with `agy mcp enable postgres` after exporting DATABASE_URI; use
-  # host.containers.internal rather than localhost, since the container runs in the podman VM.
-  # (agy swaps this symlink for a real file when enabling; the next home-manager switch resets it.)
-  # github needs GITHUB_PERSONAL_ACCESS_TOKEN, which isn't present by default,
-  # so it starts disabled for the same reason as postgres. chroma is local
-  # (embedded persistent client) and needs no credentials, so it stays enabled.
   antigravityMcpConfig = {
-    mcpServers = sharedMcpServers // {
-      postgres = sharedMcpServers.postgres // { disabled = true; };
-      github = sharedMcpServers.github // { disabled = true; };
-    };
+    mcpServers = sharedMcpServers;
   };
 in
 {
@@ -573,7 +550,7 @@ in
       claude-agent-acp
       github-copilot-cli
       gh
-      github-mcp-server
+      githubMcpServer
       firefox-devtools-mcp
     ];
 

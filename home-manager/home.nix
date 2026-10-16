@@ -69,7 +69,6 @@ in
       texliveFull
       mkcert
       typescript
-      typescript-language-server
       oxlint
       oxfmt
 

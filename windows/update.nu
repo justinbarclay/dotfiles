@@ -30,6 +30,7 @@ section "Exporting and filtering Winget packages"
 
 # Export all winget packages to a temporary file
 let temp_export = ($env.TEMP | path join "winget-export-temp.json")
+if ($temp_export | path exists) { rm -f $temp_export }
 winget export --output $temp_export --accept-source-agreements
 
 # Load the exported packages
@@ -72,7 +73,7 @@ let filtered_data = ($data | update Sources $new_sources)
 
 # Save directly to packages.json
 $filtered_data | to json | save --force ($dotfiles | path join "windows" "packages.json")
-rm $temp_export
+rm -f $temp_export
 
 print "packages.json updated with filtered Winget packages."
 
@@ -82,8 +83,36 @@ print "packages.json updated with filtered Winget packages."
 section "Exporting Scoop packages"
 
 let scoop_raw = (scoop export | from json)
-let clean_buckets = ($scoop_raw.buckets | each {|b| { Name: $b.Name, Source: ($b.Source | str replace -r '\.git$' '') } })
-let clean_apps = ($scoop_raw.apps | each {|a| { Name: $a.Name, Source: $a.Source } })
+let existing_scoop = if (($dotfiles | path join "windows" "scoop.json") | path exists) {
+  open ($dotfiles | path join "windows" "scoop.json")
+} else {
+  { apps: [], buckets: [] }
+}
+let existing_apps = ($existing_scoop.apps? | default [])
+
+let clean_buckets = ($scoop_raw.buckets? | default [] | each {|b|
+  {
+    Name: $b.Name,
+    Source: (($b.Source? | default "") | str replace -r '\.git$' "")
+  }
+})
+
+let clean_apps = ($scoop_raw.apps? | default [] | where {|a|
+  let is_failed = (($a.Info? | default "") | str contains -i "Install failed")
+  let was_tracked = ($existing_apps | any {|e| $e.Name == $a.Name })
+  (not $is_failed) or $was_tracked
+} | each {|a|
+  let prev_source = ($existing_apps | where Name == $a.Name | get -o 0.Source)
+  let src = if not ($a.Source? | is-empty) {
+    $a.Source?
+  } else if not ($prev_source | is-empty) {
+    $prev_source
+  } else {
+    "main"
+  }
+  { Name: $a.Name, Source: $src }
+})
+
 let clean_scoop = { buckets: $clean_buckets, apps: $clean_apps }
 
 $clean_scoop | to json | save --force ($dotfiles | path join "windows" "scoop.json")

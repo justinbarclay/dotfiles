@@ -1,6 +1,6 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-08-31T09:17:20.965-00:00",
+  "CreationDate": "2026-10-22T10:52:42.213-00:00",
   "Sources": [
     {
       "Packages": [
@@ -26,10 +26,13 @@
           "PackageIdentifier": "Git.Git"
         },
         {
-          "PackageIdentifier": "LizardByte.Sunshine"
+          "PackageIdentifier": "GNU.Emacs"
         },
         {
-          "PackageIdentifier": "GNU.Emacs"
+          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
+        },
+        {
+          "PackageIdentifier": "Starship.Starship"
         },
         {
           "PackageIdentifier": "RedHat.Podman"
@@ -42,31 +45,28 @@
           "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
         },
         {
-          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
-        },
-        {
-          "PackageIdentifier": "OpenJS.NodeJS"
-        },
-        {
-          "PackageIdentifier": "Starship.Starship"
-        },
-        {
           "PackageIdentifier": "LGUG2Z.whkd"
-        },
-        {
-          "PackageIdentifier": "calibre.calibre"
         },
         {
           "PackageIdentifier": "Clement.bottom"
         },
         {
-          "PackageIdentifier": "Pulumi.Pulumi"
-        },
-        {
           "PackageIdentifier": "Nushell.Nushell"
         },
         {
+          "PackageIdentifier": "calibre.calibre"
+        },
+        {
+          "PackageIdentifier": "Pulumi.Pulumi"
+        },
+        {
           "PackageIdentifier": "MongoDB.Compass.Community"
+        },
+        {
+          "PackageIdentifier": "LizardByte.Sunshine"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS"
         },
         {
           "PackageIdentifier": "Microsoft.VisualStudio.2022.BuildTools"
@@ -87,10 +87,10 @@
           "PackageIdentifier": "Rem0o.FanControl"
         },
         {
-          "PackageIdentifier": "Tailscale.Tailscale"
+          "PackageIdentifier": "EpicGames.EpicOnlineServices"
         },
         {
-          "PackageIdentifier": "EpicGames.EpicOnlineServices"
+          "PackageIdentifier": "Tailscale.Tailscale"
         },
         {
           "PackageIdentifier": "Microsoft.XNARedist"
@@ -174,9 +174,6 @@
           "PackageIdentifier": "uutils.diffutils"
         },
         {
-          "PackageIdentifier": "Microsoft.PowerToys"
-        },
-        {
           "PackageIdentifier": "ZedIndustries.Zed"
         },
         {
@@ -189,6 +186,9 @@
           "PackageIdentifier": "MSYS2.MSYS2"
         },
         {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
           "PackageIdentifier": "ModernFlyouts.ModernFlyouts"
         },
         {
@@ -196,6 +196,9 @@
         },
         {
           "PackageIdentifier": "OffSec.KaliLinux"
+        },
+        {
+          "PackageIdentifier": "Microsoft.365Copilot"
         },
         {
           "PackageIdentifier": "Microsoft.Outlook"
@@ -231,5 +234,5 @@
       }
     }
   ],
-  "WinGetVersion": "1.30.110-preview"
+  "WinGetVersion": "1.30.140-preview"
 }

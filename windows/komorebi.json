@@ -139,8 +139,8 @@
       },
       {
         "kind": "Class",
-        "id": "IME",
-        "matching_strategy": "Equals"
+        "id": "(?i).*IME.*",
+        "matching_strategy": "Regex"
       }
     ]
   ],
@@ -243,6 +243,11 @@
             {
               "kind": "Class",
               "id": "Emacs",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Class",
+              "id": "X410_XAppWin",
               "matching_strategy": "Equals"
             }
           ]

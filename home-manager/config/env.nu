@@ -25,7 +25,9 @@ if ((sys host | get name) == "Windows") {
   starship init nu | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
   zoxide init nushell | save -f ($nu.home-dir | path join ".config/zoxide/init.nu")
   atuin init nu --disable-up-arrow | save -f ($nu.home-dir | path join ".config/atuin/init.nu")
-  carapace _carapace nushell | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
+  carapace _carapace nushell
+  | str replace "let carapace_completer = {|spans|" "let carapace_completer = {|place|\n  let spans = $place.command"
+  | save -f ($nu.home-dir | path join ".cache/carapace/init.nu")
 } else {
   "" | save -f ($nu.home-dir | path join ".config/starship/starship.nu")
   "" | save -f ($nu.home-dir | path join ".config/zoxide/init.nu")

@@ -61,7 +61,9 @@ with lib; {
     home.file."${config.programs.nushell.configDir}/autoload/carapace.nu".source =
       pkgs.runCommand "carapace-init.nu" { nativeBuildInputs = [ pkgs.carapace ]; } ''
         export HOME=$(mktemp -d)
-        carapace _carapace nushell | sed "s|$HOME|${config.home.homeDirectory}|g" > $out
+        carapace _carapace nushell \
+          | sed "s|$HOME|${config.home.homeDirectory}|g" \
+          | sed "s/let carapace_completer = {|spans|/let carapace_completer = {|place|\\n  let spans = \$place.command/" > $out
       '';
 
     programs.zoxide = {

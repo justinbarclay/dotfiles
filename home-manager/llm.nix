@@ -51,7 +51,6 @@ let
       command = "${githubMcpServer}/bin/github-mcp-server";
       args = [ "stdio" ];
     };
-
     firefox-devtools = {
       # On WSL, uses the Nix-installed Linux Firefox rather than the Windows install
       # under /mnt/c: launching the Windows .exe via WSL interop leaves geckodriver's
@@ -59,12 +58,13 @@ let
       command = "${pkgs.firefox-devtools-mcp}/bin/firefox-devtools-mcp";
       args = [ "--firefox-path" firefoxBinary "--headless" "--acceptInsecureCerts" ];
     };
-    # Example:
-    # sqlite = {
-    #   command = "${pkgs.nodejs}/bin/npx";
-    #   args = [ "-y" "@modelcontextprotocol/server-sqlite" "--db" "${home}/test.db" ];
-    # };
-  };
+  }
+  // (lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    safari = {
+      command = "/usr/bin/safaridriver";
+      args = [ "--mcp" ];
+    };
+  });
 
   models = {
     pro = "google/models/gemini-3.1-pro-preview";
@@ -74,7 +74,9 @@ let
   # Subset of sharedMcpServers exposed to ECA's coding/planning agents.
   ecaMcpServers = {
     inherit (sharedMcpServers) github nixos firefox-devtools;
-  };
+  } // (lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+    inherit (sharedMcpServers) safari;
+  });
 
   ecaWriteTools = [ "edit_file" "write_file" "move_file" ];
 
@@ -521,7 +523,6 @@ in
       using-superpowers.enable = true; # this is the most important skill to enable for all agents, as it allows them to use the Superpowers tool for enhanced capabilities
     };
   };
-
   home.packages = with pkgs;
     [
       (pkgs.callPackage ./packages/antigravity-cli/package.nix {

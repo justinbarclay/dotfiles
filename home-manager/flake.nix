@@ -9,7 +9,7 @@
     tidal-overlay = {
       # Pinned to a known-good rev; tidal-overlay master occasionally breaks.
       # Bump deliberately with: nix flake update tidal-overlay
-      url = "git+ssh://git@github.com/tidalmigrations/aws-sso?rev=6ca60153f59371fd27a01db2bc44a6a86f384741";
+      url = "git+ssh://git@github.com/tidalmigrations/aws-sso";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {
@@ -38,7 +38,7 @@
     emacs-overlay = {
       # Pinned to a known-good rev; emacs-overlay master occasionally breaks.
       # Bump deliberately with: nix flake update emacs-overlay
-      url = "github:nix-community/emacs-overlay/6ddd9ae1f175c4cd368e8b5e9bde13c4c4195c00";
+      url = "github:nix-community/emacs-overlay/46e212732a78ac53e0b9792c457dee9e3a15fe91";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     agentic-skills = {

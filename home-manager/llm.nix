@@ -498,7 +498,7 @@ in
       deslop.enable = true;
       systematic-debugging.enable = true;
       thermo-nuclear-code-quality-review.enable = true;
-      pocock-code-review.enable = true;
+      code-review.enable = true;
       verification-before-completion.enable = true;
 
       # Planning & Process

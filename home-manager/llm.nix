@@ -497,9 +497,8 @@ in
       debugging-and-error-recovery.enable = true;
       deslop.enable = true;
       systematic-debugging.enable = true;
-      thermo-nuclear-code-quality-review.enable = true;
-      code-review.enable = true;
       verification-before-completion.enable = true;
+      pocock-code-review.enable = true;
 
       # Planning & Process
       brainstorming.enable = true;
@@ -509,6 +508,7 @@ in
         enable = true;
         agents = [ "claude" "copilot" ];
       };
+
       grill-with-docs = {
         enable = true;
         agents = [ "claude" "copilot" ];

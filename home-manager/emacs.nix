@@ -39,7 +39,7 @@ with lib; {
             (pkgs.stable.emacsPackages.treesit-grammars.with-grammars (ps: lib.filter (p: !p.meta.broken) (lib.attrValues ps)))
             epkgs.auctex
             epkgs.vterm
-            epkgs.ghostel
+            # epkgs.ghostel
             epkgs.pdf-tools
             epkgs.mu4e
           ]);
@@ -68,7 +68,7 @@ with lib; {
           hunspell
           hunspellDicts.en_CA
 
-          ltex-ls
+          ltex-ls-plus
           harper
           leetcode-cli
 

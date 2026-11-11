@@ -55,6 +55,10 @@
       "Source": "main"
     },
     {
+      "Name": "emacs",
+      "Source": "extras"
+    },
+    {
       "Name": "eza",
       "Source": "main"
     },

@@ -1,102 +1,14 @@
 {
   "$schema": "https://aka.ms/winget-packages.schema.2.0.json",
-  "CreationDate": "2026-10-22T10:52:42.213-00:00",
+  "CreationDate": "2026-11-11T12:49:07.153-00:00",
   "Sources": [
     {
       "Packages": [
         {
-          "PackageIdentifier": "MullvadVPN.MullvadVPN"
-        },
-        {
-          "PackageIdentifier": "Ratta.SupernotePartner"
-        },
-        {
-          "PackageIdentifier": "NexusMods.Vortex"
-        },
-        {
           "PackageIdentifier": "7zip.7zip"
         },
         {
-          "PackageIdentifier": "Google.AndroidStudio"
-        },
-        {
-          "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition"
-        },
-        {
-          "PackageIdentifier": "Git.Git"
-        },
-        {
-          "PackageIdentifier": "GNU.Emacs"
-        },
-        {
-          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
-        },
-        {
-          "PackageIdentifier": "Starship.Starship"
-        },
-        {
-          "PackageIdentifier": "RedHat.Podman"
-        },
-        {
-          "PackageIdentifier": "nepnep.neofetch-win"
-        },
-        {
-          "InitialOverrideArguments": "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621 --addProductLang En-us",
-          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
-        },
-        {
-          "PackageIdentifier": "LGUG2Z.whkd"
-        },
-        {
-          "PackageIdentifier": "Clement.bottom"
-        },
-        {
-          "PackageIdentifier": "Nushell.Nushell"
-        },
-        {
-          "PackageIdentifier": "calibre.calibre"
-        },
-        {
-          "PackageIdentifier": "Pulumi.Pulumi"
-        },
-        {
-          "PackageIdentifier": "MongoDB.Compass.Community"
-        },
-        {
-          "PackageIdentifier": "LizardByte.Sunshine"
-        },
-        {
-          "PackageIdentifier": "OpenJS.NodeJS"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VisualStudio.2022.BuildTools"
-        },
-        {
-          "PackageIdentifier": "Blizzard.BattleNet"
-        },
-        {
-          "PackageIdentifier": "OBSProject.OBSStudio"
-        },
-        {
-          "PackageIdentifier": "Valve.Steam"
-        },
-        {
-          "PackageIdentifier": "Ubisoft.Connect"
-        },
-        {
-          "PackageIdentifier": "Rem0o.FanControl"
-        },
-        {
-          "PackageIdentifier": "EpicGames.EpicOnlineServices"
-        },
-        {
-          "PackageIdentifier": "Tailscale.Tailscale"
-        },
-        {
-          "PackageIdentifier": "Microsoft.XNARedist"
-        },
-        {
-          "PackageIdentifier": "OpenWhisperSystems.Signal"
+          "PackageIdentifier": "AgileBits.1Password"
         },
         {
           "PackageIdentifier": "AgileBits.1Password.CLI"
@@ -111,19 +23,128 @@
           "PackageIdentifier": "Atuinsh.Atuin"
         },
         {
+          "PackageIdentifier": "Blizzard.BattleNet"
+        },
+        {
           "PackageIdentifier": "BurntSushi.ripgrep.MSVC"
+        },
+        {
+          "PackageIdentifier": "Clement.bottom"
         },
         {
           "PackageIdentifier": "Discord.Discord"
         },
         {
+          "PackageIdentifier": "EpicGames.EpicGamesLauncher"
+        },
+        {
+          "PackageIdentifier": "EpicGames.EpicOnlineServices"
+        },
+        {
           "PackageIdentifier": "FiloSottile.mkcert"
+        },
+        {
+          "PackageIdentifier": "GNU.Emacs"
+        },
+        {
+          "PackageIdentifier": "Git.Git"
         },
         {
           "PackageIdentifier": "GitHub.Copilot"
         },
         {
+          "PackageIdentifier": "Google.AndroidStudio"
+        },
+        {
           "PackageIdentifier": "Google.AntigravityCLI"
+        },
+        {
+          "PackageIdentifier": "Granola.Granola"
+        },
+        {
+          "PackageIdentifier": "LGUG2Z.whkd"
+        },
+        {
+          "PackageIdentifier": "LizardByte.Sunshine"
+        },
+        {
+          "PackageIdentifier": "MSYS2.MSYS2"
+        },
+        {
+          "PackageIdentifier": "Microsoft.365Copilot"
+        },
+        {
+          "PackageIdentifier": "Microsoft.Outlook"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerShell"
+        },
+        {
+          "PackageIdentifier": "Microsoft.PowerToys"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.BuildTools"
+        },
+        {
+          "InitialOverrideArguments": "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 --add Microsoft.VisualStudio.Component.Windows11SDK.22621 --addProductLang En-us",
+          "PackageIdentifier": "Microsoft.VisualStudio.2022.Community"
+        },
+        {
+          "PackageIdentifier": "Microsoft.VisualStudioCode"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WSL"
+        },
+        {
+          "PackageIdentifier": "Microsoft.WindowsTerminal"
+        },
+        {
+          "PackageIdentifier": "Microsoft.XNARedist"
+        },
+        {
+          "PackageIdentifier": "ModernFlyouts.ModernFlyouts"
+        },
+        {
+          "PackageIdentifier": "MongoDB.Compass.Community"
+        },
+        {
+          "PackageIdentifier": "Mozilla.Firefox.DeveloperEdition"
+        },
+        {
+          "PackageIdentifier": "NexusMods.Vortex"
+        },
+        {
+          "PackageIdentifier": "Nushell.Nushell"
+        },
+        {
+          "PackageIdentifier": "OBSProject.OBSStudio"
+        },
+        {
+          "PackageIdentifier": "OffSec.KaliLinux"
+        },
+        {
+          "PackageIdentifier": "Ollama.Ollama"
+        },
+        {
+          "PackageIdentifier": "OpenJS.NodeJS"
+        },
+        {
+          "PackageIdentifier": "OpenWhisperSystems.Signal"
+        },
+        {
+          "PackageIdentifier": "PostgreSQL.pgAdmin"
+        },
+        {
+          "PackageIdentifier": "Pulumi.Pulumi"
+        },
+        {
+          "PackageIdentifier": "Ratta.SupernotePartner"
+        },
+        {
+          "PackageIdentifier": "RedHat.Podman"
+        },
+        {
+          "PackageIdentifier": "Rem0o.FanControl"
         },
         {
           "PackageIdentifier": "RubyInstallerTeam.RubyWithDevKit.3.3"
@@ -138,28 +159,46 @@
           "PackageIdentifier": "Schniz.fnm"
         },
         {
+          "PackageIdentifier": "SlackTechnologies.Slack"
+        },
+        {
+          "PackageIdentifier": "Starship.Starship"
+        },
+        {
           "PackageIdentifier": "TIDALMusicAS.TIDAL"
+        },
+        {
+          "PackageIdentifier": "Tailscale.Tailscale"
+        },
+        {
+          "PackageIdentifier": "Ubisoft.Connect"
+        },
+        {
+          "PackageIdentifier": "Valve.Steam"
         },
         {
           "PackageIdentifier": "WeMod.WeMod"
         },
         {
+          "PackageIdentifier": "ZedIndustries.Zed"
+        },
+        {
           "PackageIdentifier": "ajeetdsouza.zoxide"
+        },
+        {
+          "PackageIdentifier": "calibre.calibre"
         },
         {
           "PackageIdentifier": "code52.Carnac"
         },
         {
-          "PackageIdentifier": "Granola.Granola"
-        },
-        {
           "PackageIdentifier": "junegunn.fzf"
         },
         {
-          "PackageIdentifier": "oxc-project.oxfmt"
+          "PackageIdentifier": "nepnep.neofetch-win"
         },
         {
-          "PackageIdentifier": "PostgreSQL.pgAdmin"
+          "PackageIdentifier": "oxc-project.oxfmt"
         },
         {
           "PackageIdentifier": "rsteube.Carapace"
@@ -168,49 +207,7 @@
           "PackageIdentifier": "sharkdp.bat"
         },
         {
-          "PackageIdentifier": "SlackTechnologies.Slack"
-        },
-        {
           "PackageIdentifier": "uutils.diffutils"
-        },
-        {
-          "PackageIdentifier": "ZedIndustries.Zed"
-        },
-        {
-          "PackageIdentifier": "Ollama.Ollama"
-        },
-        {
-          "PackageIdentifier": "Microsoft.VisualStudioCode"
-        },
-        {
-          "PackageIdentifier": "MSYS2.MSYS2"
-        },
-        {
-          "PackageIdentifier": "Microsoft.PowerToys"
-        },
-        {
-          "PackageIdentifier": "ModernFlyouts.ModernFlyouts"
-        },
-        {
-          "PackageIdentifier": "AgileBits.1Password"
-        },
-        {
-          "PackageIdentifier": "OffSec.KaliLinux"
-        },
-        {
-          "PackageIdentifier": "Microsoft.365Copilot"
-        },
-        {
-          "PackageIdentifier": "Microsoft.Outlook"
-        },
-        {
-          "PackageIdentifier": "Microsoft.PowerShell"
-        },
-        {
-          "PackageIdentifier": "Microsoft.WindowsTerminal"
-        },
-        {
-          "PackageIdentifier": "Microsoft.WSL"
         }
       ],
       "SourceDetails": {
@@ -234,5 +231,5 @@
       }
     }
   ],
-  "WinGetVersion": "1.30.140-preview"
+  "WinGetVersion": "1.30.300"
 }

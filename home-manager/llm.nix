@@ -44,8 +44,8 @@ let
   # Define common MCP servers here that you want to share across multiple agents
   sharedMcpServers = {
     nixos = {
-      command = "nix";
-      args = [ "run" "github:utensils/mcp-nixos" "--" ];
+      command = "${pkgs.mcp-nixos}/bin/mcp-nixos";
+      args = [ ];
     };
     github = {
       command = "${githubMcpServer}/bin/github-mcp-server";

@@ -498,7 +498,7 @@ in
       deslop.enable = true;
       systematic-debugging.enable = true;
       verification-before-completion.enable = true;
-      pocock-code-review.enable = true;
+      code-review.enable = true;
 
       # Planning & Process
       brainstorming.enable = true;

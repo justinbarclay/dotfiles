@@ -101,6 +101,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
   - Suggest test cases (unit or integration) alongside implementation.
 - **Emacs:** When the task involves Emacs configuration, use `use-package` and Org-mode syntax for configuration snippets.
 - **Ruby Specs:** Keep specs as unnested as possible — nesting in `context` + `describe` is often overly verbose and means test names can be simplified.
+- **TypeScript / JavaScript:** Do not use ternary (`? :`) or nullish coalescing (`??`) operators; prefer explicit control flow (`if`/`else` with braces, `switch`, or default parameters).
 
 ## Delegation
 

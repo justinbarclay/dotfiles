@@ -1,4 +1,5 @@
 $env.EDITOR = "emacs"
+$env.AGY_CLI_DISABLE_ESCAPE_SEQUENCE_OPTIMIZATIONS = true
 
 if (not ((sys host | get name) == "Windows")) {
    $env.PATH = ($env.PATH | split row (char esep) | prepend [$"($env.HOME)/.local/bin",$"($env.HOME)/bin",$"($env.HOME)/.cargo/bin"])

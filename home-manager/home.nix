@@ -69,6 +69,11 @@ in
       texliveFull
       mkcert
       typescript
+      typescript-language-server
+      (pkgs.runCommand "tsserver-5" { } ''
+        mkdir -p $out/bin
+        ln -s ${pkgs.typescript_5}/bin/tsserver $out/bin/tsserver
+      '')
       oxlint
       oxfmt
 
